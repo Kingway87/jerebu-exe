@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { Container } from "@/components/container";
 import { CandidateSourceList } from "@/components/evidence/candidate-source-list";
 import { ClaimsRegister } from "@/components/evidence/claims-register";
@@ -96,8 +97,8 @@ const sourceListNotes = [
     text: "Inclusion does not mean a source is reliable, suitable or recommended. None has been evaluated for reliability, licensing or fitness for purpose.",
   },
   {
-    lead: "No data shown.",
-    text: "Nothing from these sources is integrated into, or displayed on, this site.",
+    lead: "Two now feed /live.",
+    text: "Experiment 003 opened some of these sources and shows data from two of them on the live evidence page. They are marked below, and still await a human evaluation. The register for that page is data/live-sources.json.",
   },
 ];
 
@@ -128,9 +129,13 @@ export default function EvidencePage() {
               This page describes method, not findings.
             </p>
             <p className="mt-3 leading-relaxed text-ink-muted">
-              No environmental data is shown anywhere on this site: no air-quality readings, no
-              hotspot detections, no maps. Nothing here is evidence about any event,
-              organisation or government.
+              The only environmental data on this site is on the{" "}
+              <Link href="/live" className="text-paper underline underline-offset-4 hover:text-signal">
+                live evidence page
+              </Link>
+              , which shows official observations as published, with their sources and limits.
+              Nothing on this page, or that one, is a finding about any event, organisation or
+              government.
             </p>
           </div>
 
@@ -349,8 +354,9 @@ export default function EvidencePage() {
             title="Where evidence could come from."
           >
             <p>
-              Future experiments may draw on several kinds of public evidence. None is connected
-              yet. Below are the kinds, then a first list of specific candidate sources.
+              Experiments may draw on several kinds of public evidence. Three kinds now feed the
+              live evidence page; the rest are not connected yet. Below are the kinds, then a first
+              list of specific candidate sources.
             </p>
           </SectionHeader>
 
@@ -362,7 +368,7 @@ export default function EvidencePage() {
                 <span className="mt-1 text-sm leading-relaxed text-muted">
                   {category.description}
                 </span>
-                <span className="label-mono mt-auto pt-4 text-subtle">Not connected</span>
+                <span className="label-mono mt-auto pt-4 text-subtle">{category.liveOn ?? "Not connected"}</span>
               </li>
             ))}
           </ul>
@@ -399,7 +405,7 @@ export default function EvidencePage() {
           </div>
 
           <p className="label-mono mt-16 text-muted">
-            {candidateSources.length} candidate sources · grouped by jurisdiction
+            {candidateSources.length} sources · grouped by jurisdiction
           </p>
           <div className="mt-6">
             <CandidateSourceList />
@@ -414,13 +420,13 @@ export default function EvidencePage() {
             index="06"
             eyebrow="Data panels"
             id="data-panels"
-            title="Empty on purpose."
+            title="Empty on purpose, until built."
           >
             <p>
-              These panels mark where future experiments may show data. Each stays empty until
-              its data has been collected, checked against sources and reviewed by a human. There
-              are no sample charts or placeholder numbers, so nothing here can be mistaken for
-              real data.
+              These panels mark where experiments may show data. Each stays empty until its data
+              has been collected and checked against sources. There are no sample charts or
+              placeholder numbers, so nothing here can be mistaken for real data. One has now been
+              built, in Experiment 003, and is waiting for human review.
             </p>
           </SectionHeader>
 
@@ -434,16 +440,28 @@ export default function EvidencePage() {
                 Nothing is shown because no historical records have been collected or reviewed.
               </p>
             </NotYetBuilt>
-            <NotYetBuilt title="Satellite fire observations" plannedFor="Experiment 003">
-              <p>
-                In future, this may show satellite fire detections (hotspots) with their source,
-                time, detection method and known limits, presented as observations only and
-                never as evidence of who is responsible.
+            <section
+              aria-label="Satellite fire observations (built in Experiment 003)"
+              className="border-2 border-ink bg-paper p-6 sm:p-8"
+            >
+              <p className="label-mono flex flex-wrap items-center gap-x-3 gap-y-1 text-muted">
+                <span className="bg-ink px-2 py-0.5 text-paper">Built, awaiting review</span>
+                <span>Experiment 003</span>
               </p>
-              <p className="mt-3">
-                Nothing is shown because no data has been collected or reviewed.
-              </p>
-            </NotYetBuilt>
+              <h3 className="mt-4 text-xl font-semibold tracking-tight">Satellite fire observations</h3>
+              <div className="mt-3 max-w-2xl leading-relaxed text-muted">
+                <p>
+                  Now on the live evidence page: NASA FIRMS satellite detections, counted and mapped,
+                  with their source, time and known limits, presented as observations only and never
+                  as evidence of who is responsible.
+                </p>
+                <p className="mt-3">
+                  <Link href="/live#fires" className="font-semibold text-ink underline underline-offset-4 hover:text-signal-ink">
+                    See satellite fire observations
+                  </Link>
+                </p>
+              </div>
+            </section>
             <NotYetBuilt title="Legal landscape" plannedFor="Experiment 004">
               <p>
                 In future, this may set out laws, regional agreements, agencies and published

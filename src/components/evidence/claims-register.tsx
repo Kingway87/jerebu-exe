@@ -1,5 +1,12 @@
 import type { ReactNode } from "react";
-import { claimStatusLabel, siteClaims, type ClaimStatus, type SiteClaim } from "@/content/claims";
+import { ExternalLink } from "@/components/external-link";
+import {
+  claimStatusLabel,
+  siteClaims,
+  type Citation,
+  type ClaimStatus,
+  type SiteClaim,
+} from "@/content/claims";
 
 const statusOrder: readonly ClaimStatus[] = ["unverified", "cited", "human-verified"];
 
@@ -40,6 +47,33 @@ function claimText({ claim, term }: SiteClaim): ReactNode {
   );
 }
 
+/** One citation, following the citation standard in docs/METHODOLOGY.md. */
+function CitationEntry({ citation }: { citation: Citation }) {
+  return (
+    <li className="leading-relaxed">
+      <cite className="not-italic font-semibold text-ink">{citation.title}</cite>, {citation.publisher} (
+      {citation.published}).{" "}
+      {citation.linkable ? (
+        <ExternalLink href={citation.url} className="[overflow-wrap:anywhere] underline underline-offset-4 hover:text-signal-ink">
+          {citation.url.replace(/^https:\/\//, "")}
+        </ExternalLink>
+      ) : (
+        <>
+          <span className="[overflow-wrap:anywhere]">{citation.url.replace(/^https:\/\//, "")}</span>{" "}
+          <span className="text-muted">(not linked: the publisher&rsquo;s terms set conditions on linking that a person has yet to review)</span>
+        </>
+      )}
+      . Accessed {citation.accessed}. Read by {citation.readBy}.
+      {citation.quote ? (
+        <details className="mt-1">
+          <summary className="label-mono cursor-pointer text-muted hover:text-ink">Quoted text</summary>
+          <p className="mt-1 border-l-2 border-line pl-3 font-serif">&ldquo;{citation.quote}&rdquo;</p>
+        </details>
+      ) : null}
+    </li>
+  );
+}
+
 /** The site's own factual claims and how well each is currently supported. */
 export function ClaimsRegister() {
   return (
@@ -77,6 +111,18 @@ export function ClaimsRegister() {
                 <dt className="label-mono text-muted">Note</dt>
                 <dd className="mt-2 leading-relaxed text-muted">{entry.note}</dd>
               </div>
+              {entry.citations && entry.citations.length > 0 ? (
+                <div>
+                  <dt className="label-mono text-muted">{entry.citations.length === 1 ? "Source" : "Sources"}</dt>
+                  <dd className="mt-2">
+                    <ul className="space-y-3 text-sm text-muted">
+                      {entry.citations.map((citation) => (
+                        <CitationEntry key={`${citation.url}-${citation.title}`} citation={citation} />
+                      ))}
+                    </ul>
+                  </dd>
+                </div>
+              ) : null}
             </dl>
           </li>
         ))}

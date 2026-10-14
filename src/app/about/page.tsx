@@ -110,8 +110,12 @@ export default function AboutPage() {
               An experiment, not an authority.
             </p>
             <p className="mt-3 leading-relaxed text-ink-muted">
-              There is no data on this site and there are no findings yet. What exists so far is a
-              question, a method, and a public record of how the project is being built.
+              There are no findings yet. What exists so far is a question, a method, a public
+              record of how the project is being built and, since Experiment 003, a{" "}
+              <Link href="/live" className="text-paper underline underline-offset-4 hover:text-signal">
+                live evidence page
+              </Link>{" "}
+              that shows official observations as published, without drawing conclusions from them.
             </p>
           </div>
 
@@ -175,8 +179,9 @@ export default function AboutPage() {
             about what is still unknown.
           </p>
           <p>
-            It is at a very early stage. So far there is a website, a method and a public log of
-            how the project is being built. There is no data, and there are no findings.
+            It is at a very early stage. So far there is a website, a method, a public log of how
+            the project is being built, and a page of current official observations. There are no
+            findings.
           </p>
         </Prose>
       </AboutSection>

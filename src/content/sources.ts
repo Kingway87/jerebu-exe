@@ -6,11 +6,14 @@
  * (outbound page fetching was unavailable), so each URL is one that appeared
  * in search results on an official domain, then spot-checked by a second,
  * sceptical agent. No source has been evaluated for reliability, licensing or
- * fitness for purpose, and none is integrated. A human must open and check
- * each link before relying on it. See docs/DATA_SOURCES.md for caveats.
+ * fitness for purpose. A human must open and check each link before relying
+ * on it. See docs/DATA_SOURCES.md for caveats.
  *
- * Inclusion is not an endorsement, and no data from any source is displayed
- * on this site.
+ * Experiment 003 (live evidence) opened some of these sources and integrated
+ * two of them on its branch, marked "integrated-pending-evaluation": their
+ * data is shown on /live. The full register for /live is data/live-sources.json.
+ *
+ * Inclusion is not an endorsement.
  */
 
 export type Jurisdiction = "regional" | "global" | "malaysia" | "singapore" | "indonesia";
@@ -33,7 +36,16 @@ export type SourceKind =
   | "Government publications"
   | "Research discovery";
 
-export type SourceStatus = "candidate" | "evaluated" | "integrated";
+/**
+ * "integrated-pending-evaluation" is an interim state added in Experiment 003.
+ * The founder's brief authorised integrating no-credential public sources on
+ * the experiment branch, but the project's rules (docs/DATA_SOURCES.md) say a
+ * source must be Evaluated by a named human before it is integrated. Sources
+ * in this state are integrated on the branch, were evaluated by AI agents
+ * only, and must be evaluated by a human (or removed) before the branch is
+ * merged. Whether to keep this state is a human decision.
+ */
+export type SourceStatus = "candidate" | "evaluated" | "integrated" | "integrated-pending-evaluation";
 
 export interface CandidateSource {
   name: string;
@@ -41,6 +53,12 @@ export interface CandidateSource {
   jurisdiction: Jurisdiction;
   kind: SourceKind;
   url: string;
+  /**
+   * False when the publisher's terms of use set conditions on linking to it
+   * (notice or permission) that a person has yet to review (found in
+   * Experiment 003). Shown without a hyperlink.
+   */
+  linkable?: boolean;
   /** Short, neutral note. No statistics or findings. */
   note?: string;
   status: SourceStatus;
@@ -58,6 +76,7 @@ export const candidateSources: readonly CandidateSource[] = [
     kind: "Satellite fire observations",
     url: "https://asmc.asean.org/home/",
     note: "Regional haze situation, hotspot information and alerts. A portal snippet in search results describes a hotspot as a possible fire, not a confirmed one.",
+    linkable: false,
     status: "candidate",
   },
   {
@@ -86,8 +105,8 @@ export const candidateSources: readonly CandidateSource[] = [
     jurisdiction: "global",
     kind: "Satellite fire observations",
     url: "https://firms.modaps.eosdis.nasa.gov/",
-    note: "Near-real-time active fire detections from satellite instruments. The API needs a free key; none is used or stored here.",
-    status: "candidate",
+    note: "Near-real-time active fire detections from satellite instruments. Shown on /live (Experiment 003) from NASA’s openly downloadable regional files; the API needs a free key, which is optional and never stored in the repository.",
+    status: "integrated-pending-evaluation",
   },
   {
     name: "NASA Worldview",
@@ -177,6 +196,7 @@ export const candidateSources: readonly CandidateSource[] = [
     jurisdiction: "singapore",
     kind: "Air quality",
     url: "https://www.nea.gov.sg/our-services/pollution-control/air-pollution/managing-haze",
+    linkable: false,
     status: "candidate",
   },
   {
@@ -186,6 +206,7 @@ export const candidateSources: readonly CandidateSource[] = [
     kind: "Air quality",
     url: "https://www.haze.gov.sg/",
     note: "Official PSI and PM2.5 readings. Search results say real-time readings may later be verified and corrected.",
+    linkable: false,
     status: "candidate",
   },
   {
@@ -194,8 +215,8 @@ export const candidateSources: readonly CandidateSource[] = [
     jurisdiction: "singapore",
     kind: "Air quality",
     url: "https://data.gov.sg/datasets/d_fe37906a0182569d891506e815e819b7/view",
-    note: "Real-time API; an API key is recommended for production use. Not used in V0.",
-    status: "candidate",
+    note: "Real-time API. Shown on /live (Experiment 003) without a key; data.gov.sg recommends a key for production use.",
+    status: "integrated-pending-evaluation",
   },
   {
     name: "Meteorological Service Singapore",

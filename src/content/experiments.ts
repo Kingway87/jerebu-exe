@@ -88,10 +88,40 @@ export const experiments: readonly Experiment[] = [
   },
   {
     id: "003",
-    name: "Satellite evidence",
-    status: "planned",
+    name: "Live evidence",
+    status: "in-progress",
     question:
-      "Can public satellite fire observations be presented so that non-specialists understand what a hotspot does — and does not — show?",
+      "Can JEREBU.EXE collect, normalise and present current public environmental observations relevant to transboundary haze affecting Malaysia and Singapore without confusing observation, interpretation, attribution or legal responsibility?",
+    phases: [
+      { label: "AI build", state: "Complete" },
+      { label: "Human review", state: "Pending" },
+      { label: "Merged", state: "No" },
+      { label: "Production deployment", state: "Not deployed" },
+    ],
+    humanInput:
+      "The experiment and its question, and a written brief: the evidence model, the rules (no attribution, no data shown as zero, no fake live data, no tracking), the sources to research, the security and privacy requirements, and instructions not to merge, deploy or publish. Experiment 002 ran independently and was not required.",
+    ai: "Claude Code, an AI coding agent made by Anthropic, running locally (Claude Opus 5.5), with 5 AI research agents and 5 AI sceptic agents that opened official pages, and AI review agents.",
+    task: "Research authoritative public sources for satellite fires, Malaysian and Singaporean air quality and regional weather; build a source registry, a provenance model and the integrations that can be done safely; build a /live page that fails honestly; test, document and prepare the branch for human review.",
+    output: [
+      "A /live page: NASA FIRMS satellite fire detections (counts and a map), Singapore’s PSI and PM2.5 by region, wind and rainfall at Singapore’s stations, and MET Malaysia’s forecast by state — each with its source, observation time, retrieval time and status.",
+      "Freshness states with documented thresholds (recent, delayed, stale), and honest failure states: unavailable data is never shown as zero.",
+      "A machine-readable register of 17 sources investigated, with licences, rate limits, limitations and quotes from the official pages.",
+      "Malaysia’s Air Pollutant Index linked, not copied: no documented public feed of current readings was found.",
+      "Deterministic code only: no AI model fetches, checks or summarises any value. Unit tests use real captured responses.",
+      "Documentation: docs/LIVE_EVIDENCE.md, updated data-source notes, and this experiment’s record.",
+    ],
+    aiErrors: [
+      "Source requests at first went through Next.js’s fetch cache, so a rebuild could show old data with a new retrieval time. Caught in testing before any commit, fixed, and covered by a test.",
+      "The first design would have dropped a whole satellite overpass by trimming NASA’s “24h” files; changed to show the files’ actual time range.",
+      "Flagged Singapore’s readings as “provisional” on the strength of a search snippet; replaced with wording verified on data.gov.sg.",
+      "Overstated how Malaysia’s and Singapore’s indices differ; rewritten to the verified differences.",
+      "AI sceptic agents corrected the research: map boundary lines that included sea lines, terms of use summarised as stricter than written, a data portal rated more available than it was, and more. The written record lists each one.",
+      "Research agents made a small number of requests before reading two sites’ terms or robots.txt. Nothing obtained that way is used.",
+    ],
+    humanReview:
+      "Required before the branch is merged or deployed. Not yet performed at the time this record was written.",
+    cost: "To be recorded after session",
+    record: "experiments/003-live-evidence.md",
   },
   {
     id: "004",
