@@ -31,6 +31,8 @@ export interface Experiment {
   ai?: string;
   task?: string;
   output?: string[];
+  /** Mistakes the AI made, or caught in itself, during the experiment. */
+  aiErrors?: string[];
   humanReview?: string;
   cost?: string;
   /** Repository path of the full written record, if one exists. */
@@ -57,8 +59,13 @@ export const experiments: readonly Experiment[] = [
       "A static Next.js, TypeScript and Tailwind CSS website with four routes: /, /evidence, /experiments and /about.",
       "An evidence framework separating observation, interpretation, attribution and legal responsibility.",
       "A list of candidate public data sources, located by web search and marked as not yet verified or integrated.",
-      "Repository documentation: README, contributing guide, code of conduct, security policy, methodology, data sources, AI transparency policy, roadmap and this experiment's record.",
+      "Repository documentation: README, contributing guide, code of conduct, security policy, methodology, data sources, AI transparency policy, roadmap and this experiment’s record.",
       "No live data, no database, no accounts, no tracking and no forms.",
+    ],
+    aiErrors: [
+      "Drafted a homepage line predicting that the haze “will be back” — an unsupported claim. Rewritten before review.",
+      "The source-search agents overstated some details, such as a misspelt organisation name and contradictory dataset dates. A second, sceptical agent caught 14 such overclaims, and they were corrected.",
+      "Several layout problems — misaligned labels, doubled rules, a navigation bar that wrapped on phones — were found in screenshot review and fixed.",
     ],
     humanReview:
       "Required before production deployment. Not yet performed at the time this record was written.",

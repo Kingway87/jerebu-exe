@@ -52,7 +52,7 @@ function Text({ value }: { value?: string }) {
 export function ExperimentRecord({ experiment }: { experiment: Experiment }) {
   const anchor = anchorFor(experiment.id);
   const titleId = `${anchor}-title`;
-  const { phases, output } = experiment;
+  const { phases, output, aiErrors } = experiment;
 
   return (
     <article id={anchor} aria-labelledby={titleId} className="border-2 border-ink bg-paper">
@@ -129,6 +129,21 @@ export function ExperimentRecord({ experiment }: { experiment: Experiment }) {
             <Text />
           )}
         </Row>
+
+        {aiErrors && aiErrors.length > 0 ? (
+          <Row label="What AI got wrong">
+            <ul className="max-w-3xl space-y-3">
+              {aiErrors.map((item) => (
+                <li key={item} className="flex gap-3 leading-relaxed sm:text-lg">
+                  <span aria-hidden="true" className="font-mono text-signal-ink">
+                    ×
+                  </span>
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </Row>
+        ) : null}
 
         <Row label="Human review">
           <Text value={experiment.humanReview} />
