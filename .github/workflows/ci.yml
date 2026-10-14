@@ -10,7 +10,7 @@ permissions:
 
 jobs:
   check:
-    name: Lint, typecheck and build
+    name: Lint, typecheck, test and build
     runs-on: ubuntu-latest
     timeout-minutes: 15
     env:
@@ -26,4 +26,9 @@ jobs:
       - run: npm ci
       - run: npm run lint
       - run: npm run typecheck
+      - run: npm test
+      # The build fetches the integrated live sources once (Experiment 003).
+      # No credentials are configured in CI, so NASA FIRMS renders its
+      # "not configured" state; an unreachable source renders "unavailable"
+      # rather than failing the build.
       - run: npm run build
