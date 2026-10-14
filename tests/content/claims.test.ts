@@ -31,6 +31,16 @@ describe("claims register", () => {
     }
   });
 
+  test("an archived copy is a public archive copy of the page it stands for", () => {
+    for (const entry of siteClaims) {
+      for (const citation of entry.citations ?? []) {
+        if (!citation.archivedCopy) continue;
+        assert.match(citation.archivedCopy, /^https:\/\/web\.archive\.org\/web\/\d{14}\//, entry.claim);
+        assert.ok(citation.archivedCopy.endsWith(citation.url), entry.claim);
+      }
+    }
+  });
+
   test("claims are unique", () => {
     const seen = new Set<string>();
     for (const entry of siteClaims) {

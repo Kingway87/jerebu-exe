@@ -66,6 +66,21 @@ describe("registryProblems", () => {
     assert.ok(problems.some((p) => p.includes("credential")));
   });
 
+  test("rejects a FIRMS endpoint with a real-looking key in its path", () => {
+    const problems = registryProblems(
+      withSource({
+        endpoints: [
+          {
+            url: "https://firms.modaps.eosdis.nasa.gov/api/area/csv/0123456789abcdef0123456789abcdef/VIIRS_NOAA20_NRT/95,-6.5,119.5,7.5/2",
+            description: "x",
+          },
+        ],
+      }),
+    );
+    assert.ok(problems.some((p) => p.includes("{MAP_KEY}")));
+    assert.ok(problems.some((p) => p.includes("URL path")));
+  });
+
   test("accepts a placeholder in place of a key", () => {
     const problems = registryProblems(
       withSource({ endpoints: [{ url: "https://example.org/api?MAP_KEY={MAP_KEY}", description: "x" }] }),

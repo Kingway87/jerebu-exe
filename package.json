@@ -9,7 +9,7 @@
     "url": "https://github.com/Kingway87/jerebu-exe.git"
   },
   "engines": {
-    "node": ">=20.9.0"
+    "node": ">=22"
   },
   "scripts": {
     "dev": "next dev",

@@ -160,6 +160,7 @@ export const candidateSources: readonly CandidateSource[] = [
     jurisdiction: "malaysia",
     kind: "Meteorology",
     url: "https://www.met.gov.my/",
+    note: "Its general forecast by state is shown on /live (Experiment 003) through the data.gov.my Weather API; this website itself is not used.",
     status: "candidate",
   },
   {
@@ -224,6 +225,7 @@ export const candidateSources: readonly CandidateSource[] = [
     jurisdiction: "singapore",
     kind: "Meteorology",
     url: "https://www.weather.gov.sg/about-our-organisation/",
+    note: "Its wind and rainfall station readings are shown on /live (Experiment 003) through data.gov.sg; this website itself was not opened and is not used.",
     status: "candidate",
   },
   {

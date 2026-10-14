@@ -2,7 +2,7 @@ import { ExternalLink } from "@/components/external-link";
 import { freshnessAtRetrieval } from "@/lib/live/freshness";
 import type { LiveSource } from "@/lib/live/registry";
 import { documentedMeaning, isHazeTerm } from "@/lib/live/sources/datagovmy";
-import { formatLocalDate } from "@/lib/live/time";
+import { endOfLocalDay, formatLocalDate } from "@/lib/live/time";
 import type { ForecastSnapshot } from "@/lib/live/types";
 import { EvidenceLevelTag } from "./evidence-level-tag";
 import { FreshnessLabel } from "./freshness-label";
@@ -37,11 +37,34 @@ interface MalaysiaForecastPanelProps {
 export function MalaysiaForecastPanel({ snapshot, source }: MalaysiaForecastPanelProps) {
   if (snapshot.outcome === "unavailable" || snapshot.forecasts.length === 0) {
     return (
-      <UnavailableNotice
-        headline="MET Malaysia forecast unavailable."
-        snapshot={snapshot}
-        notMeaning="No forecast was retrieved. This says nothing about the weather or the haze."
-      />
+      <div className="space-y-6">
+        <UnavailableNotice
+          headline="MET Malaysia forecast unavailable."
+          snapshot={snapshot}
+          notMeaning="No forecast was retrieved. This says nothing about the weather or the haze."
+        />
+        <dl className="grid gap-x-8 gap-y-4 border-y border-line py-5 text-sm sm:grid-cols-3">
+          <div>
+            <dt className="label-mono text-muted">Source</dt>
+            <dd className="mt-1">
+              <ExternalLink href={source.officialUrl} className="font-semibold underline underline-offset-4 hover:text-signal-ink">
+                {source.name}
+              </ExternalLink>
+              <span className="block text-muted">{source.institution}</span>
+            </dd>
+          </div>
+          <div>
+            <dt className="label-mono text-muted">Attempted by this site</dt>
+            <dd className="mt-1">{snapshot.retrievedAt ? <LocalTime iso={snapshot.retrievedAt} /> : "No request made"}</dd>
+          </div>
+          <div>
+            <dt className="label-mono text-muted">Status</dt>
+            <dd className="mt-1">
+              <StatusChip status="unavailable" />
+            </dd>
+          </div>
+        </dl>
+      </div>
     );
   }
 
@@ -149,6 +172,8 @@ export function MalaysiaForecastPanel({ snapshot, source }: MalaysiaForecastPane
                 basisVerb="retrieved"
                 policy={{ basis: policy.basis, recentMaxMinutes: policy.recentMaxMinutes, staleAfterMinutes: policy.staleAfterMinutes }}
                 atRetrieval={fresh.state}
+                expiresAt={snapshot.validDate ? endOfLocalDay(snapshot.validDate) : null}
+                expiredText="the day it forecasts has ended"
               />
             ) : (
               <StatusChip status="unavailable" />

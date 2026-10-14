@@ -69,6 +69,12 @@ export interface RegionalMetricSpec {
   /** Plausible range. Values outside it are rejected as invalid, not shown. */
   min: number;
   max: number;
+  /**
+   * The headline metric of the response (the PSI itself, or 1-hour PM2.5).
+   * Without at least one usable value for it, the response fails validation
+   * instead of being shown as a reading without its main value.
+   */
+  required?: boolean;
 }
 
 export interface RegionalNormaliseOptions {
@@ -110,19 +116,40 @@ export function regionLabel(name: string): string {
   return name.charAt(0).toUpperCase() + name.slice(1);
 }
 
-/** Pick the item with the latest valid `timestamp`. */
-function latestItem(items: unknown[]): Record<string, unknown> | null {
+/** Readings dated more than this after the retrieval time are treated as future-dated. */
+const FUTURE_TOLERANCE_MS = 5 * 60_000;
+
+/**
+ * Pick the item with the latest valid `timestamp`, preferring items that are
+ * not dated after the retrieval time: a future-dated item is used only if
+ * there is nothing else.
+ */
+function latestItem(items: unknown[], retrievedAt: string): Record<string, unknown> | null {
+  const futureLimitMs = Date.parse(retrievedAt) + FUTURE_TOLERANCE_MS;
   let best: Record<string, unknown> | null = null;
   let bestMs = -Infinity;
+  let bestFuture: Record<string, unknown> | null = null;
+  let bestFutureMs = -Infinity;
   for (const item of items) {
     if (!isRecord(item) || !isOffsetTimestamp(item.timestamp)) continue;
     const ms = Date.parse(item.timestamp);
-    if (ms > bestMs) {
+    if (ms > futureLimitMs) {
+      if (ms > bestFutureMs) {
+        bestFuture = item;
+        bestFutureMs = ms;
+      }
+    } else if (ms > bestMs) {
       best = item;
       bestMs = ms;
     }
   }
-  return best;
+  return best ?? bestFuture;
+}
+
+function futureNote(observedAt: string, retrievedAt: string): string | null {
+  return Date.parse(observedAt) > Date.parse(retrievedAt) + FUTURE_TOLERANCE_MS
+    ? `The newest reading is dated ${observedAt}, after the retrieval time. It is shown, but not used to judge how current the source is.`
+    : null;
 }
 
 /**
@@ -141,17 +168,17 @@ export function normaliseRegionalAir(
   if (!Array.isArray(envelope.data.items) || envelope.data.items.length === 0) {
     return { ok: false, kind: "validation", message: "The response contained no readings." };
   }
-  const item = latestItem(envelope.data.items);
+  const item = latestItem(envelope.data.items, options.retrievedAt);
   if (!item || !isRecord(item.readings)) {
     return { ok: false, kind: "validation", message: "No reading had a valid timestamp." };
   }
 
   const observedAt = item.timestamp as string;
-  const futureFlag: QualityFlag[] =
-    Date.parse(observedAt) > Date.parse(options.retrievedAt) + 5 * 60_000 ? ["future-timestamp"] : [];
+  const future = futureNote(observedAt, options.retrievedAt);
+  const futureFlag: QualityFlag[] = future ? ["future-timestamp"] : [];
 
   const observations: Observation[] = [];
-  const issues: string[] = [];
+  const issues: string[] = future ? [future] : [];
   let received = 0;
   let rejected = 0;
 
@@ -193,6 +220,11 @@ export function normaliseRegionalAir(
 
   if (observations.every((o) => o.value === null)) {
     return { ok: false, kind: "validation", message: "The response contained no usable values." };
+  }
+  for (const spec of options.metrics) {
+    if (spec.required && !observations.some((o) => o.metric === spec.metric && o.value !== null)) {
+      return { ok: false, kind: "validation", message: `The response had no usable "${spec.key}" readings.` };
+    }
   }
   // When the source last updated this reading (data.gov.sg's updatedTimestamp).
   const sourceUpdatedAt = isOffsetTimestamp(item.updatedTimestamp) ? item.updatedTimestamp : null;
@@ -257,16 +289,16 @@ export function normaliseStationReadings(envelope: Envelope, options: StationNor
   if (!Array.isArray(envelope.data.readings) || envelope.data.readings.length === 0) {
     return { ok: false, kind: "validation", message: "The response contained no readings." };
   }
-  const reading = latestItem(envelope.data.readings);
+  const reading = latestItem(envelope.data.readings, options.retrievedAt);
   if (!reading || !Array.isArray(reading.data)) {
     return { ok: false, kind: "validation", message: "No reading had a valid timestamp." };
   }
   const observedAt = reading.timestamp as string;
-  const futureFlag: QualityFlag[] =
-    Date.parse(observedAt) > Date.parse(options.retrievedAt) + 5 * 60_000 ? ["future-timestamp"] : [];
+  const future = futureNote(observedAt, options.retrievedAt);
+  const futureFlag: QualityFlag[] = future ? ["future-timestamp"] : [];
 
   const valuesById = new Map<string, unknown>();
-  const issues: string[] = [];
+  const issues: string[] = future ? [future] : [];
   for (const entry of reading.data) {
     if (isRecord(entry) && typeof entry.stationId === "string") {
       valuesById.set(entry.stationId, entry.value);

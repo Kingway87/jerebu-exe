@@ -24,7 +24,8 @@ import {
   getSingaporeWindDirectionSnapshot,
   getSingaporeWindSpeedSnapshot,
 } from "@/lib/live/snapshots";
-import { displayStatusLabel, displayStatusMeaning, displayStatusOrder } from "@/lib/live/status";
+import { displayStatusMeaning, displayStatusOrder } from "@/lib/live/status";
+import { endOfLocalDay, formatLocalDate } from "@/lib/live/time";
 import {
   fireSummarySentence,
   pm25Summary,
@@ -74,14 +75,21 @@ export default async function LivePage() {
   const apims = getLiveSource("doe-apims");
   const metMalaysiaForecast = getLiveSource("datagovmy-weather-forecast");
   const asmc = getLiveSource("asmc");
+  const forecastDate = malaysiaForecast.validDate
+    ? formatLocalDate(`${malaysiaForecast.validDate}T12:00:00+08:00`, "short")
+    : null;
+  const forecastExpiresAt = malaysiaForecast.validDate ? endOfLocalDay(malaysiaForecast.validDate) : null;
 
   const statusRows: StatusRow[] = [
     { source: firms, shows: "Satellite fire detections (VIIRS, NOAA-20 and NOAA-21)", snapshot: fire.snapshot },
     { source: apims, shows: "Malaysia’s hourly Air Pollutant Index", snapshot: null },
     {
       source: metMalaysiaForecast,
-      shows: "MET Malaysia’s forecast for today, by state (a forecast, not an observation)",
+      shows: "MET Malaysia’s general forecast by state (a forecast, not an observation)",
       snapshot: { ...malaysiaForecast, latestObservedAt: null },
+      newestText: forecastDate ? `Forecast for ${forecastDate}` : undefined,
+      expiresAt: forecastExpiresAt,
+      expiredText: "the day it forecasts has ended",
     },
     { source: psiSource, shows: "Singapore’s 24-hour PSI by region", snapshot: psi },
     { source: pm25Source, shows: "Singapore’s 1-hour PM2.5 by region", snapshot: pm25 },
@@ -92,7 +100,7 @@ export default async function LivePage() {
   ];
 
   const summaries = [
-    fireSummarySentence(fire.snapshot, fire.summary),
+    fireSummarySentence(fire.snapshot, fire.summary, firms.freshness),
     psiSummary(psi),
     pm25Summary(pm25),
     windSpeedSummary(windSpeed),
@@ -188,7 +196,6 @@ export default async function LivePage() {
               <div key={status} className="bg-paper p-5">
                 <dt>
                   <StatusChip status={status} />
-                  <span className="sr-only">: {displayStatusLabel[status]}</span>
                 </dt>
                 <dd className="mt-3 text-sm leading-relaxed text-muted">{displayStatusMeaning[status]}</dd>
               </div>
@@ -376,8 +383,8 @@ export default async function LivePage() {
               <h3 className="text-lg font-bold tracking-tight">When the data is read</h3>
               <p className="mt-2 leading-relaxed text-muted">
                 When the site is built, and again in the background when someone visits after a source&rsquo;s
-                refresh interval (10 to 60 minutes, depending on the source). A failed source is retried after
-                about two minutes. On a host that only serves files, the data stays as it was at build time,
+                refresh interval (10 to 60 minutes, depending on the source; on some hosts, whenever the page
+                refreshes). A failed source is retried after about two minutes. On a host that only serves files, the data stays as it was at build time,
                 and the status labels say how old it is.
               </p>
             </div>

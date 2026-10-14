@@ -190,7 +190,9 @@ export function SourcesRegister() {
                 </p>
                 <p className="text-sm text-muted">{source.institution}</p>
               </div>
-              <p className="text-sm leading-relaxed text-muted md:col-span-7">{source.limitations[0]}</p>
+              <p className="text-sm leading-relaxed text-muted md:col-span-7">
+                {source.notUsedBecause ?? source.limitations[0]}
+              </p>
             </li>
           ))}
         </ul>

@@ -114,7 +114,7 @@ function number(value: string | undefined): number | null {
 
 /** Does the text look like a FIRMS CSV at all? Used to tell an error message from data. */
 export function looksLikeFirmsCsv(text: string): boolean {
-  const firstLine = text.split(/\r?\n/, 1)[0] ?? "";
+  const firstLine = text.split(/\r?\n/).find((line) => line.trim() !== "") ?? "";
   const header = splitCsvLine(firstLine).map((h) => h.trim().toLowerCase());
   return REQUIRED_COLUMNS.every((column) => header.includes(column));
 }
@@ -129,7 +129,11 @@ export function looksLikeFirmsCsv(text: string): boolean {
  *
  * A file with a header and no rows is valid: the source reported no
  * detections. That is recorded as zero detections, which is still not
- * evidence of zero fires.
+ * evidence of zero fires. A file with rows of which none can be read is not
+ * valid: that is a failure, never "no detections".
+ *
+ * Rows dated after the retrieval time are kept as detections (flagged), but
+ * are not used to judge how current the feed is.
  */
 export function normaliseFirmsCsv(text: string, options: FirmsNormaliseOptions): ParseResult<FirmsNormalised> {
   const lines = text.split(/\r?\n/).filter((line) => line.trim() !== "");
@@ -148,6 +152,8 @@ export function normaliseFirmsCsv(text: string, options: FirmsNormaliseOptions):
   const reject = (reason: string) => rejectedReasons.set(reason, (rejectedReasons.get(reason) ?? 0) + 1);
   let outsideArea = 0;
   let latestAcquisition: string | null = null;
+  let futureRows = 0;
+  const futureLimitMs = Date.parse(options.retrievedAt) + 5 * 60_000;
   const unknownConfidence = new Set<string>();
 
   for (let i = 1; i < lines.length; i += 1) {
@@ -177,18 +183,21 @@ export function normaliseFirmsCsv(text: string, options: FirmsNormaliseOptions):
       reject("invalid fire radiative power");
       continue;
     }
-    if (latestAcquisition === null || observedAt > latestAcquisition) latestAcquisition = observedAt;
+    const inFuture = Date.parse(observedAt) > futureLimitMs;
+    if (inFuture) futureRows += 1;
+    else if (latestAcquisition === null || observedAt > latestAcquisition) latestAcquisition = observedAt;
     if (!isInside(lat, lon, options.box)) {
       outsideArea += 1;
       continue;
     }
 
     const confidence = get("confidence") ?? "";
-    const confidenceFlag = CONFIDENCE_FLAGS[confidence.toLowerCase()];
+    const confidenceKey = confidence.toLowerCase();
+    const confidenceFlag = Object.hasOwn(CONFIDENCE_FLAGS, confidenceKey) ? CONFIDENCE_FLAGS[confidenceKey] : undefined;
     if (!confidenceFlag) unknownConfidence.add(confidence);
 
     const flags: QualityFlag[] = confidenceFlag ? [confidenceFlag] : [];
-    if (Date.parse(observedAt) > Date.parse(options.retrievedAt) + 5 * 60_000) flags.push("future-timestamp");
+    if (inFuture) flags.push("future-timestamp");
 
     const attributes: Record<string, string | number | null> = {
       satellite: get("satellite") ?? null,
@@ -219,9 +228,23 @@ export function normaliseFirmsCsv(text: string, options: FirmsNormaliseOptions):
 
   const received = lines.length - 1;
   const rejected = [...rejectedReasons.values()].reduce((a, b) => a + b, 0);
-  const issues = [...rejectedReasons.entries()].map(
+  const reasons = [...rejectedReasons.entries()].map(
     ([reason, count]) => `${count} ${count === 1 ? "row was" : "rows were"} rejected: ${reason}.`,
   );
+  if (received > 0 && observations.length + outsideArea === 0) {
+    // Rows arrived but none could be read: a format problem, never "no detections".
+    return {
+      ok: false,
+      kind: "validation",
+      message: `None of the file's ${received} ${received === 1 ? "row" : "rows"} could be read in the documented format. ${reasons.join(" ")}`.trim(),
+    };
+  }
+  const issues = [...reasons];
+  if (futureRows > 0) {
+    issues.push(
+      `${futureRows} ${futureRows === 1 ? "row was" : "rows were"} dated after the retrieval time and ${futureRows === 1 ? "was" : "were"} not used to judge how current the feed is.`,
+    );
+  }
   if (unknownConfidence.size > 0) {
     issues.push(`Unrecognised confidence values kept without a confidence flag: ${[...unknownConfidence].join(", ")}.`);
   }

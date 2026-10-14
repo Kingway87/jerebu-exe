@@ -10,8 +10,12 @@ const nextConfig: NextConfig = {
   // Cache lifetimes for the live evidence page (Experiment 003), in seconds.
   // Each source is fetched at build time, then again in the background when
   // a request arrives after `revalidate`; after `expire` without requests the
-  // next request waits for a fresh fetch. These timings bound how often the
-  // site contacts each source. They are not freshness labels: those come from
+  // next request waits for a fresh fetch. On a long-running server
+  // (`next start`), whose in-memory cache persists, these timings bound how
+  // often the site contacts each source. On serverless hosts that cache
+  // usually does not persist, so every page refresh fetches every source
+  // again unless a persistent cache handler is configured (see
+  // docs/LIVE_EVIDENCE.md). They are not freshness labels: those come from
   // the observation times (see src/lib/live/freshness.ts). Every profile keeps
   // `stale` at 30 s or more and `expire` at 5 min or more, which
   // `ensureStatic = "navigation"` requires for content to stay prerendered.

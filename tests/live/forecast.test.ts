@@ -4,12 +4,32 @@ import { join } from "node:path";
 import { describe, test } from "node:test";
 import { loadMalaysiaStateForecast, malaysiaStateForecastUrl } from "@/lib/live/loaders";
 import { documentedMeaning, isHazeTerm, malaysiaDate, normaliseForecasts } from "@/lib/live/sources/datagovmy";
+import { endOfLocalDay } from "@/lib/live/time";
 
 const fixture = readFileSync(join(__dirname, "../fixtures/live/datagovmy-forecast-states.json"), "utf8");
 // 02:30 on 15 October 2026 in Malaysia.
 const NOW = new Date("2026-10-14T18:30:00Z");
 
 describe("MET Malaysia forecast (data.gov.my)", () => {
+  test("counts the haze term with a qualifier, but not its negation", () => {
+    assert.equal(isHazeTerm("Jerebu"), true);
+    assert.equal(isHazeTerm("Berjerebu"), true);
+    assert.equal(isHazeTerm("Jerebu di beberapa tempat"), true);
+    assert.equal(isHazeTerm("Tiada jerebu"), false);
+    assert.equal(isHazeTerm("Ribut petir di beberapa tempat"), false);
+  });
+
+  test("looks up only documented values, never inherited properties", () => {
+    assert.equal(documentedMeaning("Berjerebu"), "Hazy.");
+    assert.equal(documentedMeaning("constructor"), null);
+    assert.equal(documentedMeaning("__proto__"), null);
+  });
+
+  test("knows when a forecast's day has ended (midnight in Malaysia)", () => {
+    assert.equal(endOfLocalDay("2026-10-15"), "2026-10-15T16:00:00.000Z");
+    assert.equal(endOfLocalDay("15 October"), null);
+  });
+
   test("uses the calendar date in Malaysia, not UTC", () => {
     assert.equal(malaysiaDate(NOW), "2026-10-15");
     assert.match(malaysiaStateForecastUrl("2026-10-15"), /date_start=2026-10-15@date&date_end=2026-10-15@date$/);

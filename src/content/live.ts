@@ -39,7 +39,8 @@ export const ladderOnThisPage: readonly LadderStep[] = [
       "An agency publishes an air-quality reading.",
       "A weather station reports the wind direction.",
     ],
-    onThisPage: "Everything shown as data on this page is at this level, copied from official sources by deterministic code.",
+    onThisPage:
+      "Every measurement on this page is at this level: published by an official source, or counted or classified from published values by deterministic code. MET Malaysia’s forecast is not a measurement: it is the agency’s own prediction, labelled as such and tagged Level 2.",
   },
   {
     level: "interpretation",
@@ -95,7 +96,7 @@ export const cannotAnswerYet: readonly MeaningItem[] = [
     answer: "Needs readings over days, compared with a stated baseline. The page shows the latest readings only.",
   },
   {
-    question: "Did smoke from these fires reach Malaysia or Singapore?",
+    question: "If these detections are fires, did their smoke reach Malaysia or Singapore?",
     answer:
       "Needs emissions estimates and atmospheric transport modelling over hours to days, with uncertainty. Wind at a station is one local measurement at one moment.",
   },
@@ -153,7 +154,7 @@ export const whyNoAttribution: readonly ReasonItem[] = [
 export const deliberatelyExcluded: readonly string[] = [
   "No company, concession or land-ownership overlays.",
   "No names of companies, people or governments in connection with any fire or haze.",
-  "No automatic attribution, scoring or ranking of countries, areas or organisations.",
+  "No automatic attribution, and no scoring or ranking of countries, named places or organisations. (The fire section lists the 0.1° grid cells with the most detections, by coordinates only, as a text version of the map.)",
   "No AI-written summary or interpretation of the data.",
   "No request for your location, and no tracking.",
 ];

@@ -31,6 +31,11 @@ export interface Citation {
   quote?: string;
   readBy: string;
   /**
+   * A copy in a public web archive. Where the live page refused automated
+   * requests, this is the copy that was actually read.
+   */
+  archivedCopy?: string;
+  /**
    * False when the publisher's terms of use restrict linking to the page
    * without permission. The address is then shown as text, not as a link.
    */
@@ -90,10 +95,11 @@ export const siteClaims: readonly SiteClaim[] = [
     note: "Cited in Experiment 003 to NASA’s own description of FIRMS detections. NASA’s FAQ was read from an Internet Archive copy because earthdata.nasa.gov refused automated requests; a human should check the live page.",
     citations: [
       {
-        title: "FIRMS Frequently Asked Questions",
+        title: "FIRMS FAQ",
         publisher: "NASA Earthdata",
         url: "https://www.earthdata.nasa.gov/data/tools/firms/faq",
-        published: "undated (Internet Archive copy of 7 October 2026)",
+        published: "undated",
+        archivedCopy: "https://web.archive.org/web/20261007083740/https://www.earthdata.nasa.gov/data/tools/firms/faq",
         accessed: "2026-10-15",
         quote:
           "Each hotspot/active fire detection represents the center of a pixel flagged as containing one or more fires or other thermal anomalies (such as volcanoes).",
@@ -114,10 +120,10 @@ export const siteClaims: readonly SiteClaim[] = [
     claim:
       "Singapore’s 24-hour PSI is computed from six pollutants: each gets a sub-index, and the highest sub-index is the PSI.",
     status: "cited",
-    note: "Stated on /live, which also shows the published sub-indices. The published PSI equalled the highest of the five published sub-indices in every region-hour two AI agents checked (125 on 14 October 2026; 455 across six dates from 2021 to 2026). One agent noted that the ozone and carbon monoxide sub-indices behave like 8-hour averages, so NEA’s “24-hour average” wording may be a simplification. NEA’s page was read once by an AI agent and not re-opened, because NEA’s terms forbid automated copying; a human should check it.",
+    note: "Stated on /live, which also names the pollutant whose published sub-index equals the PSI. For Singapore’s five regions, the published PSI equalled the highest of the five published sub-indices in every region-hour two AI agents checked (125 from 14 October 2026 to 01:00 on 15 October; 455 across six dates from 2021 to 2026). A separate “national” series, which the API returns for some older dates, did not always match: on 1 January 2021 its PSI equalled the west region’s PSI, not its own highest sub-index, in all 8 hours returned. One agent noted that the ozone and carbon monoxide sub-indices behave like 8-hour averages, so NEA’s “24-hour average” wording may be a simplification. NEA’s page was read once by an AI agent and not re-opened, because NEA’s terms forbid automated copying; a human should check it.",
     citations: [
       {
-        title: "Air pollution FAQs",
+        title: "FAQs",
         publisher: "National Environment Agency, Singapore",
         url: "https://www.nea.gov.sg/our-services/pollution-control/air-pollution/faqs",
         published: "last updated 29 September 2026",
@@ -136,7 +142,7 @@ export const siteClaims: readonly SiteClaim[] = [
     note: "Used to label each PSI reading on /live with NEA’s own descriptor.",
     citations: [
       {
-        title: "Air pollution FAQs",
+        title: "FAQs",
         publisher: "National Environment Agency, Singapore",
         url: "https://www.nea.gov.sg/our-services/pollution-control/air-pollution/faqs",
         published: "last updated 29 September 2026",
@@ -187,9 +193,9 @@ export const siteClaims: readonly SiteClaim[] = [
   },
   {
     claim:
-      "Malaysia’s Air Pollutant Index and Singapore’s PSI are calculated differently: for example, DOE averages sulphur dioxide and nitrogen dioxide over one hour, while NEA describes the PSI as based on 24-hour averages.",
+      "Malaysia’s Air Pollutant Index and Singapore’s PSI are calculated differently: for example, DOE averages sulphur dioxide over one hour, while NEA publishes a 24-hour sulphur dioxide value and describes the PSI as based on 24-hour averages.",
     status: "cited",
-    note: "The reason /live tells readers not to compare the two indices directly. NEA also says its PSI is not comparable with indices computed by other methods.",
+    note: "The reason /live tells readers not to compare the two indices directly. NEA also says that readings or indices from other websites, such as aqicn.org, are not comparable with its 24-hour PSI. NEA’s own PSI response publishes nitrogen dioxide as a 1-hour maximum and ozone and carbon monoxide as 8-hour maxima, so its “24-hour average” wording does not apply to every pollutant.",
     citations: [
       {
         title: "Pengiraan Indeks Pencemar Udara (IPU) / Air Pollutant Index (API) Calculation, page 4",
@@ -201,15 +207,25 @@ export const siteClaims: readonly SiteClaim[] = [
         linkable: true,
       },
       {
-        title: "Air pollution FAQs",
+        title: "FAQs",
         publisher: "National Environment Agency, Singapore",
         url: "https://www.nea.gov.sg/our-services/pollution-control/air-pollution/faqs",
         published: "last updated 29 September 2026",
         accessed: "2026-10-15",
         quote:
-          "Air quality readings or indices provided by other websites, such as aqicn.org, adopt other methods of computing the index and are not comparable with the 24-hr PSI.",
+          "The PSI is computed based on the 24-hour average of concentration levels of 6 pollutants … Air quality readings or indices provided by other websites, such as aqicn.org, adopt other methods of computing the index and are not comparable with the 24-hr PSI.",
         readBy: EXP003_READER,
         linkable: false,
+      },
+      {
+        title: "Pollutant Standards Index (PSI) real-time API: names of the published readings",
+        publisher: "National Environment Agency, published on data.gov.sg",
+        url: "https://api-open.data.gov.sg/v2/real-time/api/psi",
+        published: "live data, read 15 October 2026",
+        accessed: "2026-10-15",
+        quote: "so2_twenty_four_hourly … no2_one_hour_max … o3_eight_hour_max … co_eight_hour_max",
+        readBy: EXP003_READER,
+        linkable: true,
       },
     ],
   },
@@ -239,10 +255,11 @@ export const siteClaims: readonly SiteClaim[] = [
     note: "Stated on /live, next to the satellite detections. Read from an Internet Archive copy of NASA’s FAQ (see above).",
     citations: [
       {
-        title: "FIRMS Frequently Asked Questions",
+        title: "FIRMS FAQ",
         publisher: "NASA Earthdata",
         url: "https://www.earthdata.nasa.gov/data/tools/firms/faq",
-        published: "undated (Internet Archive copy of 7 October 2026)",
+        published: "undated",
+        archivedCopy: "https://web.archive.org/web/20261007083740/https://www.earthdata.nasa.gov/data/tools/firms/faq",
         accessed: "2026-10-15",
         quote:
           "For MODIS the pixel is approximately 1 km and for VIIRS the pixel is approximately 375 m. … We are not able to determine the exact location or size of the fire; what we do know is that at least one fire is located within the flagged pixel.",
@@ -258,13 +275,14 @@ export const siteClaims: readonly SiteClaim[] = [
     note: "The basis for the page’s rule that no detections never means no fires.",
     citations: [
       {
-        title: "FIRMS Frequently Asked Questions",
+        title: "FIRMS FAQ",
         publisher: "NASA Earthdata",
         url: "https://www.earthdata.nasa.gov/data/tools/firms/faq",
-        published: "undated (Internet Archive copy of 7 October 2026)",
+        published: "undated",
+        archivedCopy: "https://web.archive.org/web/20261007083740/https://www.earthdata.nasa.gov/data/tools/firms/faq",
         accessed: "2026-10-15",
         quote:
-          "The fire may have started and ended between satellite observations; cloud cover, heavy smoke, or tree canopy may completely obscure a fire; occasionally the instruments are inoperable and can observe nothing during these times",
+          "The fire may have started and ended between satellite observations; cloud cover, heavy smoke, or tree canopy may completely obscure a fire; occasionally the instruments are inoperable and can observe nothing during these times … the fire may have been too small or too cool to be detected.",
         readBy: EXP003_READER,
         linkable: true,
       },

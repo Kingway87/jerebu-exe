@@ -62,9 +62,15 @@ interface RegionMapProps {
   titleId: string;
   descriptionId: string;
   description: string;
+  /**
+   * A label drawn on the map itself when it shows no detections that can be
+   * relied on, e.g. "NO DATA RETRIEVED", so an empty map cannot be read as
+   * "no fires".
+   */
+  notice?: string | null;
 }
 
-export function RegionMap({ fires, titleId, descriptionId, description }: RegionMapProps) {
+export function RegionMap({ fires, titleId, descriptionId, description, notice = null }: RegionMapProps) {
   const paths = fires ? cellPaths(fires) : null;
 
   return (
@@ -143,8 +149,8 @@ export function RegionMap({ fires, titleId, descriptionId, description }: Region
         ))}
       </g>
 
-      {/* No data: say so on the map itself, so an empty map cannot be read as "no fires". Placed over the South China Sea. */}
-      {paths ? null : (
+      {/* No reliable data: say so on the map itself, so an empty map cannot be read as "no fires". Placed over the South China Sea. */}
+      {notice ? (
         <g>
           <rect
             x={x(NO_DATA_CENTRE_LON) - 560}
@@ -165,10 +171,10 @@ export function RegionMap({ fires, titleId, descriptionId, description }: Region
             fontWeight={700}
             letterSpacing={4}
           >
-            NO DATA RETRIEVED
+            {notice}
           </text>
         </g>
-      )}
+      ) : null}
 
       {/* Frame */}
       <rect x={1} y={1} width={width - 2} height={height - 2} fill="none" className="stroke-ink" strokeWidth={4} />

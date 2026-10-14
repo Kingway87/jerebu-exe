@@ -88,3 +88,14 @@ export function toUtcIso(iso: string): string | null {
   const date = parse(iso);
   return date ? date.toISOString() : null;
 }
+
+/**
+ * The moment a local (UTC+8) calendar day ends, as ISO 8601 UTC, for a date
+ * given as YYYY-MM-DD. Used to tell when a forecast for that day stops being
+ * a forecast for "today". Null if the date cannot be read.
+ */
+export function endOfLocalDay(date: string): string | null {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) return null;
+  const start = Date.parse(`${date}T00:00:00+08:00`);
+  return Number.isNaN(start) ? null : new Date(start + 24 * 60 * 60_000).toISOString();
+}

@@ -97,8 +97,8 @@ const sourceListNotes = [
     text: "Inclusion does not mean a source is reliable, suitable or recommended. None has been evaluated for reliability, licensing or fitness for purpose.",
   },
   {
-    lead: "Two now feed /live.",
-    text: "Experiment 003 opened some of these sources and shows data from two of them on the live evidence page. They are marked below, and still await a human evaluation. The register for that page is data/live-sources.json.",
+    lead: "Some now feed /live.",
+    text: "Experiment 003 shows data from two of these entries on the live evidence page, and readings from two more agencies listed here (MSS and MET Malaysia) through government open-data portals. They are marked below, and still await a human evaluation. The register for that page is data/live-sources.json.",
   },
 ];
 
@@ -424,9 +424,9 @@ export default function EvidencePage() {
           >
             <p>
               These panels mark where experiments may show data. Each stays empty until its data
-              has been collected and checked against sources. There are no sample charts or
-              placeholder numbers, so nothing here can be mistaken for real data. One has now been
-              built, in Experiment 003, and is waiting for human review.
+              has been collected, checked against sources and reviewed by a human. There are no
+              sample charts or placeholder numbers, so nothing here can be mistaken for real data.
+              The one built in Experiment 003 is the exception while its branch awaits that review.
             </p>
           </SectionHeader>
 
@@ -488,8 +488,9 @@ export default function EvidencePage() {
           >
             <p>
               A conceptual sketch for future experiments, not a description of anything that
-              exists. None of these stages is implemented, and the design will change as
-              experiments test it. In this sketch, AI assists with analysis but does not decide:
+              exists. It is not implemented as a whole: Experiment 003&rsquo;s /live page uses a
+              narrow, separate path for current observations, with no evidence store and no AI
+              stage. The design will change as experiments test it. In this sketch, AI assists with analysis but does not decide:
               every claim is traced to a source, and a human reviews it before anything is
               published.
             </p>

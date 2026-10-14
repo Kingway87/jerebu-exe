@@ -1,6 +1,6 @@
 import { ExternalLink } from "@/components/external-link";
-import { freshnessAtRetrieval } from "@/lib/live/freshness";
 import type { LiveSource } from "@/lib/live/registry";
+import { snapshotStatus } from "@/lib/live/status";
 import type { SourceSnapshot } from "@/lib/live/types";
 import { FreshnessLabel } from "./freshness-label";
 import { LocalTime } from "./local-time";
@@ -11,7 +11,7 @@ interface ProvenanceProps {
   snapshot: Pick<SourceSnapshot, "outcome" | "retrievedAt" | "latestObservedAt" | "issues">;
   /** What the observation time is, e.g. "Reading for" or "Newest detection". */
   observedLabel?: string;
-  /** Set to false where the same notes are already shown nearby. */
+  /** Set to false where the same notes are already shown in a notice above. */
   showIssues?: boolean;
 }
 
@@ -19,11 +19,13 @@ interface ProvenanceProps {
  * Where a block of data came from and how old it is: source, observation
  * time, retrieval time and status, and any notes from validation (for
  * example, a value rejected as implausible, or a response that may be a
- * cached copy). Shown next to every live dataset.
+ * cached copy). Shown next to every live dataset. When the retrieval failed,
+ * it says so: the time is when it was attempted, and nothing was retrieved.
  */
 export function Provenance({ source, snapshot, observedLabel = "Observed", showIssues = true }: ProvenanceProps) {
   const policy = source.freshness;
-  const fresh = policy ? freshnessAtRetrieval(snapshot, policy) : null;
+  const status = snapshotStatus(snapshot, policy);
+  const failed = status.kind === "unavailable" || status.kind === "not-configured";
   const basisVerb = policy?.basis === "observedAt" ? "observed" : "retrieved";
 
   return (
@@ -40,35 +42,43 @@ export function Provenance({ source, snapshot, observedLabel = "Observed", showI
       <div>
         <dt className="label-mono text-muted">{observedLabel}</dt>
         <dd className="mt-1">
-          {snapshot.latestObservedAt ? <LocalTime iso={snapshot.latestObservedAt} /> : <span className="text-muted">None</span>}
+          {failed ? (
+            <span className="text-muted">Not retrieved</span>
+          ) : snapshot.latestObservedAt ? (
+            <LocalTime iso={snapshot.latestObservedAt} />
+          ) : (
+            <span className="text-muted">None</span>
+          )}
         </dd>
       </div>
       <div>
-        <dt className="label-mono text-muted">Retrieved by this site</dt>
+        <dt className="label-mono text-muted">{failed ? "Attempted by this site" : "Retrieved by this site"}</dt>
         <dd className="mt-1">
-          {snapshot.retrievedAt ? <LocalTime iso={snapshot.retrievedAt} /> : <span className="text-muted">Not retrieved</span>}
+          {snapshot.retrievedAt ? <LocalTime iso={snapshot.retrievedAt} /> : <span className="text-muted">No request made</span>}
         </dd>
       </div>
       <div>
         <dt className="label-mono text-muted">Status</dt>
         <dd className="mt-1">
-          {snapshot.outcome === "unavailable" || snapshot.outcome === "not-configured" ? (
-            <StatusChip status={snapshot.outcome === "unavailable" ? "unavailable" : "not-configured"} />
-          ) : fresh && policy ? (
+          {status.kind === "freshness" && policy ? (
             <FreshnessLabel
-              basis={fresh.basis}
+              basis={status.basis}
               basisVerb={basisVerb}
               policy={{
                 basis: policy.basis,
                 recentMaxMinutes: policy.recentMaxMinutes,
                 staleAfterMinutes: policy.staleAfterMinutes,
               }}
-              atRetrieval={fresh.state}
+              atRetrieval={status.state}
             />
           ) : (
-            <StatusChip status="unavailable" />
+            <StatusChip status={status.kind === "freshness" ? "undated" : status.kind} />
           )}
-          {snapshot.outcome === "partial" ? <span className="mt-1 block text-signal-ink">Partial: see notes below.</span> : null}
+          {snapshot.outcome === "partial" ? (
+            <span className="mt-1 block text-signal-ink">
+              Partial: {showIssues ? "see the notes below." : "see the notice above."}
+            </span>
+          ) : null}
         </dd>
       </div>
       {showIssues && snapshot.issues.length > 0 ? (

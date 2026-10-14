@@ -63,7 +63,21 @@ function CitationEntry({ citation }: { citation: Citation }) {
           <span className="text-muted">(not linked: the publisher&rsquo;s terms set conditions on linking that a person has yet to review)</span>
         </>
       )}
-      . Accessed {citation.accessed}. Read by {citation.readBy}.
+      . Accessed {citation.accessed}
+      {citation.archivedCopy ? (
+        <>
+          {" "}
+          from the{" "}
+          <ExternalLink
+            href={citation.archivedCopy}
+            className="[overflow-wrap:anywhere] underline underline-offset-4 hover:text-signal-ink"
+          >
+            archived copy
+          </ExternalLink>
+          , because the live page refused automated requests
+        </>
+      ) : null}
+      . Read by {citation.readBy}.
       {citation.quote ? (
         <details className="mt-1">
           <summary className="label-mono cursor-pointer text-muted hover:text-ink">Quoted text</summary>

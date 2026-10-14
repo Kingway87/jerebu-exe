@@ -14,6 +14,9 @@ import { join } from "node:path";
 import { describe, test } from "node:test";
 import {
   FIRMS_OPEN_FILES,
+  FIRMS_REQUEST_GAP_MS,
+  FIRMS_TIMEOUT_MS,
+  FIRMS_TOTAL_BUDGET_MS,
   MAP_KEY_PLACEHOLDER,
   loadFirms,
   loadSingaporePm25,
@@ -23,7 +26,7 @@ import {
   loadSingaporeWindSpeed,
   type LoaderContext,
 } from "@/lib/live/loaders";
-import { summariseDetections } from "@/lib/live/sources/firms";
+import { firmsTimestamp, summariseDetections } from "@/lib/live/sources/firms";
 import type { Observation } from "@/lib/live/types";
 
 const fixture = (name: string) => readFileSync(join(__dirname, "../fixtures/live", name), "utf8");
@@ -169,6 +172,29 @@ describe("data.gov.sg loaders", () => {
     assert.match(snapshot.issues.join(" "), /north/);
   });
 
+  test("a PSI response without its headline PSI values is a failure, even when sub-indices arrived", async () => {
+    const raw = JSON.parse(fixture("datagovsg-psi.json"));
+    const readings = raw.data.items[0].readings;
+    readings.psi_24h_renamed = readings.psi_twenty_four_hourly;
+    delete readings.psi_twenty_four_hourly;
+    const { impl } = fakeFetch(() => ok(JSON.stringify(raw)));
+    const snapshot = await loadSingaporePsi(context(impl));
+    assert.equal(snapshot.outcome, "unavailable");
+    assert.equal(snapshot.failure?.kind, "validation");
+    assert.match(snapshot.failure?.message ?? "", /psi_twenty_four_hourly/);
+  });
+
+  test("a reading dated after the retrieval time is shown but not used to judge freshness", async () => {
+    const raw = JSON.parse(fixture("datagovsg-psi.json"));
+    raw.data.items[0].timestamp = "2026-10-16T03:00:00+08:00";
+    const { impl } = fakeFetch(() => ok(JSON.stringify(raw)));
+    const snapshot = await loadSingaporePsi(context(impl));
+    assert.equal(snapshot.outcome, "ok");
+    assert.ok(snapshot.observations.every((o) => o.qualityFlags.includes("future-timestamp")));
+    assert.equal(snapshot.latestObservedAt, null);
+    assert.match(snapshot.issues.join(" "), /after the retrieval time/);
+  });
+
   test("HTTP 429 is reported as rate limiting", async () => {
     const { impl } = fakeFetch(() => ({ status: 429, body: '{"code":429}' }));
     const snapshot = await loadSingaporePsi(context(impl));
@@ -287,6 +313,58 @@ describe("NASA FIRMS loader", () => {
     assert.equal(JSON.stringify(snapshot).includes(key), false);
   });
 
+  test("a file whose rows all fail validation is a failure, never 'no detections'", async () => {
+    // A format change: every data row gains a trailing comma, so no row matches the header.
+    const [header, ...rows] = fixture("firms-noaa20-sea-24h-subset.csv").trim().split("\n");
+    const broken = [header, ...rows.map((row) => `${row},`)].join("\n");
+    const { impl } = fakeFetch(() => ok(broken, "text/csv"));
+    const snapshot = await loadFirms(context(impl), undefined);
+    assert.equal(snapshot.outcome, "unavailable");
+    assert.equal(snapshot.failure?.kind, "validation");
+    assert.match(snapshot.failure?.message ?? "", /None of the file's 20 rows could be read/);
+    assert.equal(snapshot.latestObservedAt, null);
+  });
+
+  test("one file with no readable row makes the snapshot partial", async () => {
+    const csv = fixture("firms-noaa20-sea-24h-subset.csv");
+    const [header, ...rows] = csv.trim().split("\n");
+    const hhmm = [header, ...rows.map((row) => row.replace(/,(\d{2})(\d{2}),N20,/, ",$1:$2,N20,"))].join("\n");
+    const { impl } = fakeFetch((url) => (url === noaa20.url ? ok(csv, "text/csv") : ok(hhmm, "text/csv")));
+    const snapshot = await loadFirms(context(impl), undefined);
+    assert.equal(snapshot.outcome, "partial");
+    assert.match(snapshot.issues.join(" "), /NOAA-21.*could be read/);
+  });
+
+  test("a row dated after the retrieval time is kept but does not set the feed's age", async () => {
+    const csv = fixture("firms-noaa20-sea-24h-subset.csv").replaceAll("2026-10-13,1601", "2027-01-01,1601");
+    const { impl } = fakeFetch(() => ok(csv, "text/csv"));
+    const snapshot = await loadFirms(context(impl), undefined);
+    assert.equal(snapshot.outcome, "ok");
+    // The newest real detection, not the 2027 one.
+    assert.equal(snapshot.latestObservedAt, "2026-10-13T14:18:00Z");
+    assert.match(snapshot.issues.join(" "), /dated after the retrieval time/);
+  });
+
+  test("a header after a leading blank line is still read", async () => {
+    const { impl } = fakeFetch(() => ok(`\n${fixture("firms-noaa20-sea-24h-subset.csv")}`, "text/csv"));
+    const snapshot = await loadFirms(context(impl), undefined);
+    assert.equal(snapshot.outcome, "ok");
+  });
+
+  test("when the two files fail differently, the message gives each reason", async () => {
+    const { impl } = fakeFetch((url) => (url === noaa20.url ? { status: 503, body: "Unavailable" } : new TypeError("fetch failed")));
+    const snapshot = await loadFirms(context(impl), undefined);
+    assert.equal(snapshot.outcome, "unavailable");
+    assert.match(snapshot.failure?.message ?? "", /VIIRS on NOAA-20: .*HTTP 503/);
+    assert.match(snapshot.failure?.message ?? "", /VIIRS on NOAA-21: The source could not be reached\./);
+    assert.doesNotMatch(snapshot.failure?.message ?? "", /request list/);
+  });
+
+  test("all FIRMS requests together fit inside Next.js's 54-second prerender limit", () => {
+    assert.ok(FIRMS_TOTAL_BUDGET_MS + FIRMS_REQUEST_GAP_MS < 54_000);
+    assert.ok(FIRMS_TIMEOUT_MS <= FIRMS_TOTAL_BUDGET_MS);
+  });
+
   test("a response that is not a FIRMS CSV is a parse failure", async () => {
     const { impl } = fakeFetch(() => ok("<html>Service temporarily unavailable</html>", "text/html"));
     const snapshot = await loadFirms(context(impl), undefined);
@@ -315,6 +393,35 @@ describe("summariseDetections", () => {
       30,
     );
     assert.equal(summary.maxFrp, 32.71);
+    // A detection at 3.16401°S, 119.49605°E falls in the cell whose south-west corner is 3.2°S, 119.4°E.
+    assert.ok(summary.cells.some((cell) => cell.lat === -3.2 && cell.lon === 119.4));
+  });
+
+  test("bins each detection into the 0.1° cell that contains it, including at cell edges", () => {
+    const at = (lat: number, lon: number): Observation => ({
+      sourceId: "nasa-firms",
+      level: "observation",
+      metric: "fire_radiative_power",
+      value: 1,
+      unit: "MW",
+      observedAt: "2026-10-13T04:55:00Z",
+      location: { kind: "pixel", lat, lon },
+      qualityFlags: [],
+      rawReference: "test",
+    });
+    const summary = summariseDetections([at(-3.16401, 119.49605), at(-0.1, 100), at(0.05, 103.85), at(0.05, 103.86)]);
+    assert.deepEqual(summary.cells, [
+      { lon: 119.4, lat: -3.2, count: 1 },
+      { lon: 100, lat: -0.1, count: 1 },
+      { lon: 103.8, lat: 0, count: 2 },
+    ]);
+  });
+
+  test("FIRMS times without leading zeros are read as HHMM", () => {
+    assert.equal(firmsTimestamp("2026-10-13", "3"), "2026-10-13T00:03:00Z");
+    assert.equal(firmsTimestamp("2026-10-13", "130"), "2026-10-13T01:30:00Z");
+    assert.equal(firmsTimestamp("2026-10-13", "2400"), null);
+    assert.equal(firmsTimestamp("2026-02-31", "1200"), null);
   });
 
   test("an empty list summarises to zero detections and no cells", () => {

@@ -37,18 +37,21 @@ export const DOCUMENTED_FORECAST_VALUES: Readonly<Record<string, string>> = {
 
 /** The documented English description of a forecast value, or null if the documentation does not list it. */
 export function documentedMeaning(value: string): string | null {
-  return DOCUMENTED_FORECAST_VALUES[value.trim().toLowerCase()] ?? null;
+  const key = value.trim().toLowerCase();
+  // Own keys only: a value such as "constructor" must not find an inherited property.
+  return Object.hasOwn(DOCUMENTED_FORECAST_VALUES, key) ? DOCUMENTED_FORECAST_VALUES[key] : null;
 }
 
 /**
  * True if a forecast value is the haze term: the documented "Berjerebu"
  * (Hazy), or "Jerebu", which the live API was seen to use on 15 October
- * 2026 although the documentation does not list it.
+ * 2026 although the documentation does not list it. A value that starts
+ * with the term and adds a qualifier ("Jerebu di beberapa tempat") counts;
+ * a negation such as "Tiada jerebu" (no haze) does not.
  */
 export function isHazeTerm(value: string | null): boolean {
   if (!value) return false;
-  const normalised = value.trim().toLowerCase();
-  return normalised === "berjerebu" || normalised === "jerebu";
+  return /^(ber)?jerebu\b/.test(value.trim().toLowerCase());
 }
 
 const text = (value: unknown): string | null => (typeof value === "string" && value.trim() !== "" ? value.trim() : null);

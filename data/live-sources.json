@@ -2,7 +2,7 @@
   "$schema": "./live-sources.schema.json",
   "schemaVersion": 1,
   "registryUpdated": "2026-10-15",
-  "about": "Sources investigated for the live evidence page (/live) in Experiment 003. Every entry was checked by AI agents opening official pages and, where possible, making a small number of requests, on 15 October 2026. No entry has yet been checked by a human (verification.humanVerified is false throughout). Quotes in verification.evidence are copied from the pages named. See docs/LIVE_EVIDENCE.md and docs/DATA_SOURCES.md.",
+  "about": "Sources investigated for the live evidence page (/live) in Experiment 003. Every entry was checked by AI agents opening official pages and, where possible, making a small number of requests, on 15 October 2026, Malaysia and Singapore time (14 October UTC). Where an official page refused automated requests (NASA's earthdata.nasa.gov), its wording was read from an Internet Archive copy, given as archivedCopy. No entry has yet been checked by a human (verification.humanVerified is false throughout). Quotes in verification.evidence are copied from the pages named (or their archived copies). See docs/LIVE_EVIDENCE.md and docs/DATA_SOURCES.md.",
   "sources": [
     {
       "id": "nasa-firms",
@@ -124,22 +124,26 @@
           {
             "claim": "What a detection represents",
             "url": "https://www.earthdata.nasa.gov/data/tools/firms/faq",
-            "quote": "Each hotspot/active fire detection represents the center of a pixel flagged as containing one or more fires or other thermal anomalies (such as volcanoes). For MODIS the pixel is approximately 1 km and for VIIRS the pixel is approximately 375 m. The “location” is the center point of the pixel (not necessarily the coordinates of the actual fire)."
+            "quote": "Each hotspot/active fire detection represents the center of a pixel flagged as containing one or more fires or other thermal anomalies (such as volcanoes). For MODIS the pixel is approximately 1 km and for VIIRS the pixel is approximately 375 m. The “location” is the center point of the pixel (not necessarily the coordinates of the actual fire).",
+            "archivedCopy": "https://web.archive.org/web/20261007083740/https://www.earthdata.nasa.gov/data/tools/firms/faq"
           },
           {
             "claim": "Why fires are missed",
             "url": "https://www.earthdata.nasa.gov/data/tools/firms/faq",
-            "quote": "The fire may have started and ended between satellite observations; cloud cover, heavy smoke, or tree canopy may completely obscure a fire; occasionally the instruments are inoperable and can observe nothing during these times"
+            "quote": "The fire may have started and ended between satellite observations; cloud cover, heavy smoke, or tree canopy may completely obscure a fire; occasionally the instruments are inoperable and can observe nothing during these times … the fire may have been too small or too cool to be detected.",
+            "archivedCopy": "https://web.archive.org/web/20261007083740/https://www.earthdata.nasa.gov/data/tools/firms/faq"
           },
           {
             "claim": "Latency and file updates",
             "url": "https://www.earthdata.nasa.gov/data/tools/firms/faq",
-            "quote": "FIRMS makes the NRT data available within 3 hours of a satellite observation (on a best-effort basis); … the SHP, KML and CSV files (available for the last 24 hours, 48 hours, and 7 days) are updated every 60 minutes."
+            "quote": "FIRMS makes the NRT data available within 3 hours of a satellite observation (on a best-effort basis); … the SHP, KML and CSV files (available for the last 24 hours, 48 hours, and 7 days) are updated every 60 minutes.",
+            "archivedCopy": "https://web.archive.org/web/20261007083740/https://www.earthdata.nasa.gov/data/tools/firms/faq"
           },
           {
             "claim": "Use and citation",
             "url": "https://www.earthdata.nasa.gov/data/tools/firms/faq",
-            "quote": "NASA promotes full and open sharing of data and and we encourage publication of imagery from FIRMS; when doing so for image captions, please cite it as \"NASA FIRMS\""
+            "quote": "NASA promotes full and open sharing of data and and we encourage publication of imagery from FIRMS; when doing so for image captions, please cite it as \"NASA FIRMS\"",
+            "archivedCopy": "https://web.archive.org/web/20261007083740/https://www.earthdata.nasa.gov/data/tools/firms/faq"
           },
           {
             "claim": "Area API key limit",
@@ -154,12 +158,14 @@
           {
             "claim": "Location and size cannot be determined",
             "url": "https://www.earthdata.nasa.gov/data/tools/firms/faq",
-            "quote": "We are not able to determine the exact location or size of the fire; what we do know is that at least one fire is located within the flagged pixel."
+            "quote": "We are not able to determine the exact location or size of the fire; what we do know is that at least one fire is located within the flagged pixel.",
+            "archivedCopy": "https://web.archive.org/web/20261007083740/https://www.earthdata.nasa.gov/data/tools/firms/faq"
           },
           {
             "claim": "Anomaly types not attributed in NRT data",
             "url": "https://www.earthdata.nasa.gov/data/tools/firms/faq",
-            "quote": "Different types of thermal anomalies are not currently attributed in the NRT MODIS or VIIRS data."
+            "quote": "Different types of thermal anomalies are not currently attributed in the NRT MODIS or VIIRS data.",
+            "archivedCopy": "https://web.archive.org/web/20261007083740/https://www.earthdata.nasa.gov/data/tools/firms/faq"
           },
           {
             "claim": "No opinion on borders",
@@ -177,19 +183,22 @@
             "quote": "To obtain these data please use FIRMS active fire data. Data can be downloaded by region for the last 24h, 48h or 7 days in SHP, KML or CSV formats."
           },
           {
-            "claim": "Wording requested when FIRMS data are provided to third parties (Internet Archive copy of 12 October 2026)",
+            "claim": "Wording requested when FIRMS data are provided to third parties",
             "url": "https://www.earthdata.nasa.gov/data/tools/firms",
-            "quote": "We acknowledge the use of data and/or imagery from NASA's Fire Information for Resource Management System (FIRMS) (https://earthdata.nasa.gov/firms), part of NASA's Land, Atmosphere Near real-time Capability for Earth observations (LANCE) (https://earthdata.nasa.gov/lance) and NASA's Earth Science Data and Information System (ESDIS)."
+            "quote": "We acknowledge the use of data and/or imagery from NASA's Fire Information for Resource Management System (FIRMS) (https://earthdata.nasa.gov/firms), part of NASA's Land, Atmosphere Near real-time Capability for Earth observations (LANCE) (https://earthdata.nasa.gov/lance) and NASA's Earth Science Data and Information System (ESDIS).",
+            "archivedCopy": "https://web.archive.org/web/20261012072328/https://www.earthdata.nasa.gov/data/tools/firms"
           },
           {
-            "claim": "NASA data-use guidance (Internet Archive copy of 12 October 2026)",
+            "claim": "NASA data-use guidance",
             "url": "https://www.earthdata.nasa.gov/engage/open-data-services-software-policies/data-use-guidance",
-            "quote": "Unless the content is marked with a use restriction or license, data provided from a NASA-led mission are licensed as Creative Commons Zero (CC0)."
+            "quote": "Unless the content is marked with a use restriction or license, data provided from a NASA-led mission are licensed as Creative Commons Zero (CC0).",
+            "archivedCopy": "https://web.archive.org/web/20261012074745/https://www.earthdata.nasa.gov/engage/open-data-services-software-policies/data-use-guidance"
           },
           {
-            "claim": "How often an area is viewed (Internet Archive copy of 7 October 2026)",
+            "claim": "How often an area is viewed",
             "url": "https://www.earthdata.nasa.gov/data/tools/firms/faq",
-            "quote": "polar-orbiting sensors, such as MODIS and VIIRS, typically view the same area of Earth’s surface twice daily"
+            "quote": "polar-orbiting sensors, such as MODIS and VIIRS, typically view the same area of Earth’s surface twice daily",
+            "archivedCopy": "https://web.archive.org/web/20261007083740/https://www.earthdata.nasa.gov/data/tools/firms/faq"
           }
         ],
         "unverified": [
@@ -232,7 +241,7 @@
         "howToObtain": "https://guide.data.gov.sg/developer-guide/api-overview/how-to-request-an-api-key",
         "notes": "No key needed. data.gov.sg describes keyless access as for testing and recommends a key for production use; a key raises the rate limit. This site sends one only if DATA_GOV_SG_API_KEY is set on the server."
       },
-      "rateLimits": "v2 real-time APIs: 6 calls per 10 seconds without a key, 12 with a development key, 30 with a production key; exceeding the limit returns HTTP 429 (data.gov.sg rate-limit page). data.gov.sg announced that enforcement would begin on 31 December 2025 and says it is still fine-tuning the limits; no AI check provoked or observed a 429.",
+      "rateLimits": "v2 real-time APIs: 6 calls per 10 seconds without a key, 12 with a development key, 30 with a production key; exceeding the limit returns HTTP 429 (data.gov.sg rate-limit page). data.gov.sg announced that enforcement would begin on 31 December 2025 and says it is still fine-tuning the limits; no AI check provoked or observed a 429. OGP's update for the first quarter of 2026 says the rate limits were “rolled out incrementally”.",
       "updateFrequency": "Hourly readings, timestamped on the hour (observed). The dataset page says “Updated every 15 minutes”; data.gov.sg describes such cadences as a schedule, not a live signal.",
       "latency": "Observed by AI agents: most readings appeared 45–46 minutes after their hour on 14 October 2026, but lags of about 15 and about 61 minutes were also seen, and the 00:00–02:00 readings that night arrived 98–216 minutes late. updatedTimestamp appears to record when data.gov.sg ingested a reading, not when NEA published it.",
       "historicalAvailability": "The date parameter returns past days, but AI agents found the history incomplete: no data for 2016 and 2019 dates tested, and only 00:00–07:00 for 2021 and 2023 dates. Use NEA's historical datasets on data.gov.sg for history.",
@@ -247,7 +256,7 @@
         "basis": "observedAt",
         "recentMaxMinutes": 150,
         "staleAfterMinutes": 360,
-        "rationale": "Readings are hourly. On the days checked, each appeared on data.gov.sg between about 15 and 61 minutes after its hour, so the newest reading is normally up to about 2 hours old. After 6 hours, at least four hourly readings have been missed."
+        "rationale": "Readings are hourly. On the days checked, most appeared on data.gov.sg about 15–61 minutes after their hour, so the newest reading is normally up to about 2 hours old; on 14 October 2026 the 00:00–02:00 readings appeared 98–216 minutes late, which this rule shows as delayed. After 6 hours, at least four hourly readings have been missed."
       },
       "fields": [
         {
@@ -281,13 +290,13 @@
       "cannotShow": [
         "Where the pollution came from, or what caused it.",
         "Conditions at any single station, or anywhere outside Singapore.",
-        "Quality-controlled values: the API provides real-time data “as is”.",
-        "An official national PSI: the API returns regional values only."
+        "Quality-controlled values: data.gov.sg makes no statement about quality control of real-time values, and its API terms provide the APIs “as is”.",
+        "An official national PSI: current responses give regional values only (for some older dates the API also returns a “national” series, whose values on 1 January 2021 did not match its own sub-indices)."
       ],
       "limitations": [
         "The documented units are inconsistent: the endpoint says readings are “PSI Value” while each key's description says micrograms per cubic metre. This site uses only the index values and shows no concentrations from this endpoint.",
         "data.gov.sg provides the APIs “as is” and may suspend access for any reason (API Terms of Service).",
-        "Readings can arrive hours late, as on the night of 14–15 October 2026.",
+        "Readings can arrive hours late: in the early hours of 14 October 2026 (Singapore time), the 00:00–02:00 readings appeared 98–216 minutes after their hour.",
         "How each region's value is derived from station data is not documented in the pages read."
       ],
       "verification": {
@@ -355,7 +364,7 @@
       "rateLimits": "Same v2 real-time limits as the PSI API: 6, 12 or 30 calls per 10 seconds (no key, development key, production key).",
       "updateFrequency": "Hourly, timestamped on the hour (observed). The developer guide says “Updated hourly from NEA”; the dataset page says “Updated every 15 minutes”.",
       "latency": "Observed by AI agents: most readings appeared 45–46 minutes after their hour on 14 October 2026, but lags of about 15 and about 61 minutes were also seen, and the 00:00–02:00 readings that night arrived 98–216 minutes late. updatedTimestamp appears to record when data.gov.sg ingested a reading, not when NEA published it.",
-      "historicalAvailability": "The date parameter returns past days, but AI agents found the history incomplete: no data for 2016 and 2019 dates tested, and only 00:00–07:00 for 2021 and 2023 dates. Use NEA's historical datasets on data.gov.sg for history.",
+      "historicalAvailability": "The date parameter returns past days, but the history is incomplete: a 2023 date returned only 00:00–07:00. The 2016, 2019 and 2021 dates were tested on the PSI endpoint only. Use NEA's historical datasets on data.gov.sg for history.",
       "status": "AVAILABLE",
       "integration": "integrated",
       "licence": {
@@ -367,7 +376,7 @@
         "basis": "observedAt",
         "recentMaxMinutes": 150,
         "staleAfterMinutes": 360,
-        "rationale": "Readings are hourly. On the days checked, each appeared on data.gov.sg between about 15 and 61 minutes after its hour, so the newest reading is normally up to about 2 hours old. After 6 hours, at least four hourly readings have been missed."
+        "rationale": "Readings are hourly. On the days checked, most appeared on data.gov.sg about 15–61 minutes after their hour, so the newest reading is normally up to about 2 hours old; on 14 October 2026 the 00:00–02:00 readings appeared 98–216 minutes late, which this rule shows as delayed. After 6 hours, at least four hourly readings have been missed."
       },
       "fields": [
         {
@@ -402,9 +411,9 @@
             "quote": "Unit of measure for readings is `µg/m3`."
           },
           {
-            "claim": "Dataset name and producer",
+            "claim": "Dataset name and producer (page title)",
             "url": "https://data.gov.sg/datasets/d_e1058d6974c877257e32048ab128ad83/view",
-            "quote": "PM2.5 — National Environment Agency"
+            "quote": "PM2.5 (API) | NEA | data.gov.sg"
           }
         ],
         "unverified": [
@@ -443,7 +452,7 @@
       },
       "rateLimits": "Same v2 real-time limits as the PSI API: 6, 12 or 30 calls per 10 seconds (no key, development key, production key).",
       "updateFrequency": "Dataset description: “Minute-by-minute wind direction readings at weather station level, updated every five minutes.”",
-      "historicalAvailability": "Dataset coverage reported from 29 November 2016; past days through the date parameter.",
+      "historicalAvailability": "Dataset coverage reported from 29 November 2016; the documentation says past days can be requested with the date parameter (not tested; the same parameter returned incomplete history for PSI).",
       "status": "AVAILABLE",
       "integration": "integrated",
       "licence": {
@@ -536,7 +545,7 @@
       },
       "rateLimits": "Same v2 real-time limits: 6, 12 or 30 calls per 10 seconds (no key, development key, production key).",
       "updateFrequency": "Dataset description: “Minute-by-minute wind speed readings at weather-station level, updated every five minutes.”",
-      "historicalAvailability": "Dataset coverage reported from 8 December 2016; past days through the date parameter.",
+      "historicalAvailability": "Dataset coverage reported from 8 December 2016; the documentation says past days can be requested with the date parameter (not tested; the same parameter returned incomplete history for PSI).",
       "status": "AVAILABLE",
       "integration": "integrated",
       "licence": {
@@ -612,7 +621,7 @@
       },
       "rateLimits": "Same v2 real-time limits: 6, 12 or 30 calls per 10 seconds (no key, development key, production key).",
       "updateFrequency": "Dataset description: “Precipitation readings at weather-station level, updated every five minutes.”",
-      "historicalAvailability": "Dataset coverage reported from 2 December 2016; past days through the date parameter.",
+      "historicalAvailability": "Dataset coverage reported from 2 December 2016; the documentation says past days can be requested with the date parameter (not tested; the same parameter returned incomplete history for PSI).",
       "status": "AVAILABLE",
       "integration": "integrated",
       "licence": {
@@ -698,7 +707,7 @@
         "basis": "retrievedAt",
         "recentMaxMinutes": 360,
         "staleAfterMinutes": 1440,
-        "rationale": "A forecast carries no issue time, only the day it is for, and MET Malaysia updates it daily. Age is therefore measured from retrieval: after 6 hours a newer forecast may exist, and after a day the forecast may be for a day that has passed."
+        "rationale": "A forecast carries no issue time, only the day it is for, and MET Malaysia updates it daily. Age is therefore measured from retrieval: after 6 hours a newer forecast may exist. Separately, once the day it forecasts has ended (midnight, Malaysia time), the page marks it stale whatever its age; the 24-hour limit is a backstop."
       },
       "fields": [
         {
@@ -724,7 +733,7 @@
       ],
       "limitations": [
         "Forecasts, not observations.",
-        "A forecast that does not use “Jerebu” or “Berjerebu” is not a forecast of clear air. Each period has a single description, and the day's summary can leave out haze that a period forecast mentions: in the forecast for 15 October 2026, the period forecasts for seven states used “Jerebu” while every state's summary named thunderstorms. A search for the documented term “Berjerebu” alone would have found nothing that day.",
+        "A forecast that does not use “Jerebu” or “Berjerebu” is not a forecast of clear air. Each period has a single description, and the day's summary can leave out haze that a period forecast mentions: in the forecast for 15 October 2026, the period forecasts for seven of the 16 states and federal territories (five states and two federal territories) used “Jerebu” while every summary named thunderstorms. A search for the documented term “Berjerebu” alone would have found nothing that day.",
         "Values are published in Malay only. On 15 October 2026 the live data used “Jerebu”, and phrases such as “di kebanyakan tempat”, which the documentation's list of values does not include; such values are shown without a translation.",
         "data.gov.my states no criteria MET Malaysia uses to forecast haze."
       ],
@@ -864,6 +873,7 @@
         "The method document is a slide deck with some internal inconsistencies in its formulas; its tables were used for the page's summary.",
         "Whether hourly values are provisional or validated is not documented."
       ],
+      "notUsedBecause": "No documented public feed or downloadable dataset of current readings was found, and the reuse terms are unclear, so the page links to DOE's own page instead.",
       "verification": {
         "checkedOn": "2026-10-15",
         "checkedBy": "AI agents (Claude Code), Experiment 003: a researcher and a separate sceptic",
@@ -936,6 +946,7 @@
         "Gaps found by AI agents: PM2.5 is missing for all of 2017, every pollutant is missing for May and June 2017, and carbon monoxide is missing for all of 2024. The catalogue's own note mentions only some of these.",
         "How the national monthly value is computed from station data is not documented."
       ],
+      "notUsedBecause": "Monthly national averages, which ended in December 2024 when checked: not current conditions.",
       "verification": {
         "checkedOn": "2026-10-15",
         "checkedBy": "AI agents (Claude Code), Experiment 003",
@@ -984,6 +995,7 @@
       "limitations": [
         "Found by an AI sceptic agent through the “Legacy Site” link on data.gov.my: 18 Department of Environment Air Pollutant Index datasets. All 3 download attempts on 15 October 2026 returned HTTP 502, so contents, units and availability are unverified."
       ],
+      "notUsedBecause": "Historical datasets (2014–2020), and every download attempt failed.",
       "verification": {
         "checkedOn": "2026-10-15",
         "checkedBy": "AI sceptic agent (Claude Code), Experiment 003",
@@ -1033,6 +1045,7 @@
       "limitations": [
         "Named, not linked: NEA's Terms of Use are inconsistent on linking. Clause 4.3 allows hyperlinking for “personal, internal, non-commercial or informational purposes”, while clause 12 requires notice to NEA before linking to the home page and permission before linking to internal pages. Clause 6 forbids automated copying. Whether and how to link is a human decision."
       ],
+      "notUsedBecause": "Its robots.txt disallows automated access and NEA's terms set conditions on linking; the same NEA readings are used here through data.gov.sg.",
       "verification": {
         "checkedOn": "2026-10-15",
         "checkedBy": "AI agents (Claude Code), Experiment 003",
@@ -1092,6 +1105,7 @@
         "ASMC's alert advisories contain ASMC's own region-level analysis of where smoke drifted from. Quoted with attribution, dated and labelled as ASMC's analysis, such statements could give useful context; they must never be extended to any company, person or government. Not done on this site: it is a human decision under the terms above.",
         "ASMC's older AVHRR hotspot-count page says its counts from 2016 onward are based on the NOAA-19 satellite, but NOAA decommissioned NOAA-19 on 13 August 2025 and ended delivery of all POES data (NOAA-15, -18 and -19) on 16 June 2025. That page is not a current series."
       ],
+      "notUsedBecause": "Its terms forbid automated or manual monitoring or copying without NEA's written permission and set conditions on linking, and no working, licensed data feed was found.",
       "verification": {
         "checkedOn": "2026-10-15",
         "checkedBy": "AI agents (Claude Code), Experiment 003",
@@ -1162,6 +1176,7 @@
         "NOAA ends delivery of Suomi NPP data after 2 November 2026 at 13:00 UTC, so ASMC's Suomi NPP hotspot reports are expected to stop; the portal's pages did not mention this when read. NOAA-21 is not mentioned.",
         "The licence is contradictory: WMO discovery metadata links the Singapore Open Data Licence, which covers datasets on data.gov.sg and linked agency websites, while the portal repeats ASMC's terms of use. Needs ASMC's written confirmation before any reuse. Named, not linked, for the same reason as ASMC's main site."
       ],
+      "notUsedBecause": "A pilot: every request for hotspot data failed, only a daily image worked, and its licence is contradictory.",
       "verification": {
         "checkedOn": "2026-10-15",
         "checkedBy": "AI agents (Claude Code), Experiment 003",
@@ -1225,6 +1240,7 @@
       "limitations": [
         "Not needed: data.gov.my carries MET Malaysia forecasts without a token."
       ],
+      "notUsedBecause": "It needs a registration token; MET Malaysia's forecasts are available without one through data.gov.my, which this page uses.",
       "verification": {
         "checkedOn": "2026-10-15",
         "checkedBy": "AI agents (Claude Code), Experiment 003",
@@ -1248,7 +1264,8 @@
       "recordType": "forecast",
       "officialUrl": "https://data.bmkg.go.id/",
       "documentationUrls": [
-        "https://data.bmkg.go.id/"
+        "https://data.bmkg.go.id/",
+        "https://data.bmkg.go.id/prakiraan-cuaca/"
       ],
       "accessMethod": "rest-api",
       "authenticationRequired": false,
@@ -1256,8 +1273,8 @@
         "type": "none",
         "notes": "No key."
       },
-      "rateLimits": "“Batas akses: 60 permintaan per menit per IP” (60 requests per minute per IP address).",
-      "updateFrequency": "“Pemutakhiran data: 2 kali sehari” (updated twice a day).",
+      "rateLimits": "“Batas akses: 60 permintaan per menit per IP” (60 requests per minute per IP address), stated for the weather forecast data on the forecast page.",
+      "updateFrequency": "“Pemutakhiran data: 2 kali sehari” (updated twice a day), stated for the weather forecast data on the forecast page.",
       "status": "AVAILABLE",
       "integration": "reference-only",
       "licence": {
@@ -1274,6 +1291,7 @@
       "limitations": [
         "Listed for context: Indonesia is outside the page's first scope, but a transboundary question cannot be understood from one side of a border."
       ],
+      "notUsedBecause": "Forecasts for Indonesia, outside the page's first scope of Malaysia and Singapore; listed for context.",
       "verification": {
         "checkedOn": "2026-10-15",
         "checkedBy": "AI agents (Claude Code), Experiment 003",
@@ -1282,7 +1300,7 @@
         "evidence": [
           {
             "claim": "Attribution required",
-            "url": "https://data.bmkg.go.id/",
+            "url": "https://data.bmkg.go.id/prakiraan-cuaca/",
             "quote": "Perhatian! Wajib untuk mencantumkan BMKG (Badan Meteorologi, Klimatologi, dan Geofisika) sebagai sumber data dan menampilkannya pada aplikasi/sistem Anda."
           }
         ]
@@ -1320,6 +1338,7 @@
       "limitations": [
         "No documented data feed; its terms pull in different directions and would need a legal reading before any reuse."
       ],
+      "notUsedBecause": "No documented data feed, and its terms restrict copying.",
       "verification": {
         "checkedOn": "2026-10-15",
         "checkedBy": "AI agents (Claude Code), Experiment 003",

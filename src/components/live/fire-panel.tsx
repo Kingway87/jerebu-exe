@@ -2,6 +2,7 @@ import { ExternalLink } from "@/components/external-link";
 import type { LiveSource } from "@/lib/live/registry";
 import type { FireSummary } from "@/lib/live/sources/firms";
 import { describeBox } from "@/lib/live/study-area";
+import { fireZeroIsReported, missingParts } from "@/lib/live/summaries";
 import type { SourceSnapshot } from "@/lib/live/types";
 import { LinkedText } from "./linked-text";
 import { LocalTime } from "./local-time";
@@ -21,7 +22,7 @@ const SATELLITE_NAMES: Record<string, string> = {
 const number = new Intl.NumberFormat("en-GB");
 
 function satelliteName(code: string): string {
-  return SATELLITE_NAMES[code] ?? code;
+  return Object.hasOwn(SATELLITE_NAMES, code) ? SATELLITE_NAMES[code] : code;
 }
 
 function cellLabel(cell: { lon: number; lat: number }, size: number): string {
@@ -31,14 +32,19 @@ function cellLabel(cell: { lon: number; lat: number }, size: number): string {
 }
 
 /** A plain-language description of the map, for screen readers and as a caption. */
-function mapDescription(summary: FireSummary | null): string {
+function mapDescription(summary: FireSummary | null, zeroReported: boolean, missing: string[]): string {
+  const base = "Coastlines of Peninsular Malaysia, Singapore, Sumatra and Borneo.";
+  const incomplete =
+    missing.length > 0 ? ` Data from ${missing.join(" and ")} could not be retrieved, so the map is incomplete.` : "";
   if (!summary) {
-    return "Coastlines of Peninsular Malaysia, Singapore, Sumatra and Borneo. No satellite detections are drawn, because NASA FIRMS data could not be retrieved.";
+    return `${base} No satellite detections are drawn, because NASA FIRMS data could not be retrieved.`;
   }
   if (summary.total === 0) {
-    return "Coastlines of Peninsular Malaysia, Singapore, Sumatra and Borneo. NASA FIRMS reported no detections inside the map window for this period.";
+    return zeroReported
+      ? `${base} NASA FIRMS reported no detections inside the map window for this period.`
+      : `${base} No detections are drawn: the FIRMS files retrieved contained none inside the map window, but this page cannot confirm that they were complete and current.${incomplete}`;
   }
-  return `Coastlines of Peninsular Malaysia, Singapore, Sumatra and Borneo, with ${number.format(summary.total)} NASA FIRMS satellite detections counted in ${number.format(summary.cells.length)} grid cells of ${summary.cellSizeDegrees}° (about 11 km). Darker cells contain more detections. The table below the map lists the cells with the most detections.`;
+  return `${base} ${number.format(summary.total)} NASA FIRMS satellite detections are counted in ${number.format(summary.cells.length)} grid cells of ${summary.cellSizeDegrees}° (about 11 km). Darker cells contain more detections. The table below the map lists the cells with the most detections.${incomplete}`;
 }
 
 export interface FirePanelProps {
@@ -51,6 +57,10 @@ export function FirePanel({ snapshot, summary, source }: FirePanelProps) {
   const unavailable = snapshot.outcome === "unavailable" || snapshot.outcome === "not-configured" || !summary;
   const mode = snapshot.meta.mode;
   const outsideArea = typeof snapshot.meta.outsideArea === "number" ? snapshot.meta.outsideArea : null;
+  const outsideWindow = typeof snapshot.meta.outsideWindow === "number" ? snapshot.meta.outsideWindow : null;
+  const zeroReported = fireZeroIsReported(snapshot, source.freshness);
+  const missing = snapshot.outcome === "partial" ? missingParts(snapshot) : [];
+  const mapNotice = unavailable ? "NO DATA RETRIEVED" : summary.total === 0 && !zeroReported ? "ZERO NOT CONFIRMED" : null;
   const topCells = summary ? [...summary.cells].sort((a, b) => b.count - a.count).slice(0, 10) : [];
   const fileTimes = snapshot.requests
     .filter((r): r is typeof r & { lastModified: string } => typeof r.lastModified === "string")
@@ -76,7 +86,7 @@ export function FirePanel({ snapshot, summary, source }: FirePanelProps) {
         <>
           <dl className="grid gap-px border-2 border-ink bg-ink sm:grid-cols-2 lg:grid-cols-4">
             <div className="bg-paper p-5">
-              <dt className="label-mono text-muted">Detections in the map window</dt>
+              <dt className="label-mono text-muted">Detections in the map window, in the files retrieved</dt>
               <dd className="mt-2 font-mono text-4xl font-bold tabular-nums">{number.format(summary.total)}</dd>
             </div>
             <div className="bg-paper p-5">
@@ -117,11 +127,24 @@ export function FirePanel({ snapshot, summary, source }: FirePanelProps) {
             </div>
           </dl>
 
-          {summary.total === 0 ? (
+          {summary.total === 0 && zeroReported ? (
             <p className="max-w-3xl border-l-2 border-signal-ink pl-5 text-lg leading-relaxed">
               <strong className="font-semibold">NASA FIRMS reported no detections inside the map window for this period.</strong>{" "}
               That is a report of zero detections, not of zero fires: clouds, thick smoke, the timing of
               satellite passes and small or short-lived fires can all mean that burning goes undetected.
+            </p>
+          ) : summary.total === 0 ? (
+            <p className="max-w-3xl border-l-2 border-signal-ink pl-5 text-lg leading-relaxed">
+              <strong className="font-semibold">
+                The FIRMS files retrieved contained no detections inside the map window, but this is not a report
+                of zero detections.
+              </strong>{" "}
+              {snapshot.outcome === "partial"
+                ? "Part of NASA’s data could not be retrieved."
+                : snapshot.counts.rejected > 0
+                  ? "Some rows in NASA’s files could not be read (see the notes for this source)."
+                  : "Nothing in the files shows that NASA’s feed was current when this page retrieved them."}{" "}
+              Nothing can be said about detections in the map window from this retrieval.
             </p>
           ) : (
             <p className="max-w-3xl leading-relaxed text-muted">
@@ -151,19 +174,22 @@ export function FirePanel({ snapshot, summary, source }: FirePanelProps) {
             fires={unavailable ? null : summary}
             titleId="fire-map-title"
             descriptionId="fire-map-desc"
-            description={mapDescription(unavailable ? null : summary)}
+            description={mapDescription(unavailable ? null : summary, zeroReported, missing)}
+            notice={mapNotice}
           />
         </div>
         <figcaption className="mt-4 grid gap-6 lg:grid-cols-12">
           <div className="lg:col-span-5">
-            {unavailable ? (
+            {mapNotice ? (
               <p className="text-sm leading-relaxed font-semibold">
-                No detections are drawn because no FIRMS data was retrieved. An empty map here is not a map of
-                no fires.
+                {unavailable
+                  ? "No detections are drawn because no FIRMS data was retrieved."
+                  : "No detections are drawn, and this page cannot confirm that NASA’s files were complete and current."}{" "}
+                An empty map here is not a map of no fires.
               </p>
             ) : (
               <>
-                <p className="label-mono text-muted">Detections per cell of {summary.cellSizeDegrees}° (about 11 km)</p>
+                <p className="label-mono text-muted">Detections per cell of {summary?.cellSizeDegrees ?? 0.1}° (about 11 km)</p>
                 <ul className="mt-2 flex flex-wrap gap-x-5 gap-y-2 text-sm">
                   {DENSITY_CLASSES.map((densityClass) => (
                     <li key={densityClass.label} className="flex items-center gap-2">
@@ -236,7 +262,9 @@ export function FirePanel({ snapshot, summary, source }: FirePanelProps) {
       <div className="max-w-3xl space-y-3 text-sm leading-relaxed text-muted">
         <p>
           {mode === "area-api"
-            ? "Retrieved from the FIRMS area API for the map window, keeping detections acquired in the 24 hours before retrieval."
+            ? `Retrieved from the FIRMS area API for the map window, keeping detections acquired in the 24 hours before retrieval${
+                outsideWindow ? ` (${number.format(outsideWindow)} older detections in the map window were left out)` : ""
+              }.`
             : "Retrieved from NASA’s openly downloadable “South East Asia” files labelled “24h”, for VIIRS on NOAA-20 and NOAA-21, then limited to the map window. Despite the label, these files can include detections more than a day old; the range shown above is what they contained."}
         </p>
         {fileTimes.length > 0 ? (

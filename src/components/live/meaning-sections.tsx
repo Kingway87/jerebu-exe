@@ -30,11 +30,12 @@ export function WhatThisMeans({ summaries }: { summaries: readonly ObservationSu
         <section aria-labelledby="meaning-observed" className="border-2 border-ink p-6 sm:p-8">
           <EvidenceLevelTag level="observation" />
           <h3 id="meaning-observed" className="mt-4 text-2xl font-bold tracking-tight">
-            What the sources report now
+            What the sources last reported
           </h3>
           <p className="mt-2 text-sm leading-relaxed text-muted">
-            Generated from the data above by fixed rules in the code, not written by AI. Each line
-            restates published values.
+            Generated from the data above by fixed rules in the code; no AI model writes or changes these
+            sentences. The rules were written by an AI (Claude Code) and await human review. Each line
+            restates published values, with the time they describe.
           </p>
           {summaries.length > 0 ? (
             <ul className="mt-6 space-y-4">
@@ -51,8 +52,9 @@ export function WhatThisMeans({ summaries }: { summaries: readonly ObservationSu
             </ul>
           ) : (
             <p className="mt-6 font-semibold">
-              No source could be read when this page was built, so there are no observations to
-              restate. That is a gap in the data, not a finding.
+              None of the sources these sentences restate could be read when this page&rsquo;s data was
+              last retrieved, so there is nothing to restate here. That is a gap in the data, not a
+              finding.
             </p>
           )}
         </section>

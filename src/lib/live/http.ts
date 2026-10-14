@@ -4,6 +4,9 @@
  * - Identifies the project in the User-Agent header.
  * - Gives up after a timeout instead of hanging a build or a revalidation.
  * - Refuses oversized responses.
+ * - Does not follow redirects: every source is read only at its documented
+ *   address, and a credential sent in a header can never travel to another
+ *   host. A redirect is reported as a failure.
  * - Turns every failure into a typed, plain-language `SourceFailure`.
  *
  * Credentials: callers pass the real URL for the request and a separate,
@@ -86,7 +89,7 @@ export async function fetchText(url: string, options: FetchTextOptions): Promise
       method: "GET",
       headers: { "user-agent": USER_AGENT, ...options.headers },
       signal: AbortSignal.timeout(options.timeoutMs),
-      redirect: "follow",
+      redirect: "manual",
       // Never let Next.js answer from its own fetch cache: a cached response
       // would be shown with a retrieval time it was not retrieved at. Caching
       // happens once, around the whole snapshot (see snapshots.ts).
@@ -104,10 +107,39 @@ export async function fetchText(url: string, options: FetchTextOptions): Promise
   }
 
   const serverDate = headerDate(response, "date");
+  if (response.status >= 300 && response.status < 400) {
+    try {
+      await response.body?.cancel();
+    } catch {
+      // Nothing to release.
+    }
+    return {
+      ok: false,
+      status: response.status,
+      serverDate,
+      failure: failure(
+        "http",
+        `The source redirected the request (HTTP ${response.status}); this site reads only the documented address.`,
+        response.status,
+      ),
+    };
+  }
+
   let text: string | null;
   try {
     text = await readCapped(response, options.maxBytes);
-  } catch {
+  } catch (error) {
+    const name = error instanceof Error ? error.name : "";
+    if (name === "TimeoutError" || name === "AbortError") {
+      return {
+        ok: false,
+        status: response.status,
+        failure: failure(
+          "timeout",
+          `The response did not finish arriving within ${Math.round(options.timeoutMs / 1000)} seconds.`,
+        ),
+      };
+    }
     return {
       ok: false,
       status: response.status,

@@ -68,6 +68,8 @@ export interface LiveSource {
   canShow: string[];
   cannotShow: string[];
   limitations: string[];
+  /** For a source the page does not fetch or bundle: why, in one sentence. */
+  notUsedBecause?: string;
   verification: {
     checkedOn: string;
     checkedBy: string;
@@ -133,6 +135,17 @@ export function registryProblems(registry: LiveSourceRegistry): string[] {
       if (/[?&](api[_-]?key|map_key|token)=(?!\{)/i.test(endpoint.url)) {
         problems.push(`${at} has what looks like a real credential in an endpoint URL.`);
       }
+      // FIRMS puts its key in the URL path, so its API endpoints must keep the placeholder.
+      if (/^https:\/\/firms\.modaps\.eosdis\.nasa\.gov\/(usfs\/)?api\//.test(endpoint.url) && !endpoint.url.includes("{MAP_KEY}")) {
+        problems.push(`${at} has a FIRMS API endpoint without the {MAP_KEY} placeholder; it may contain a real key.`);
+      }
+      // A whole path segment of 32 hexadecimal characters looks like a key (FIRMS keys have that length).
+      if (/\/[0-9a-f]{32}(\/|$)/i.test(endpoint.url.split("?")[0])) {
+        problems.push(`${at} has what looks like a real credential in an endpoint URL path.`);
+      }
+    }
+    if (source.integration === "reference-only" && !source.notUsedBecause) {
+      problems.push(`${at} is not used on the page but gives no reason (notUsedBecause).`);
     }
     if (source.linkable === false && /https?:\/\//.test(source.attribution)) {
       // The page turns addresses in attributions into links.

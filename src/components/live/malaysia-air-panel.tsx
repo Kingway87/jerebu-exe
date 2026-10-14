@@ -137,8 +137,9 @@ export function MalaysiaAirPanel({ apims }: MalaysiaAirPanelProps) {
       <p className="max-w-3xl border-l-2 border-signal-ink pl-5 leading-relaxed">
         <strong className="font-semibold">Malaysia&rsquo;s API and Singapore&rsquo;s PSI are different indices.</strong>{" "}
         Different agencies calculate them with different methods. For example, DOE averages sulphur
-        dioxide and nitrogen dioxide over one hour, while NEA describes the PSI as using 24-hour
-        averages. The same number need not mean the same air, so do not compare them directly.
+        dioxide over one hour, while NEA publishes a 24-hour sulphur dioxide value and describes the PSI
+        as based on 24-hour averages. The same number need not mean the same air, so do not compare them
+        directly.
       </p>
     </div>
   );

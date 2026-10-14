@@ -8,9 +8,14 @@
  * It prints each source's outcome, times, counts and issues, so a person can
  * see at a glance whether the integrations work and what the site would show.
  *
- * Reads NASA_FIRMS_MAP_KEY and DATA_GOV_SG_API_KEY from the environment if
- * set (never printed). Exits with code 1 if any source is unavailable, so it
- * can be used in a scheduled check. It does not change any file.
+ * Reads NASA_FIRMS_MAP_KEY and DATA_GOV_SG_API_KEY from the environment, or
+ * from .env.local if that file exists (as Next.js does); the values are never
+ * printed. Exits with code 1 if any source is unavailable, so it can be used
+ * in a scheduled check. It does not change any file.
+ *
+ * Without a data.gov.sg key, do not run it at the same moment as a build or a
+ * serving copy of the site on the same network address: data.gov.sg's keyless
+ * limit is 6 calls per 10 seconds, and it does not say how calls are counted.
  */
 
 import {
@@ -27,6 +32,12 @@ import { classifyFreshness } from "../src/lib/live/freshness";
 import { getLiveSource } from "../src/lib/live/registry";
 import { summariseDetections } from "../src/lib/live/sources/firms";
 import type { ForecastSnapshot, SourceSnapshot } from "../src/lib/live/types";
+
+try {
+  process.loadEnvFile(".env.local");
+} catch {
+  // No .env.local: use the shell environment only.
+}
 
 const context: LoaderContext = { now: () => new Date(), dataGovSgApiKey: process.env.DATA_GOV_SG_API_KEY };
 

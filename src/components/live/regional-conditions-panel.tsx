@@ -70,11 +70,12 @@ export function RegionalConditionsPanel({
   sources,
   regionalContext,
 }: RegionalConditionsPanelProps) {
-  const windOk = windDirection.outcome === "ok" || windSpeed.outcome === "ok";
-  const rows = stationRows(
-    windDirection.outcome === "ok" ? windDirection.observations : [],
-    windSpeed.outcome === "ok" ? windSpeed.observations : [],
-  );
+  const directionOk = windDirection.outcome === "ok";
+  const speedOk = windSpeed.outcome === "ok";
+  const windOk = directionOk || speedOk;
+  const rows = stationRows(directionOk ? windDirection.observations : [], speedOk ? windSpeed.observations : []);
+  const directionTime = directionOk ? windDirection.latestObservedAt : null;
+  const speedTime = speedOk ? windSpeed.latestObservedAt : null;
 
   const rainOk = rainfall.outcome === "ok";
   const rainReadings = rainOk ? rainfall.observations.filter((o) => o.value !== null) : [];
@@ -92,13 +93,36 @@ export function RegionalConditionsPanel({
           from: that needs transport modelling over hours to days.
         </p>
 
+        {windOk && !directionOk ? (
+          <div className="mt-6">
+            <UnavailableNotice
+              headline="Singapore wind direction readings unavailable."
+              snapshot={windDirection}
+              notMeaning="The direction column is empty because nothing was retrieved, not because the air is calm."
+            />
+          </div>
+        ) : null}
+        {windOk && !speedOk ? (
+          <div className="mt-6">
+            <UnavailableNotice
+              headline="Singapore wind speed readings unavailable."
+              snapshot={windSpeed}
+              notMeaning="The speed column is empty because nothing was retrieved, not because the air is calm."
+            />
+          </div>
+        ) : null}
         {windOk ? (
           <div className="mt-6 overflow-x-auto">
             <table className="w-full min-w-[32rem] border-collapse text-left">
               <caption className="label-mono pb-3 text-left text-muted">
-                {windDirection.latestObservedAt ? (
+                {directionTime && speedTime && directionTime !== speedTime ? (
                   <>
-                    Readings for <LocalTime iso={windDirection.latestObservedAt} />
+                    Direction readings for <LocalTime iso={directionTime} />; speed readings for{" "}
+                    <LocalTime iso={speedTime} />
+                  </>
+                ) : directionTime ?? speedTime ? (
+                  <>
+                    Readings for <LocalTime iso={(directionTime ?? speedTime) as string} />
                   </>
                 ) : (
                   "Reading time unavailable"
@@ -125,7 +149,7 @@ export function RegionalConditionsPanel({
                     </th>
                     <td className="py-2.5 pr-4 font-mono tabular-nums">
                       {row.direction === null ? (
-                        <span className="font-sans text-muted">No reading</span>
+                        <span className="font-sans text-muted">{directionOk ? "No reading" : "Not retrieved"}</span>
                       ) : (
                         <>
                           {row.direction}° <span className="text-muted">({compassPoint(row.direction)})</span>
@@ -133,7 +157,11 @@ export function RegionalConditionsPanel({
                       )}
                     </td>
                     <td className="py-2.5 font-mono tabular-nums">
-                      {row.speed === null ? <span className="font-sans text-muted">No reading</span> : row.speed}
+                      {row.speed === null ? (
+                        <span className="font-sans text-muted">{speedOk ? "No reading" : "Not retrieved"}</span>
+                      ) : (
+                        row.speed
+                      )}
                     </td>
                   </tr>
                 ))}
@@ -141,12 +169,19 @@ export function RegionalConditionsPanel({
             </table>
           </div>
         ) : (
-          <div className="mt-6">
+          <div className="mt-6 space-y-6">
             <UnavailableNotice
               headline="Singapore wind readings unavailable."
-              snapshot={windDirection.outcome === "ok" ? windSpeed : windDirection}
+              snapshot={windDirection}
               notMeaning="This is not calm air. No wind reading was retrieved."
             />
+            {windSpeed.failure?.message !== windDirection.failure?.message ? (
+              <UnavailableNotice
+                headline="The wind speed readings could not be retrieved either."
+                snapshot={windSpeed}
+                notMeaning="Nothing was retrieved, so nothing can be said about wind speed from this page."
+              />
+            ) : null}
           </div>
         )}
         <p className="mt-4 max-w-3xl text-sm leading-relaxed text-muted">
@@ -160,7 +195,7 @@ export function RegionalConditionsPanel({
         <h3 className="text-2xl font-bold tracking-tight">Rainfall at Singapore weather stations</h3>
         {rainOk ? (
           <p className="mt-3 max-w-3xl text-lg leading-relaxed">
-            In the five minutes to{" "}
+            In the 5-minute rainfall totals for{" "}
             {rainfall.latestObservedAt ? <LocalTime iso={rainfall.latestObservedAt} /> : "the latest reading"},{" "}
             {raining.length === 0 ? (
               <>none of the {rainReadings.length} stations that reported a value recorded rain.</>

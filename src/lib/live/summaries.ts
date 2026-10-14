@@ -8,6 +8,7 @@
  * elsewhere) rather than a sentence about nothing.
  */
 
+import { freshnessAtRetrieval, type FreshnessPolicy } from "./freshness";
 import type { FireSummary } from "./sources/firms";
 import { regionLabel } from "./sources/datagovsg";
 import { formatLocalDateTime, LOCAL_ZONE_LABEL } from "./time";
@@ -78,19 +79,45 @@ export function pm25Summary(snapshot: SourceSnapshot): Summary | null {
   };
 }
 
+type FireSnapshot = Pick<SourceSnapshot, "outcome" | "retrievedAt" | "latestObservedAt" | "counts" | "requests">;
+
+/**
+ * Whether zero detections in the map window can be reported as NASA's own
+ * zero: every file was retrieved, no row was rejected, and the newest
+ * detection in NASA's files shows that the feed was current. Otherwise zero
+ * may only mean that this site could not read or date what NASA published.
+ */
+export function fireZeroIsReported(snapshot: FireSnapshot, policy: FreshnessPolicy | null): boolean {
+  if (snapshot.outcome !== "ok" || snapshot.counts.rejected > 0 || !policy) return false;
+  return freshnessAtRetrieval(snapshot, policy)?.state === "recent";
+}
+
+/** "VIIRS on NOAA-21", for each request that failed: the parts of a partial retrieval that are missing. */
+export function missingParts(snapshot: Pick<SourceSnapshot, "requests">): string[] {
+  return snapshot.requests.filter((r) => r.failure !== null).map((r) => r.label);
+}
+
 export function fireSummarySentence(
-  snapshot: Pick<SourceSnapshot, "outcome">,
+  snapshot: FireSnapshot,
   summary: FireSummary | null,
+  policy: FreshnessPolicy | null,
 ): Summary | null {
   if (!usable(snapshot) || !summary) return null;
+  const missing = missingParts(snapshot);
+  const incomplete =
+    snapshot.outcome === "partial" && missing.length > 0
+      ? ` Data from ${missing.join(" and ")} could not be retrieved, so this count is incomplete.`
+      : "";
   if (summary.total === 0) {
     return {
-      text: "NASA FIRMS reported no VIIRS detections inside the map window in the files retrieved. Zero detections is not zero fires.",
+      text: fireZeroIsReported(snapshot, policy)
+        ? "NASA FIRMS reported no VIIRS detections inside the map window in the files retrieved. Zero detections is not zero fires."
+        : `The NASA FIRMS files retrieved contained no VIIRS detections inside the map window, but this page cannot confirm that they were complete and current, so this is not a report of zero detections.${incomplete}`,
       source: "NASA FIRMS",
     };
   }
   return {
-    text: `VIIRS instruments on NOAA satellites recorded ${number.format(summary.total)} thermal-anomaly detections inside the map window, acquired between ${at(summary.earliest)} and ${at(summary.latest)}. Detections are not fires, and say nothing about cause.`,
+    text: `VIIRS instruments on NOAA satellites recorded ${number.format(summary.total)} thermal-anomaly detections inside the map window, acquired between ${at(summary.earliest)} and ${at(summary.latest)}. Detections are not fires, and say nothing about cause.${incomplete}`,
     source: "NASA FIRMS",
   };
 }
@@ -113,8 +140,8 @@ export function rainfallSummary(snapshot: SourceSnapshot): Summary | null {
   return {
     text:
       raining === 0
-        ? `In the five minutes to ${at(snapshot.latestObservedAt)}, none of the ${values.length} Singapore rain gauges that reported a value recorded rain.`
-        : `In the five minutes to ${at(snapshot.latestObservedAt)}, ${raining} of the ${values.length} Singapore rain gauges that reported a value recorded rain.`,
+        ? `In the 5-minute rainfall totals for ${at(snapshot.latestObservedAt)}, none of the ${values.length} Singapore rain gauges that reported a value recorded rain.`
+        : `In the 5-minute rainfall totals for ${at(snapshot.latestObservedAt)}, ${raining} of the ${values.length} Singapore rain gauges that reported a value recorded rain.`,
     source: "MSS via data.gov.sg",
   };
 }

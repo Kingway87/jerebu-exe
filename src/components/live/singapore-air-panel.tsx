@@ -113,11 +113,20 @@ export function SingaporeAirPanel({ psi, pm25, psiSource, pm25Source }: Singapor
 
   if (!psiOk && !pm25Ok) {
     return (
-      <UnavailableNotice
-        headline="Singapore air-quality source unavailable."
-        snapshot={psi}
-        notMeaning="This is not a reading of clean or of polluted air. No reading was retrieved."
-      />
+      <div className="space-y-8">
+        <UnavailableNotice
+          headline="Singapore air-quality source unavailable."
+          snapshot={psi}
+          notMeaning="This is not a reading of clean or of polluted air. No reading was retrieved."
+        />
+        <UnavailableNotice
+          headline="The 1-hour PM2.5 readings could not be retrieved either."
+          snapshot={pm25}
+          notMeaning="Nothing was retrieved, so nothing can be said about PM2.5 from this page."
+        />
+        <Provenance source={psiSource} snapshot={psi} observedLabel="PSI reading for" />
+        <Provenance source={pm25Source} snapshot={pm25} observedLabel="PM2.5 reading for" />
+      </div>
     );
   }
 
@@ -143,7 +152,7 @@ export function SingaporeAirPanel({ psi, pm25, psiSource, pm25Source }: Singapor
                 Set by
               </th>
               <th scope="col" className="py-3 pr-4 font-normal">
-                1-hour PM2.5 (µg/m³)
+                1-hour PM2.5 <span className="normal-case">(µg/m³)</span>
               </th>
               <th scope="col" className="py-3 font-normal">
                 NEA band
@@ -160,12 +169,16 @@ export function SingaporeAirPanel({ psi, pm25, psiSource, pm25Source }: Singapor
                     {regionLabel(region)}
                   </th>
                   <td className="py-3 pr-4 font-mono text-2xl font-bold tabular-nums">
-                    {psiValue ?? <span className="text-base font-normal text-muted">No reading</span>}
+                    {psiValue ?? (
+                      <span className="text-base font-normal text-muted">{psiOk ? "No reading" : "Not retrieved"}</span>
+                    )}
                   </td>
                   <td className="py-3 pr-4">{band(PSI_BANDS, psiValue) ?? "—"}</td>
                   <td className="py-3 pr-4 text-muted">{psiOk ? (determiningPollutant(psi.observations, region) ?? "—") : "—"}</td>
                   <td className="py-3 pr-4 font-mono text-2xl font-bold tabular-nums">
-                    {pm25Value ?? <span className="text-base font-normal text-muted">No reading</span>}
+                    {pm25Value ?? (
+                      <span className="text-base font-normal text-muted">{pm25Ok ? "No reading" : "Not retrieved"}</span>
+                    )}
                   </td>
                   <td className="py-3">{band(PM25_BANDS, pm25Value) ?? "—"}</td>
                 </tr>
@@ -199,6 +212,11 @@ export function SingaporeAirPanel({ psi, pm25, psiSource, pm25Source }: Singapor
           </dd>
         </div>
       </dl>
+
+      <p className="max-w-3xl text-sm leading-relaxed text-muted">
+        <strong className="font-semibold text-ink">Real-time values.</strong> data.gov.sg provides them &ldquo;as
+        is&rdquo;, and whether NEA later revises them is not documented in the pages read for this site.
+      </p>
 
       {!psiOk ? (
         <UnavailableNotice

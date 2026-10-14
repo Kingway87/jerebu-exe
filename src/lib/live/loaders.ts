@@ -43,11 +43,12 @@ export interface LoaderContext {
 
 /* ─────────────────────────────── Shared helpers ─────────────────────────────── */
 
+/** The newest observation time among real values. Future-dated values are not used to judge freshness. */
 function latestObservedAt(observations: readonly Observation[]): string | null {
   let latest: string | null = null;
   let latestMs = -Infinity;
   for (const observation of observations) {
-    if (observation.value === null) continue;
+    if (observation.value === null || observation.qualityFlags.includes("future-timestamp")) continue;
     const ms = Date.parse(observation.observedAt);
     if (ms > latestMs) {
       latestMs = ms;
@@ -161,7 +162,7 @@ async function loadDataGovSg(
  * units are not consistently documented.
  */
 export const PSI_METRICS: readonly RegionalMetricSpec[] = [
-  { key: "psi_twenty_four_hourly", metric: "psi_24h", unit: "index", averaging: "24-hour", min: 0, max: 1000 },
+  { key: "psi_twenty_four_hourly", metric: "psi_24h", unit: "index", averaging: "24-hour", min: 0, max: 1000, required: true },
   { key: "pm25_sub_index", metric: "pm25_sub_index", unit: "index", min: 0, max: 1000 },
   { key: "pm10_sub_index", metric: "pm10_sub_index", unit: "index", min: 0, max: 1000 },
   { key: "o3_sub_index", metric: "o3_sub_index", unit: "index", min: 0, max: 1000 },
@@ -178,6 +179,7 @@ export const PM25_METRICS: readonly RegionalMetricSpec[] = [
     averaging: "1-hour",
     min: 0,
     max: 2000,
+    required: true,
   },
 ];
 
@@ -292,10 +294,19 @@ export const FIRMS_API_PRODUCTS = [
 export const FIRMS_API_DAY_RANGE = 2;
 export const FIRMS_API_WINDOW_HOURS = 24;
 
-const FIRMS_TIMEOUT_MS = 30_000;
+/** Timeout for one FIRMS request, including reading the body. */
+export const FIRMS_TIMEOUT_MS = 30_000;
+/**
+ * Time allowed for all FIRMS requests together. Next.js stops a "use cache"
+ * function that runs longer than 54 seconds while prerendering (0.9 × the
+ * default staticPageGenerationTimeout of 60 s), which would fail the build
+ * instead of showing FIRMS as unavailable. The second request gets whatever
+ * remains of this budget.
+ */
+export const FIRMS_TOTAL_BUDGET_MS = 45_000;
 const FIRMS_MAX_BYTES = 30_000_000;
 /** FIRMS's robots.txt asks for "Crawl-delay: 1", so its requests are made one at a time, a second apart. */
-const FIRMS_REQUEST_GAP_MS = 1_000;
+export const FIRMS_REQUEST_GAP_MS = 1_000;
 
 const pause = (ms: number) => new Promise<void>((resolve) => setTimeout(resolve, ms));
 
@@ -352,9 +363,13 @@ export async function loadFirms(context: LoaderContext, mapKey: string | undefin
     ? FIRMS_API_PRODUCTS.map((p) => ({ label: p.label, url: firmsAreaUrl(key, p.product) }))
     : FIRMS_OPEN_FILES.map((f) => ({ label: f.label, url: f.url }));
 
-  const fetchOne = async (label: string, url: string): Promise<{ request: SourceRequest; normalised: FirmsNormalised | null }> => {
+  const fetchOne = async (
+    label: string,
+    url: string,
+    timeoutMs: number,
+  ): Promise<{ request: SourceRequest; normalised: FirmsNormalised | null }> => {
     const response = await fetchText(url, {
-      timeoutMs: FIRMS_TIMEOUT_MS,
+      timeoutMs,
       maxBytes: FIRMS_MAX_BYTES,
       headers: { accept: "text/csv" },
       fetchImpl: context.fetchImpl,
@@ -386,11 +401,13 @@ export async function loadFirms(context: LoaderContext, mapKey: string | undefin
     return { request, normalised: parsed.value };
   };
 
-  // One request at a time, a second apart, as FIRMS's robots.txt asks.
+  // One request at a time, a second apart, as FIRMS's robots.txt asks, within one overall budget.
+  const deadline = Date.now() + FIRMS_TOTAL_BUDGET_MS;
   const results: { request: SourceRequest; normalised: FirmsNormalised | null }[] = [];
   for (const [index, { label, url }] of plan.entries()) {
     if (index > 0 && !context.skipPauses) await pause(FIRMS_REQUEST_GAP_MS);
-    results.push(await fetchOne(label, url));
+    const timeoutMs = Math.max(1_000, Math.min(FIRMS_TIMEOUT_MS, deadline - Date.now()));
+    results.push(await fetchOne(label, url, timeoutMs));
   }
 
   const requests = results.map((r) => r.request);
@@ -399,10 +416,16 @@ export async function loadFirms(context: LoaderContext, mapKey: string | undefin
   if (results.every((r) => r.normalised === null)) {
     const failures = requests.map((r) => r.failure).filter((f): f is SourceFailure => f !== null);
     const first = failures[0] ?? { kind: "network" as const, message: "No FIRMS request succeeded." };
-    const sameKind = failures.every((f) => f.kind === first.kind);
+    const sameKind = failures.every((f) => f.kind === first.kind && f.message === first.message);
+    // When the requests failed differently, say so for each one: the page shows no request list.
     const failure: SourceFailure = sameKind
       ? first
-      : { kind: first.kind, message: `${first.message} The other request failed for a different reason; see the request list.` };
+      : {
+          kind: first.kind,
+          message: requests
+            .map((r) => `${r.label}: ${r.failure?.message ?? "Failed."}${r.failure?.httpStatus ? ` (HTTP ${r.failure.httpStatus})` : ""}`)
+            .join(" "),
+        };
     return unavailable(sourceId, retrievedAt, requests, failure, [], meta);
   }
 
