@@ -1,6 +1,6 @@
 # Roadmap
 
-> **Draft, subject to human decision.** An AI agent (Claude Code) wrote this roadmap during [Experiment 001](../experiments/001-autonomous-bootstrap.md), from the founder's brief. No human has reviewed it yet.
+> **Draft, subject to human decision.** An AI agent (Claude Code) wrote this roadmap during [Experiment 001](../experiments/001-autonomous-bootstrap.md), from the founder's brief, and updated the parts about Experiment 003 during [that experiment](../experiments/003-live-evidence.md). No human has reviewed it yet.
 >
 > **No dates are committed.** There are no timelines, deadlines or release targets. Within *Next* and *Later*, the order is not a commitment either. Any experiment may be changed, merged, split, reordered or dropped.
 
@@ -56,6 +56,27 @@ The full record is in [`experiments/001-autonomous-bootstrap.md`](../experiments
 
 **What it does not do:** It does not deploy, display live data, collect personal data, publish to social media, or contact anyone.
 
+### 003: Live evidence
+
+**Status:** In progress on the branch `experiment/003-live-evidence`. AI build complete; awaiting human review; **not merged, not deployed**. Experiment 002 ran independently and was not required.
+
+**Question:** Can JEREBU.EXE collect, normalise and present current public environmental observations relevant to transboundary haze affecting Malaysia and Singapore without confusing observation, interpretation, attribution or legal responsibility?
+
+This question comes from the founder's brief for Experiment 003. It replaces the earlier planned question for 003, "Satellite evidence", which the brief folded into a wider experiment.
+
+**What it produced (on the branch):**
+
+- A `/live` page showing NASA FIRMS satellite fire detections (counts and a map), Singapore's PSI and PM2.5 by region, wind and rainfall at Singapore's weather stations, and MET Malaysia's forecast by state. Each comes with its source, observation time, retrieval time and a freshness status, and fails honestly: missing data is never shown as zero.
+- A machine-readable register of the 17 sources investigated: [`data/live-sources.json`](../data/live-sources.json).
+- Malaysia's Air Pollutant Index linked, not copied, because no documented public feed of current readings was found; ASMC named, not linked, because of its terms of use.
+- Deterministic code with tests. No AI model processes any value.
+
+Details: [`LIVE_EVIDENCE.md`](LIVE_EVIDENCE.md) and the record, [`experiments/003-live-evidence.md`](../experiments/003-live-evidence.md).
+
+**Still to happen (human):** the review checklist in the record, including whether to accept integration before human evaluation, how to refer to NEA and ASMC, and how to host a page whose data refreshes.
+
+**What it does not do:** attribution of any kind, company or land-ownership data, history or trends, AI interpretation, tracking, or deployment.
+
 ---
 
 ## Next
@@ -85,30 +106,6 @@ The full record is in [`experiments/001-autonomous-bootstrap.md`](../experiments
 - Rank or blame jurisdictions.
 - Make health claims of its own.
 - Present an uncited event as fact.
-
-### 003: Satellite evidence
-
-**Question:** Can public satellite fire observations be presented so that non-specialists understand what a hotspot does — and does not — show?
-
-**What it might produce:**
-
-- A plain-language explainer of what a satellite hotspot is, how it is detected, and what it cannot show.
-- Possibly a view of public fire-detection data, for example from NASA FIRMS or ASMC once they are evaluated. Every view would show its source, observation time, retrieval time and known limits.
-
-**Preconditions and risks:**
-
-- **HOTSPOT ≠ FIRE ≠ RESPONSIBILITY.** A hotspot is a satellite detection of a thermal anomaly. It is not a confirmed fire. A fire, even a confirmed one, does not show who caused it, who is responsible, or whether any law was broken.
-- **Detections can be missed.** Cloud cover, the timing of satellite passes and the resolution of the instrument all affect what is detected. The operators' own documentation must be read and summarised accurately.
-- **Static architecture.** The site is static by design, and its build fails if any page needs request-time data. Showing data means either fetching it at build time with a visible snapshot date, or a written, human-approved change of architecture.
-- **Keys and terms.** The FIRMS API needs a key. Keys go only in environment variables, never in the repository. Terms, licences and rate limits must be respected (see [Rules for future integrations](DATA_SOURCES.md#rules-for-future-integrations)).
-- **Service changes.** Search results reported upcoming changes to satellite data products. These must be checked when the experiment starts, because they may affect continuity.
-
-**What it will not do:**
-
-- Present a hotspot as a confirmed fire.
-- Overlay land-ownership or concession data to suggest who is responsible.
-- Name companies or individuals.
-- Claim to be "real-time" when it is not.
 
 ### 004: Legal landscape
 
@@ -194,7 +191,7 @@ The full record is in [`experiments/001-autonomous-bootstrap.md`](../experiments
 
 **What it might produce:**
 
-- Scheduled collection of data from sources that have been *Evaluated*.
+- Scheduled collection of data from sources that have been *Evaluated*. (Experiment 003's `/live` page refreshes its data in the background, but it stores no history, monitors nothing and sends no alerts.)
 - Draft reports or alerts, sent to maintainers for review, never directly to the public.
 
 **Preconditions and risks:**
@@ -222,14 +219,14 @@ The founder's brief sketches a long-term evidence pipeline:
 PUBLIC DATA → INGESTION → NORMALISATION → EVIDENCE STORE → AI ANALYSIS → SOURCE VERIFICATION → HUMAN REVIEW → PUBLIC REPORT
 ```
 
-> **Not implemented.** None of these stages exists in code. The site shows this diagram on `/evidence`, labelled "Not implemented in V0". It is a direction of travel, not a design, and it may change as experiments teach us more.
+> **Not implemented as a whole.** The site shows this diagram on `/evidence`, labelled "Not implemented in V0". It is a direction of travel, not a design, and it may change as experiments teach us more. Experiment 003 implements a narrow, separate path for current observations on `/live` (source → fetch → validate → normalise → cache → display), described in [`LIVE_EVIDENCE.md`](LIVE_EVIDENCE.md). It keeps no evidence store and has no AI stage.
 
 | Stage | Intended purpose | Status |
 | --- | --- | --- |
-| Public data | Official and open sources, evaluated first | Not implemented |
-| Ingestion | Collected with provenance: source, URL, retrieval time, version, licence | Not implemented |
-| Normalisation | Comparable formats and units, without hiding differences between methods | Not implemented |
-| Evidence store | Versioned and citable, with raw data kept apart from processed data | Not implemented |
+| Public data | Official and open sources, evaluated first | Partly, on the Experiment 003 branch: seven official feeds on `/live`, evaluated by AI agents only |
+| Ingestion | Collected with provenance: source, URL, retrieval time, version, licence | Partly, on the Experiment 003 branch: each retrieval records source, URL, retrieval time, server date and validation results |
+| Normalisation | Comparable formats and units, without hiding differences between methods | Partly, on the Experiment 003 branch: one observation format; units kept as published, different indices not converted |
+| Evidence store | Versioned and citable, with raw data kept apart from processed data | Not implemented (Experiment 003 caches the latest snapshots only) |
 | AI analysis | Assists; does not decide | Not implemented |
 | Source verification | Every claim traced back to a source | Not implemented |
 | Human review | Required before publication | Not implemented |
@@ -267,6 +264,10 @@ None of these would be added without a documented experiment, a stated need and 
 These decisions belong to the founder or future maintainers. They are listed so that they are not made by default, or by an AI.
 
 - **Review of Experiment 001.** Accept, change or reject the bootstrap pull request, and record any corrections.
+- **Review of Experiment 003.** Accept, change or reject the live evidence branch, using the checklist in its record. This includes whether a source may be integrated before a human has evaluated it (the branch uses an interim status, "integrated, pending evaluation"), and the order in which Experiments 002 and 003 are merged.
+- **Referring to NEA and ASMC.** Their terms of use set conditions on linking and forbid automated copying, and are internally inconsistent. Whether to link to them, ask them, or only name them.
+- **Asking DOE and ASMC for data.** Whether to ask DOE Malaysia for a documented feed of current Air Pollutant Index readings, and ASMC about its regional data, and who asks.
+- **Live data hosting and keys.** `/live` refreshes its data only on a host that runs Next.js. Whether to use such a host, and whether to obtain a data.gov.sg API key (recommended for production) and a NASA FIRMS MAP_KEY (optional).
 - **Hosting and deployment.** Whether to deploy at all, and if so where, when and under whose account. The site is static, so many hosts would work. Nothing is deployed, and an AI agent must not deploy to production without human approval.
 - **Domain.** Whether to register a domain, and which one. The AI was instructed not to buy one.
 - **Languages.** Whether to add Malay (Bahasa Melayu) and Indonesian (Bahasa Indonesia) versions, and possibly other languages used in the region. Also how translations would be produced and checked.
@@ -289,4 +290,4 @@ These decisions belong to the founder or future maintainers. They are listed so 
 
 ---
 
-<sub>AI involvement: this document is **AI GENERATED**. Claude Code wrote it during Experiment 001 from the founder's brief. It is a **draft** and has not been reviewed by a human. The experiment questions are taken from `src/content/experiments.ts`. The descriptions of what each experiment might produce are proposals, not commitments.</sub>
+<sub>AI involvement: this document is **AI GENERATED**. Claude Code wrote it during Experiment 001 from the founder's brief, and updated it during Experiment 003. It is a **draft** and has not been reviewed by a human. The experiment questions are taken from `src/content/experiments.ts`. The descriptions of what each experiment might produce are proposals, not commitments.</sub>

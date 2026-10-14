@@ -51,20 +51,19 @@ To propose a new experiment, or to challenge an existing one, see [Proposing an 
 | --- | --- | --- | --- |
 | 001 | AUTONOMOUS PROJECT BOOTSTRAP | In progress — AI build complete, human review pending | [001-autonomous-bootstrap.md](001-autonomous-bootstrap.md) |
 | 002 | HAZE HISTORY | Planned | No record yet |
-| 003 | SATELLITE EVIDENCE | Planned | No record yet |
+| 003 | LIVE EVIDENCE | In progress — AI build complete on branch `experiment/003-live-evidence`, human review pending, not merged | [003-live-evidence.md](003-live-evidence.md) |
 | 004 | LEGAL LANDSCAPE | Planned | No record yet |
 | 005 | EVIDENCE AGENT | Planned | No record yet |
 | 006 | COMMUNITY ACTION | Planned | No record yet |
 | 007 | AUTOMATED PUBLIC MONITORING | Planned | No record yet |
 
-Experiment 001 is not deployed. Human review is required before production deployment.
+Experiments 001 and 003 are not deployed. Human review is required before production deployment. Experiment 003 was defined by a later brief from the founder, which replaced the earlier planned question for 003 ("Satellite evidence") with the question in its record.
 
 ### Planned questions
 
-None of these experiments has started, and nothing has been produced for them. The names of 002 to 006 come from the founder's brief. Experiment 007 comes from the brief's list of future architecture. The questions below were drafted by AI during Experiment 001 and are awaiting human review. Their order, scope and wording may change.
+None of these experiments had started when this list was written, and it describes no results. The names of 002 to 006 come from the founder's brief for Experiment 001 (003 has since been redefined and started; see the index). Experiment 007 comes from the brief's list of future architecture. The questions below were drafted by AI during Experiment 001 and are awaiting human review. Their order, scope and wording may change.
 
 - **002 Haze history.** Can a sourced, checkable timeline of past haze episodes affecting Malaysia and Singapore be assembled from public records?
-- **003 Satellite evidence.** Can public satellite fire observations be presented so that non-specialists understand what a hotspot does — and does not — show?
 - **004 Legal landscape.** Which laws, agreements and policies are relevant to transboundary haze in Malaysia and Singapore, according to primary sources?
 - **005 Evidence agent.** Can an AI research agent find and cite public evidence reliably enough to assist — not replace — human reviewers?
 - **006 Community action.** Which legitimate, lawful forms of civic participation can the project support without collecting sensitive personal data?

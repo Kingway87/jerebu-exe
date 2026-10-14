@@ -4,9 +4,9 @@
 
 An open-source experiment using AI agents and public data to investigate recurring transboundary haze in Southeast Asia.
 
-> **Status (14 October 2026):** V0, bootstrapped by an AI coding agent in [Experiment 001](experiments/001-autonomous-bootstrap.md). Awaiting human review. Not deployed. No live data.
+> **Status (15 October 2026):** V0, bootstrapped by an AI coding agent in [Experiment 001](experiments/001-autonomous-bootstrap.md). Awaiting human review. Not deployed. On the branch `experiment/003-live-evidence`, [Experiment 003](experiments/003-live-evidence.md) adds a `/live` page of current official observations; it is not merged and awaits human review.
 
-[Methodology](docs/METHODOLOGY.md) · [Data sources](docs/DATA_SOURCES.md) · [AI transparency](docs/AI_TRANSPARENCY.md) · [Roadmap](docs/ROADMAP.md) · [Experiments](experiments/README.md) · [Contributing](CONTRIBUTING.md)
+[Methodology](docs/METHODOLOGY.md) · [Data sources](docs/DATA_SOURCES.md) · [Live evidence](docs/LIVE_EVIDENCE.md) · [AI transparency](docs/AI_TRANSPARENCY.md) · [Roadmap](docs/ROADMAP.md) · [Experiments](experiments/README.md) · [Contributing](CONTRIBUTING.md)
 
 ---
 
@@ -14,7 +14,7 @@ An open-source experiment using AI agents and public data to investigate recurri
 
 JEREBU.EXE is an independent, open-source civic-tech experiment. It explores whether AI agents, public environmental data and community participation can help people understand recurring transboundary haze affecting Malaysia and Singapore. _Jerebu_ is the Malay word for haze.
 
-V0 is a small static website with four pages: `/` (overview), `/evidence` (how evidence is judged), `/experiments` (the public experiment log) and `/about`.
+V0 is a small static website with four pages: `/` (overview), `/evidence` (how evidence is judged), `/experiments` (the public experiment log) and `/about`. Experiment 003 adds a fifth, `/live`: current satellite fire detections, Singapore's air-quality readings, Singapore's weather measurements and MET Malaysia's forecast, each with its source, its time and its limits. It shows evidence, not accusations.
 
 It is **not** an official Malaysian or Singaporean initiative, a law firm, a scientific authority, an accusation platform, or a system for identifying guilty companies. It is not an anti-Indonesia or anti-government campaign: people in Indonesia are also affected by fires and haze. The project is **not affiliated with or endorsed by Anthropic or any government.**
 
@@ -39,15 +39,17 @@ A future evidence pipeline is sketched on `/evidence` (public data → ingestion
 
 ## Status
 
-At the time of writing (14 October 2026):
+At the time of writing (15 October 2026):
 
 | Area | State |
 | --- | --- |
 | V0 build | Bootstrapped by Claude Code, an AI coding agent made by Anthropic, in Experiment 001, from a written brief by the human founder |
 | Human review | Pending. The work is submitted as a pull request against `main` |
 | Deployment | **Not deployed.** There is no production URL |
-| Data | **No live data.** No data source is connected. 27 candidate sources are listed on `/evidence` (from [`src/content/sources.ts`](src/content/sources.ts)), a curated subset of the 45 candidate data sources recorded with caveats in [`docs/DATA_SOURCES.md`](docs/DATA_SOURCES.md). They were located by web search only: the AI could not open the pages, and none has yet been evaluated by a human |
-| Experiments 002–007 | Planned. Not started |
+| Data | On `main`: none. On the Experiment 003 branch: `/live` reads seven official feeds (NASA FIRMS; NEA and MSS via data.gov.sg; MET Malaysia via data.gov.my) on the server, with no credentials, and shows each with its source and age. The 17 sources investigated are in [`data/live-sources.json`](data/live-sources.json). AI agents checked them; no human has evaluated any source yet. 27 candidate sources are listed on `/evidence` (from [`src/content/sources.ts`](src/content/sources.ts)), a curated subset of the 45 recorded with caveats in [`docs/DATA_SOURCES.md`](docs/DATA_SOURCES.md) |
+| Experiment 002 | Running independently on its own branch |
+| Experiment 003 | AI build complete on `experiment/003-live-evidence`; human review pending; not merged |
+| Experiments 004–007 | Planned. Not started |
 | Cost of Experiment 001 | To be recorded after session |
 
 ## Tech stack
@@ -57,9 +59,9 @@ At the time of writing (14 October 2026):
 - ESLint 9 (`eslint-config-next`)
 - **Static only.** The root layout exports `ensureStatic = "navigation"`, so `next build` fails if any route needs request-time rendering.
 - Fonts (Inter, JetBrains Mono, Newsreader) via `next/font`. They are downloaded at build time and served from the site itself.
-- GitHub Actions CI ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)): lint, typecheck and build on every pull request and every push to `main`, on Node 22.
-- Runtime dependencies: `next`, `react`, `react-dom`. Nothing else.
-- No database, accounts, authentication, forms, analytics, cookies, third-party scripts or external images.
+- GitHub Actions CI ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)): lint, typecheck, unit tests and build on every pull request and every push to `main`, on Node 22.
+- Runtime dependencies: `next`, `react`, `react-dom`. Nothing else. Development-only additions in Experiment 003: `tsx` (runs the TypeScript tests and scripts) and `ajv` (validates the source registry against its schema).
+- No database, accounts, authentication, forms, analytics, cookies, third-party scripts or external images. `/live` fetches public data on the server only; readers' browsers contact no other site.
 
 ## Contributing
 
@@ -103,13 +105,16 @@ Then open <http://localhost:3000>.
 | `npm run start` | Serve the production build |
 | `npm run lint` | ESLint |
 | `npm run typecheck` | Generate route types (`next typegen`), then `tsc --noEmit` |
-| `npm run check` | Lint, typecheck and build. Run this before opening a pull request |
+| `npm test` | Unit tests (no network needed) |
+| `npm run live:check` | Request each live source once and print what `/live` would show. Needs the network |
+| `npm run check` | Lint, typecheck, tests and build. Run this before opening a pull request |
 
 Notes:
 
 - `next/font` fetches the font files from Google Fonts while you develop and build, so you need internet access for that. Visitors' browsers never contact a font provider.
 - Next.js collects anonymous telemetry by default. CI turns it off. To turn it off locally, run `npx next telemetry disable`.
-- No environment variables or API keys are needed. Never commit any.
+- No environment variables or API keys are needed. `/live` can use two optional, server-side keys, listed in [`.env.example`](.env.example): `NASA_FIRMS_MAP_KEY` and `DATA_GOV_SG_API_KEY`. Put them in `.env.local` (git-ignored) or the host's settings. Never commit a key, and never give one a `NEXT_PUBLIC_` prefix. See [`docs/LIVE_EVIDENCE.md`](docs/LIVE_EVIDENCE.md#9-credentials-and-security).
+- `npm run build` fetches the live sources once. If a source cannot be reached, the build still succeeds and `/live` shows that source as unavailable.
 
 ## Project structure
 
@@ -120,19 +125,26 @@ src/
     evidence/page.tsx       /evidence     Evidence ladder, safety rules, candidate sources, claims register
     experiments/page.tsx    /experiments  Experiment log
     about/page.tsx          /about        Why the project exists, disclaimer, contact
+    live/page.tsx           /live         Live evidence (Experiment 003): current observations with source, time and status
     layout.tsx              Root layout: fonts, header, footer, ensureStatic
     not-found.tsx           404 page
     globals.css             Design tokens and custom utilities
   components/               Shared UI (Container, SectionHeader, ButtonLink, NotYetBuilt, EvidenceLadder, ...)
-    evidence/, experiments/, about/   Components used by a single page
+    evidence/, experiments/, about/, live/   Components used by a single page
   content/                  Typed content modules: the single source of truth for site copy and data
     site.ts                 Name, tagline, repository URL, contact address, navigation
     experiments.ts          The experiment log (001 in progress, 002–007 planned)
     evidence.ts             Evidence ladder, claim labels, the 8 safety rules, inequalities, pipeline
-    sources.ts              Candidate public sources (none integrated)
+    sources.ts              Candidate public sources for /evidence (two integrated on the Experiment 003 branch)
     claims.ts               The site's main factual claims and how well each is supported
     loop.ts                 Steps of "the loop" on the homepage
-docs/                       Methodology, data sources, AI transparency, roadmap, corrections
+    live.ts                 Framing for /live: evidence levels, what the data can and cannot answer
+    geo/basemap.ts          Generated map outline (Natural Earth, public domain)
+  lib/live/                 Live evidence pipeline: fetch, validate, normalise, cache; freshness rules
+data/                       live-sources.json (source registry) and its JSON Schema
+scripts/                    check-live-sources.ts (npm run live:check), build-basemap.mjs
+tests/                      Unit tests, with real captured responses as fixtures
+docs/                       Methodology, data sources, live evidence, AI transparency, roadmap, corrections
 experiments/                Written experiment records, one file per experiment
 .github/                    CI workflow and pull request template
 AGENTS.md                   Rules for AI coding agents (and humans) working in this repository
@@ -167,4 +179,4 @@ Please do not send personal health information or confidential documents. For se
 
 ---
 
-<sub>AI involvement: this README is AI GENERATED. It was written by Claude Code during Experiment 001 and has not yet been reviewed by a human.</sub>
+<sub>AI involvement: this README is AI GENERATED. It was written by Claude Code during Experiment 001, updated during Experiment 003, and has not yet been reviewed by a human.</sub>

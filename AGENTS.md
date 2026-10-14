@@ -16,7 +16,8 @@ Read `docs/METHODOLOGY.md` and `docs/AI_TRANSPARENCY.md` before changing content
 - **Never accuse** a company, individual or government of causing a haze event without sufficient reliable evidence. A satellite hotspot alone does not establish ownership, responsibility or wrongdoing.
 - **Label claims**: fact, observation, analysis, allegation, hypothesis or legal finding.
 - **No fake live data.** Unfinished components must use `NotYetBuilt` and say so plainly.
+- **Live data stays at the observation level.** Read `docs/LIVE_EVIDENCE.md` before changing `/live`. Its data is fetched and validated by deterministic code, never by an AI model; every dataset shows its source, observation time, retrieval time and status; missing data is never shown as zero; and keys live only in server-side environment variables (never `NEXT_PUBLIC_`). Record new sources in `data/live-sources.json`.
 - **Static only in V0.** The root layout sets `ensureStatic = "navigation"`; do not add request-time rendering, databases, auth, analytics or forms without a documented experiment.
 - **Content lives in `src/content/`** as typed modules. Update `src/content/claims.ts` when the site makes a new factual claim.
 - **Record AI involvement** in the pull request template and, for experiments, in `experiments/`.
-- Run `npm run check` (lint, typecheck, build) before opening a pull request.
+- Run `npm run check` (lint, typecheck, tests, build) before opening a pull request.

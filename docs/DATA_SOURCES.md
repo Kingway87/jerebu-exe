@@ -2,17 +2,19 @@
 
 Candidate public data sources for future JEREBU.EXE experiments.
 
-> **Status, 14 October 2026: no source is integrated.**
+> **Status, 15 October 2026, on the branch `experiment/003-live-evidence` (not merged).**
 >
-> - **Nothing on this list has been evaluated.** Every entry is a *Candidate*. No human has yet checked any of them.
-> - **No data from any source is displayed on the site.** No page fetches, stores or shows environmental data.
-> - **No API keys are used or stored.** The project uses no credentials of any kind, and no secret is kept in the repository.
-> - **The AI that compiled this list never opened any of these pages.** Every link must be opened and checked by a human before anyone relies on it.
+> - **No source has been evaluated by a human.** Every entry from Experiment 001 is still a *Candidate*, except two that Experiment 003 integrated (see below).
+> - **Experiment 003 opened and checked 17 sources**, using AI agents, for the live evidence page, `/live`. It integrated seven official data feeds from NASA FIRMS, data.gov.sg and data.gov.my. Two of them are entries in this list (NASA FIRMS and the data.gov.sg PSI API); they carry an interim status, *Integrated, pending evaluation*, because the rule below says a source must be Evaluated first. A human must decide. See [Experiment 003: sources opened and checked](#experiment-003-sources-opened-and-checked).
+> - **The full record of the Experiment 003 sources is machine-readable:** [`data/live-sources.json`](../data/live-sources.json), with quotes from the official pages.
+> - **No API key is used or stored.** Two optional keys are documented for server-side use only, and none is in the repository.
+> - **The AI that compiled the Experiment 001 entries never opened those pages.** Unless an entry carries an Experiment 003 update, every link must be opened and checked by a human before anyone relies on it.
 > - Inclusion is not an endorsement. It is not a claim that a source is accurate, complete, current or fit for any purpose.
 
 ## Contents
 
 - [How this list was made](#how-this-list-was-made)
+- [Experiment 003: sources opened and checked](#experiment-003-sources-opened-and-checked)
 - [Status definitions](#status-definitions)
 - [Evaluation checklist: Candidate to Evaluated](#evaluation-checklist-candidate-to-evaluated)
 - [How to read an entry](#how-to-read-an-entry)
@@ -46,6 +48,74 @@ This list was produced by AI agents during [Experiment 001](../experiments/001-a
 
 **Relationship to the website.** The `/evidence` page shows a shorter, curated list of 27 of these sources, defined in [`src/content/sources.ts`](../src/content/sources.ts). Entries shown there are marked "Shown on /evidence" below. This document is the fuller record, with caveats.
 
+## Experiment 003: sources opened and checked
+
+[Experiment 003](../experiments/003-live-evidence.md) (live evidence) researched sources for current observations: satellite fires, Malaysian and Singaporean air quality, and regional weather and haze. Unlike Experiment 001, its agents could open pages.
+
+**How it was checked.** Five AI research agents, one per area, opened the official pages and made small numbers of requests on 14–15 October 2026. Five AI sceptic agents then re-checked the researchers' main claims against the official pages and tried to refute them: of 91 claims checked, 64 were confirmed, 21 partially confirmed, 5 refuted and 1 could not be checked. Their corrections are applied below and in the registry. NASA's earthdata.nasa.gov pages refused automated requests, so their wording was read from Internet Archive copies (27 August to 12 October 2026). **No human has checked any of this.** The research agents' few lapses of conduct (requests made before reading a site's terms or robots.txt) are disclosed in the experiment record.
+
+**The canonical record** is [`data/live-sources.json`](../data/live-sources.json): for each source, its access method, endpoints, authentication, rate limits, update frequency, licence and attribution, what it can and cannot show, limitations, and quotes from the official pages. The table below summarises it. Statuses are the brief's: AVAILABLE, PARTIALLY AVAILABLE, MANUAL SOURCE, REQUIRES ACCESS, NOT YET VERIFIED.
+
+| Source | Status | Use on `/live` | Entry below |
+| --- | --- | --- | --- |
+| NASA FIRMS, VIIRS active fires (NOAA-20, NOAA-21), open regional files | AVAILABLE | Integrated | `nasa-firms` |
+| NASA FIRMS area API | REQUIRES ACCESS (free MAP_KEY) | Used instead of the files if `NASA_FIRMS_MAP_KEY` is set | `nasa-firms-api` |
+| data.gov.sg PSI (NEA) | AVAILABLE | Integrated | `datagovsg-psi-api` |
+| data.gov.sg PM2.5, real time (NEA) | AVAILABLE | Integrated | (new) |
+| data.gov.sg wind direction, wind speed, rainfall (MSS) | AVAILABLE | Integrated | (new) |
+| data.gov.my Weather API forecast (MET Malaysia) | AVAILABLE | Integrated | (new) |
+| Natural Earth | AVAILABLE | Bundled basemap | (new) |
+| DOE Malaysia APIMS | MANUAL SOURCE | Linked, not copied | `doe-apims-myeqms` |
+| data.gov.my Monthly Air Pollution | PARTIALLY AVAILABLE | Not used | `datagovmy-air-pollution` |
+| archive.data.gov.my Air Pollutant Index datasets | NOT YET VERIFIED | Not used | (new) |
+| NEA haze website | MANUAL SOURCE | Named, not linked | `haze-gov-sg` |
+| ASMC | MANUAL SOURCE | Named, not linked | `asmc` |
+| ASMC WIS 2.0 portal | NOT YET VERIFIED | Named, not linked | `asmc-regional-haze-situation` |
+| MET Malaysia API | REQUIRES ACCESS (registration token) | Not used | `metmalaysia` |
+| BMKG open data | AVAILABLE | Not used (context) | `id-bmkg` |
+| SiPongi+ | MANUAL SOURCE | Not used | `id-sipongi` |
+
+### Main findings
+
+**NASA FIRMS**
+
+- NASA's regional "South East Asia" active-fire files (CSV) download without a key, and FIRMS's own outage notice recommends them while its country API is unavailable. The FAQ says they are "updated every 60 minutes"; their Last-Modified time changes about hourly even when the content does not, so it is not the data's time. Files labelled "24h" can hold detections more than a day old.
+- The area API needs a free MAP_KEY, requested by email, with a limit of "5000 transactions / 10-minute interval". An invalid key gets HTTP 400 "Invalid MAP_KEY.".
+- A detection marks "the center of a pixel flagged as containing one or more fires or other thermal anomalies"; FIRMS says "We are not able to determine the exact location or size of the fire", and "Different types of thermal anomalies are not currently attributed in the NRT MODIS or VIIRS data."
+- Suomi NPP data delivery ends after 2 November 2026 at 13:00 UTC (NOAA NESDIS notice); some FIRMS text still says 1 November.
+- No licence is named for the VIIRS products. NASA's data use guidance says data from NASA-led missions are CC0 unless marked otherwise; it does not say whether that covers VIIRS on NOAA's satellites. FIRMS asks anyone who provides its data to third parties to use its acknowledgement wording and replicate or link its disclaimer.
+- Other routes, not used: WMS/WFS and the two-month text archive (REQUIRES ACCESS), the archive download tool and the Fire Map (MANUAL SOURCE), per-country yearly summaries (PARTIALLY AVAILABLE), a page of days with missing data (MANUAL SOURCE), and an experimental "static thermal anomalies" layer that "is not available for distribution" (MANUAL SOURCE: link only, never copy).
+
+**Singapore**
+
+- data.gov.sg's v2 real-time APIs for PSI and PM2.5 (and for weather) work without a key. The guide says keyless access is "for testing purposes" and strongly recommends a key for production. Limits: 6, 12 or 30 calls per 10 seconds (no key, development key, production key); enforcement was announced for 31 December 2025, and data.gov.sg says it is still fine-tuning the limits.
+- Readings are hourly; on the days checked they appeared 15–61 minutes after their hour, and some night readings arrived hours late. The API returns regional values only, and the documented units in the PSI response are inconsistent, so `/live` uses index values only.
+- The Singapore Open Data Licence v1.0 asks for "a conspicuous notice acknowledging the source of the datasets and including a link to the most recent version of this Licence", gives an example notice, and forbids suggesting official status or endorsement.
+- NEA's FAQ: the PSI is the highest of six pollutant sub-indices, with bands from Good (0–50) to Hazardous (above 300). NEA's 1-hour PM2.5 bands come from an NEA infographic; the FAQ gives the lower edge of Band II as 55, the infographic as 56. The research agent read these NEA pages once; the sceptic did not re-open them, because NEA's terms forbid automated copying, but found the published PSI equal to the highest published sub-index in all 455 region-hours it checked. It also noted that the ozone and carbon monoxide sub-indices behave like 8-hour averages, so the FAQ's "24-hour average" wording may be a simplification.
+- haze.gov.sg's robots.txt disallows all automated access, so its pages were not opened. NEA's Terms of Use forbid automated copying (clause 6) and set conditions on linking (clause 12) that conflict with clause 4.3, which allows hyperlinking "for personal, internal, non-commercial or informational purposes".
+- Not used: the API's `date` parameter for history (2016 and 2019 dates returned nothing; 2021 and 2023 dates were partial); historical datasets (PARTIALLY AVAILABLE, with about a month's lag); undocumented v1 endpoints (NOT YET VERIFIED, not for integration); the two-hour forecast (AVAILABLE).
+
+**Malaysia**
+
+- DOE publishes the hourly Air Pollutant Index on its APIMS page and app. No documented public feed or downloadable dataset of current readings was found; the page loads readings from undocumented internal addresses. DOE's open-data page lists the index as an open dataset under the Malaysian Government Open Data Terms of Use, but links to the APIMS page. The licence for reuse is therefore unclear.
+- DOE's method document: the index is the highest of six pollutant sub-indices, each averaged over its own period, with bands from Good (0–50) to Hazardous (above 300). The document has internal inconsistencies, recorded in the registry.
+- DOE's only documented API (api.doe.gov.my) is for submitting industrial emissions data (REQUIRES ACCESS; out of scope). Its data request portal is a manual application (MANUAL SOURCE).
+- data.gov.my's Open API needs no token, allows 4 requests a minute and is CC BY 4.0. Its monthly air pollution dataset ended in December 2024 when checked, with gaps. The legacy portal lists 18 hourly Air Pollutant Index datasets for 2014–2020, but every download attempt failed (relevant to history work, not to `/live`).
+- MET Malaysia's forecasts are available through data.gov.my without a token. Values are in Malay only, and the live data uses terms, such as "Jerebu", that the documentation does not list (it lists "Berjerebu" as "Hazy."). MET Malaysia's own API needs a registration token.
+
+**Regional**
+
+- ASMC publishes the official regional haze picture, hotspot information and alert levels, but its terms forbid automated or manual monitoring or copying without NEA's written permission (clause 6.2) and are internally inconsistent about linking (clauses 4.3 and 8.1). MANUAL SOURCE; named, not linked.
+- ASMC's WIS 2.0 portal is a pilot. Every request for hotspot data failed (HTTP 502 or 504) in two independent checks; only a daily haze-map image worked. WMO's caches do not keep its "recommended" data, so there is no fallback, and its licence is contradictory. NOT YET VERIFIED.
+- ASMC's older AVHRR hotspot-count page still describes counts as "based on the NOAA-19 satellite", which NOAA decommissioned on 13 August 2025. It is not a current series.
+- BMKG's open data needs no key and must credit BMKG; SiPongi+ requires the citation "SIPONGI KEMENHUT" but restricts copying. Both are context only.
+- A lead, not tested: Meteorological Service Singapore publishes some WMO WIS 2.0 datasets as "core" data, which WMO describes as free and unrestricted, including surface and upper-air observations.
+
+**Maps**
+
+- Natural Earth is public domain and needs no key; `/live` uses a basemap generated from it once and committed. Its land-boundary file also contains water-indicator lines, which the basemap leaves out.
+- OpenStreetMap's standard tiles were rejected: they would send every reader's browser to a third party, and OpenStreetMap says it "cannot provide a free-of-charge map API or map tiles for third-parties". Map libraries were not needed.
+
 ## Status definitions
 
 Every source moves through three states, in order. No source may skip a state.
@@ -56,7 +126,9 @@ Every source moves through three states, in order. No source may skip a state.
 | **Evaluated** | A named human has opened the source and reviewed its provenance, method, licence or terms, update frequency and known limitations, and the findings are recorded in this document. *Evaluated does not mean "reliable". It means the source's properties are documented.* | A human reviewer, by pull request |
 | **Integrated** | The site uses the source in code, and the processing is documented: what is fetched, when, how it is transformed and how it is labelled. | A maintainer, by pull request, as part of a documented experiment |
 
-**Current counts:** 45 Candidate · 0 Evaluated · 0 Integrated.
+**Interim status (Experiment 003).** *Integrated, pending evaluation*: integrated on an experiment branch and checked by AI agents, but not yet Evaluated by a human. Such a source must be evaluated, or removed, before the branch is merged. Whether to keep this state at all is a human decision.
+
+**Current counts** (entries in this document): 43 Candidate · 0 Evaluated · 0 Integrated · 2 Integrated, pending evaluation (on the Experiment 003 branch). Experiment 003 also integrated five feeds that are not entries here (data.gov.sg PM2.5, wind direction, wind speed and rainfall, and the data.gov.my weather forecast); they are recorded in [`data/live-sources.json`](../data/live-sources.json).
 
 ## Evaluation checklist: Candidate to Evaluated
 
@@ -89,7 +161,8 @@ Every entry has the same fields.
 - **Caveats**: known problems, ambiguities and conflicts. Dated operational notices, such as maintenance windows or satellite changes, are marked *as reported in search results; not verified*.
 - **Confidence**: the search agent's own rating (high, medium or low) of how well search results supported the entry. Where the sceptic recommended a change, both ratings are shown. **This is not a rating of data quality**, and no human has reviewed it.
 - **Sceptic verdict**: *Keep* or *Keep with caveat*. No entry was removed.
-- **Status**: Candidate, for every entry.
+- **Status**: Candidate, for every entry except two that Experiment 003 marked *Integrated, pending evaluation*.
+- **Experiment 003 update**: present where Experiment 003's agents opened the source. It records what they found, and is also not yet checked by a human.
 
 Entries marked **LEAD** are legal texts or legal databases. For these, **only their existence has been located. Their content has not been read or analysed, and this document makes no claim about what any law, agreement or judgment says or does.** Legal analysis belongs to Experiment 004.
 
@@ -107,6 +180,7 @@ Entries marked **LEAD** are legal texts or legal databases. For these, **only th
 - **What search results said:** ASMC's about page and NEA pages describe ASMC as giving early warning of transboundary smoke haze. They describe its website as offering satellite images, hotspot information, air-quality information and fire danger ratings. Results also showed plain-text daily hotspot count reports under `asmc.asean.org/files/msscommunity/hotspots/`.
 - **Access:** Pages and hotspot text files appear to be public. No registration was mentioned. About page: <https://asmc.asean.org/asmc-about/>.
 - **Caveats:** According to a portal snippet, hotspots mark *possible* fires detected by satellite and do not necessarily correspond to actual fires on the ground. Cloud cover or incomplete satellite passes can cause missed detections. Some ASMC pages are on a separate subdomain, `wis2.asmc.asean.org` (see the next entry), and how the two relate is unclear.
+- **Experiment 003 update (checked by AI agents, 15 October 2026; not yet by a human):** ASMC's pages were opened. ASMC publishes the regional haze situation, hotspot information and alert levels. Its terms of use forbid any automatic device or manual process that monitors or copies its pages without NEA's written permission (clause 6.2), and are internally inconsistent about linking (clause 4.3 allows hyperlinking for non-commercial or informational purposes; clause 8.1 asks for notice or permission). Status MANUAL SOURCE. `/evidence` and `/live` now name ASMC without linking to it, pending a human decision. ASMC designates its WIS 2.0 portal (next entry) as the place to download hotspot data.
 - **Confidence:** High · **Sceptic verdict:** Keep
 - **Status:** Candidate · ID `asmc` · Shown on /evidence
 
@@ -118,6 +192,7 @@ Entries marked **LEAD** are legal texts or legal databases. For these, **only th
 - **What search results said:** Snippets describe a daily regional haze map that overlays satellite hotspots (from NOAA satellite data) and wind arrows from model analysis. They say it is updated more often at higher ASMC alert levels.
 - **Access:** Public web page. A related NOAA-20 VIIRS satellite image page appeared at <https://wis2.asmc.asean.org/satellite-images-jpss-1-noaa-20>. It has a "data access API" field, but the field's value was not visible in the snippet.
 - **Caveats:** A search summary calls `wis2.asmc.asean.org` a pilot portal. The main ASMC homepage has the same "Regional Haze Situation" title, so the main host is probably the canonical one, and this entry overlaps the ASMC entry. Consider merging the two after a human check. A search summary also noted an inconsistent "Updated" date in the page metadata.
+- **Experiment 003 update (checked by AI agents, 15 October 2026; not yet by a human):** The wis2 host is ASMC's WIS 2.0 data portal, a pilot. Every request for hotspot data failed (HTTP 502 or 504) in two independent checks; only a daily haze-map image worked, and it is kept for about 36 hours. WMO's caches do not keep its "recommended" data, the licence is contradictory (WMO metadata names the Singapore Open Data Licence; the portal repeats ASMC's terms), and its Suomi NPP products are expected to stop when Suomi NPP data delivery ends in November 2026. Status NOT YET VERIFIED.
 - **Confidence:** Medium · **Sceptic verdict:** Keep with caveat
 - **Status:** Candidate · ID `asmc-regional-haze-situation`
 
@@ -131,6 +206,7 @@ Entries marked **LEAD** are legal texts or legal databases. For these, **only th
 - **What search results said:** This MetMalaysia page is titled "Fire Danger Rating System (FDRS) ASEAN". Its snippet says MetMalaysia produces the products daily. A related official page, "FDRS – ASEAN Observation Data", appeared at <https://myclimate.met.gov.my/fdrsWmsObsAseanMetPortal>. The sceptic also saw a page named `fdrsWmsNwpAseanMetPortal` on the same host.
 - **Access:** Public web pages. The terms for using the data were not stated in results.
 - **Caveats:** This entry is filed under Regional because it covers ASEAN, although a Malaysian agency runs it. It was found by chance while searching for another target. MetMalaysia's own pages name the agency inconsistently. One MetMalaysia page carried metadata suggesting it was old, so check how current each page is.
+- **Experiment 003 update (checked by AI agents, 15 October 2026; not yet by a human):** The FDRS observation page (myclimate.met.gov.my) was opened. It describes daily fire danger rating products for Southeast Asia and carries "© MET Malaysia, All rights reserved". Its map layers come from a GeoServer service with no documented public use. Status MANUAL SOURCE.
 - **Confidence:** Medium · **Sceptic verdict:** Keep
 - **Status:** Candidate · ID `metmalaysia-fdrs-asean`
 
@@ -202,6 +278,7 @@ Entries marked **LEAD** are legal texts or legal databases. For these, **only th
 - **What search results said:** A result titled "Air Pollutant Index Management System (APIMS) - MyEQMS" appears on the DOE's eqms.doe.gov.my portal. An official document explaining how the Air Pollutant Index is calculated is hosted at <https://eqms.doe.gov.my/Documents/APIMS/API_Calculation.pdf>.
 - **Access:** Public web portal. News snippets point to a mobile app, MyJAS EQMS. Requests for historical data appear to go through the DOE data request portal, <https://btm.doe.gov.my/permohonandata/>.
 - **Caveats:** Here "API" means Malaysia's Air Pollutant Index, not an application programming interface. A reported renaming (APIMS to MyEQMS, and the app to MyJAS EQMS) is supported only by news reports and a third-party page, not by a DOE page. Search summaries mentioned a host `apims.doe.gov.my`, but no page on that host appeared in results, so do not use it until it is verified. An older DOE announcement refers to an earlier app.
+- **Experiment 003 update (checked by AI agents, 15 October 2026; not yet by a human):** The APIMS page, its method document and DOE's open-data pages were opened. APIMS shows hourly readings for 68 monitoring stations, but no documented public feed or downloadable dataset of current readings was found: the page loads its data from undocumented internal addresses, which `/live` does not use. DOE's open-data page lists the Air Pollutant Index as an open dataset under the Malaysian Government Open Data Terms of Use, but links back to the APIMS page, so the reuse terms are unclear. The method document (API_Calculation.pdf) was read: the index is the highest of the pollutant sub-indices. Status MANUAL SOURCE. `/live` links to APIMS and summarises the method.
 - **Confidence:** Medium · **Sceptic verdict:** Keep with caveat
 - **Status:** Candidate · ID `doe-apims-myeqms` · Shown on /evidence
 
@@ -213,6 +290,7 @@ Entries marked **LEAD** are legal texts or legal databases. For these, **only th
 - **What search results said:** A "Monthly Air Pollution" dataset of monthly pollutant concentrations compiled from station data, available as CSV and Parquet files. The same dataset also appears on OpenDOSM (open.dosm.gov.my).
 - **Access:** Open download (CSV and Parquet). The API is documented at developer.data.gov.my (API ID `air_pollution`), and snippets showed no key requirement. The licence is listed as CC BY 4.0 on the OpenDOSM listing; confirm it on data.gov.my itself.
 - **Caveats:** Pages disagree on how current the data is. One summary says it runs to 31 December 2024, with some 2024 values missing. The OpenDOSM copy shows "Data as of 31 Dec 2022", last updated 27 November 2023. The data is monthly and aggregated, not real-time. A legacy portal (archive.data.gov.my) holds older air-quality datasets, and different listings give different coverage years for them.
+- **Experiment 003 update (checked by AI agents, 15 October 2026; not yet by a human):** Opened through data.gov.my's Open API (no token; 4 requests a minute; CC BY 4.0, as stated on data.gov.my). The data ran to December 2024, with gaps: PM2.5 is missing for all of 2017, every pollutant for May and June 2017, and carbon monoxide for all of 2024. Monthly national averages only. Status PARTIALLY AVAILABLE; not used on `/live`. data.gov.my's legacy portal lists 18 hourly Air Pollutant Index datasets for 2014–2020, but every download attempt failed.
 - **Confidence:** High (search agent); the sceptic recommends **Medium** because freshness is uncertain · **Sceptic verdict:** Keep with caveat
 - **Status:** Candidate · ID `datagovmy-air-pollution` · Shown on /evidence
 
@@ -226,6 +304,7 @@ Entries marked **LEAD** are legal texts or legal databases. For these, **only th
 - **What search results said:** The official met.gov.my site carries forecasts, warning bulletins, marine forecasts, research publications and long-range outlooks. Related subdomains include myMETdata (mymetdata.met.gov.my).
 - **Access:** Public website. A search summary says climate data requests go through the National Climate Centre, with charges set by a fee schedule. Verify this on the site.
 - **Caveats:** MetMalaysia publications name different parent ministries over time, which points to ministry-level restructuring. The department's own name appears unchanged.
+- **Experiment 003 update (checked by AI agents, 15 October 2026; not yet by a human):** MET Malaysia's API (api.met.gov.my) needs a registration token and allows "up to 1,000 requests a day with a burstable limit of 3 requests per minute"; its version 1 is deprecated (REQUIRES ACCESS; not used). The website's copyright statement restricts reuse without MET Malaysia's prior written consent. MET Malaysia's forecasts are available without a token through data.gov.my's Weather API (CC BY 4.0), which `/live` uses.
 - **Confidence:** High · **Sceptic verdict:** Keep
 - **Status:** Candidate · ID `metmalaysia` · Shown on /evidence
 
@@ -304,6 +383,7 @@ Entries marked **LEAD** are legal texts or legal databases. For these, **only th
 - **What search results said:** An NEA page titled "Managing Haze - Singapore", in the Air Pollution section. Snippets say it gives guidance on haze and points readers to NEA's other haze channels.
 - **Access:** Not stated in results.
 - **Caveats:** A related NEA air-pollution FAQ page also appeared: <https://www.nea.gov.sg/our-services/pollution-control/air-pollution/faqs>.
+- **Experiment 003 update (checked by AI agents, 15 October 2026; not yet by a human):** NEA's Terms of Use forbid automated copying (clause 6) and ask for notice before linking to NEA's home page and permission before linking to internal pages (clause 12), which conflicts with clause 4.3. `/evidence` now names this page without linking to it, pending a human decision.
 - **Confidence:** High · **Sceptic verdict:** Keep
 - **Status:** Candidate · ID `nea-managing-haze` · Shown on /evidence
 
@@ -320,6 +400,7 @@ Entries marked **LEAD** are legal texts or legal databases. For these, **only th
 
   The sceptic's search results indicate that the site says data older than one year is on data.gov.sg.
 - **Caveats:** Results say real-time data is published automatically and may later be verified and corrected. The reading tables are dynamic and were empty in the snippets. A legacy path, `/haze-updates/pollutant-concentrations`, also appeared over plain HTTP and may be out of date.
+- **Experiment 003 update (checked by AI agents, 15 October 2026; not yet by a human):** haze.gov.sg's robots.txt disallows all automated access, so no page on it was opened. The same NEA readings are published through data.gov.sg, which `/live` uses. Whether NEA later verifies and corrects real-time readings remains unconfirmed. `/evidence` now names this site without linking to it, for the reasons given under NEA: Managing Haze.
 - **Confidence:** High · **Sceptic verdict:** Keep
 - **Status:** Candidate · ID `haze-gov-sg` · Shown on /evidence
 
@@ -335,8 +416,9 @@ Entries marked **LEAD** are legal texts or legal databases. For these, **only th
   - The status page (status.data.gov.sg) lists the PSI and PM2.5 real-time APIs among its incidents, and notes that data may go stale during scheduled maintenance.
 
   Both notices are *as reported in search results; not verified.* A separate "Legacy Pollutant Standards Index (PSI) (API)" dataset also appears, with coverage reportedly ending in April 2026, so make sure the current dataset is used. The exact endpoint path and response format were not confirmed.
+- **Experiment 003 update (checked by AI agents, 15 October 2026; not yet by a human):** Integrated on `/live`. The endpoint is https://api-open.data.gov.sg/v2/real-time/api/psi (JSON). It returns the 24-hour PSI and five pollutant sub-indices for five regions, hourly, and works without a key; data.gov.sg describes keyless access as "for testing purposes" and recommends a key for production. Readings appeared 15–61 minutes after their hour on the days checked. The documented units in the response are inconsistent, so `/live` uses index values only. Licence: Singapore Open Data Licence v1.0, which asks for a conspicuous notice with a link to the licence.
 - **Confidence:** High · **Sceptic verdict:** Keep with caveat
-- **Status:** Candidate · ID `datagovsg-psi-api` · Shown on /evidence
+- **Status:** Integrated, pending evaluation (Experiment 003 branch) · ID `datagovsg-psi-api` · Shown on /evidence
 
 #### data.gov.sg: Historical 24-hr PSI
 
@@ -357,6 +439,7 @@ Entries marked **LEAD** are legal texts or legal databases. For these, **only th
 - **What search results said:** Historical 1-hour PM2.5 values for five regions of Singapore (North, South, East, West and Central), as a CSV file. The snippet says the series starts in April 2014.
 - **Access:** Results describe the licence as the Open Data Licence. The page includes a sample API call. data.gov.sg API key tiers and rate limits apply.
 - **Caveats:** The sceptic corrected the name. The dataset's title in results is "Historical 1-hr PM2.5", not "Historical regional 1-hr PM2.5" as first recorded. Its legacy address is `data.gov.sg/dataset/historical-1-hr-pm2-5`. The legacy path the search agent first gave, `…/air-pollutant-particulate-matter-pm2-5`, is probably a different dataset of annual values. Some per-year PM2.5 datasets carry a disclaimer that they may contain missing records and have not been quality-controlled. Timestamps are in Singapore time (ISO 8601).
+- **Experiment 003 update (checked by AI agents, 15 October 2026; not yet by a human):** A sceptic agent downloaded this dataset without a key. The CSV header is `1hr_pm25,north,south,east,west,central`, with day-first date labels and no time zone. It lagged the present by about a month. Status PARTIALLY AVAILABLE; not used on `/live`, which uses the real-time PM2.5 API (https://api-open.data.gov.sg/v2/real-time/api/pm25).
 - **Confidence:** Medium · **Sceptic verdict:** Keep with caveat
 - **Status:** Candidate · ID `datagovsg-pm25-regional-hourly`
 
@@ -368,6 +451,7 @@ Entries marked **LEAD** are legal texts or legal databases. For these, **only th
 - **What search results said:** The official developer guide documents the data.gov.sg real-time APIs, including a PM2.5 endpoint. Its OpenAPI specification uses an `x-api-key` header.
 - **Access:** Related pages: <https://guide.data.gov.sg/developer-guide/api-overview/api-rate-limits> and <https://guide.data.gov.sg/developer-guide/api-overview/how-to-request-an-api-key>.
 - **Caveats:** An API-key upgrade notice gave a deadline that was extended to 31 December 2025 (*as reported in search results; not verified*). The search tool reported that the rate-limits page it saw was old, so re-check the current limits.
+- **Experiment 003 update (checked by AI agents, 15 October 2026; not yet by a human):** The guide's real-time API page documents only the PM2.5 endpoint; the PSI and weather specifications are on their dataset pages. The rate-limit page gives 6, 12 or 30 calls per 10 seconds for the v2 real-time APIs (no key, development key, production key), and says the limits are still being fine-tuned.
 - **Confidence:** High · **Sceptic verdict:** Keep
 - **Status:** Candidate · ID `datagovsg-developer-guide`
 
@@ -381,6 +465,7 @@ Entries marked **LEAD** are legal texts or legal databases. For these, **only th
 - **What search results said:** weather.gov.sg pages are titled "Weather Information Portal". They include an About page, a 24-hour forecast, a 4-day outlook, monsoon updates and "Climate of Singapore". Snippets describe MSS as an operational arm of NEA.
 - **Access:** Not stated in results.
 - **Caveats:** The homepage root did not appear in results, so the About page is used instead. Results showed no sign of MSS being moved out of NEA. Some third-party sources use a different name ("Singapore Meteorological Service").
+- **Experiment 003 update (checked by AI agents, 15 October 2026; not yet by a human):** Not opened. `/live` uses MSS's station readings (wind and rainfall) through data.gov.sg instead. weather.gov.sg's terms of use were not read, although `/evidence` still links to this page.
 - **Confidence:** High · **Sceptic verdict:** Keep
 - **Status:** Candidate · ID `mss-weather-gov-sg` · Shown on /evidence
 
@@ -464,6 +549,7 @@ Indonesian sources are listed because fires and haze also affect people in Indon
 - **What search results said:** The ministry's forest and land fire (*karhutla*) monitoring system. It has a hotspot map ("Peta Hotspot") and hotspot distribution pages ("Sebaran Titik Panas") that can be filtered by period, province, satellite and confidence level. Results quote the ministry as saying that a hotspot is a temperature anomaly detected by satellite, not proof of fire.
 - **Access:** Pages seen: `/peta` and `/sebaran-titik-panas`. A summary in the sceptic's results says data can be downloaded (XLSX, TXT or KMZ) with the citation "SIPONGI KEMENHUT". Not verified.
 - **Caveats:** The search agent first reported that no page on this domain appeared in results. The sceptic's domain-restricted search then returned the root and the sub-pages directly, and that overclaim has been corrected. An older domain, `sipongi.menlhk.go.id`, still appears in results, for example for a user-guide PDF. **A hotspot is not a confirmed fire**, as the operator itself is quoted as saying.
+- **Experiment 003 update (checked by AI agents, 15 October 2026; not yet by a human):** Opened. The hotspot page offers XLSX, TXT and KMZ downloads and says "Setiap penggunaan data yang bersumber dari website ini, wajib mencantumkan sumber: SIPONGI KEMENHUT" (any use of its data must cite SIPONGI KEMENHUT), while its disclaimer restricts copying and says information may not be updated in real time. No documented data feed. Status MANUAL SOURCE; not used.
 - **Confidence:** Medium (search agent); the sceptic recommends **High** · **Sceptic verdict:** Keep
 - **Status:** Candidate · ID `id-sipongi` · Shown on /evidence
 
@@ -477,6 +563,7 @@ Indonesian sources are listed because fires and haze also affect people in Indon
 - **What search results said:** The official website of Indonesia's meteorology, climatology and geophysics agency. Results also included a BMKG press release on the spread of hotspots, and BMKG regulations on air-quality information, hosted on jdih.bmkg.go.id and peraturan.go.id. The regulations are leads only and have not been read.
 - **Access:** Not stated in results.
 - **Caveats:** The sceptic's re-search returned the homepage and `/profil` as direct results. This corrects the search agent's note that the root appeared only inside a snippet. No live air-quality or hotspot dashboard page was returned. Related subdomains: `iklim.bmkg.go.id` and `jdih.bmkg.go.id`.
+- **Experiment 003 update (checked by AI agents, 15 October 2026; not yet by a human):** BMKG's open data portal (data.bmkg.go.id) was opened. Its weather forecast API needs no key, allows 60 requests per minute per IP address, and requires BMKG to be credited as the source. Status AVAILABLE, for context only; not used.
 - **Confidence:** High · **Sceptic verdict:** Keep
 - **Status:** Candidate · ID `id-bmkg` · Shown on /evidence
 
@@ -574,8 +661,9 @@ Indonesian sources are listed because fires and haze also affect people in Indon
   - **Satellite transition notice.** Earthdata alerts say delivery of Suomi NPP data products ends on 1 November 2026; another official page gives 2 November 2026. Users are advised to move to NOAA-20 and NOAA-21. The effect on FIRMS's Suomi NPP layers was not confirmed. *As reported in search results; not verified.*
   - A "limited updates" notice that appeared only in a Wikipedia snippet could not be found on any official FIRMS page, so it is not repeated here (see [Not found](#not-found)).
   - A detection marks a thermal anomaly at a place and time. **It is not a confirmed fire, and it is not evidence of who is responsible.**
+- **Experiment 003 update (checked by AI agents, 15 October 2026; not yet by a human):** Integrated on `/live`, from NASA's open "South East Asia" 24h VIIRS files for NOAA-20 and NOAA-21 (no key). See [Experiment 003: sources opened and checked](#experiment-003-sources-opened-and-checked). The satellite transition notice above is now confirmed: NOAA NESDIS says Suomi NPP VIIRS data "will no longer be available after November 2, 2026, at 13:00 UTC", and `/live` does not use Suomi NPP.
 - **Confidence:** High · **Sceptic verdict:** Keep
-- **Status:** Candidate · ID `nasa-firms` · Shown on /evidence
+- **Status:** Integrated, pending evaluation (Experiment 003 branch) · ID `nasa-firms` · Shown on /evidence
 
 #### NASA FIRMS API
 
@@ -585,6 +673,7 @@ Indonesian sources are listed because fires and haze also affect people in Indon
 - **What search results said:** Official FIRMS pages titled "API - Area", "API - Country", "API - Data Availability" and "API - Map Key" appear, together with a tutorial on using the API in Python. The Area endpoint returns fire detections as CSV for a bounding box, sensor and range of days.
 - **Access:** **Requires a free MAP_KEY**, requested at <https://firms.modaps.eosdis.nasa.gov/api/map_key/>. A snippet gives a transaction limit for each time window, so check the current limit on the live page. **This project uses no key.**
 - **Caveats:** The search engine flagged some indexed API pages as old, so confirm the current endpoints and limits. Each page also has a `/usfs/` variant, which serves FIRMS for the US and Canada. Do not mix the two.
+- **Experiment 003 update (checked by AI agents, 15 October 2026; not yet by a human):** Confirmed on the live API pages: a free MAP_KEY, requested with an email address; "MAP_KEY limit is 5000 transactions / 10-minute interval"; the area service takes a bounding box and 1 to 5 days; the country services are "currently not available". `/live` uses the area API only if `NASA_FIRMS_MAP_KEY` is set on the server. Status REQUIRES ACCESS.
 - **Confidence:** High · **Sceptic verdict:** Keep
 - **Status:** Candidate · ID `nasa-firms-api`
 
@@ -723,29 +812,38 @@ The search agents looked for these and did not find them. They are listed so tha
 5. **A copy of the ASEAN haze agreement on asean.org, seen as a direct result.** An asean.org PDF was referenced only by a third-party page. Official copies were found on agreement.asean.org and environment.asean.org instead.
 6. **A standalone APIMS host, `apims.doe.gov.my`.** It was named in search summaries but never appeared as a result. Use <https://eqms.doe.gov.my/APIMS/main> instead.
 7. **Official confirmation of the reported rename of APIMS to MyEQMS / MyJAS EQMS.** Only news reports and a third-party page say so.
-8. **Real-time or hourly air-quality datasets on data.gov.my.** Only the monthly dataset and older annual datasets were found.
+8. **Real-time or hourly air-quality datasets on data.gov.my.** Only the monthly dataset and older annual datasets were found. *Experiment 003 confirmed this for the current catalogue; the legacy portal lists hourly datasets for 2014–2020, which could not be downloaded.*
 9. **The doe.gov.my homepage root as a direct result.** Only subpages were found.
 10. **The weather.gov.sg homepage root as a direct result.** The About page is used instead.
-11. **A dedicated data.gov.sg page for a real-time PM2.5 dataset**, as opposed to the historical PM2.5 datasets.
-12. **The exact endpoint path and response format of the data.gov.sg real-time PSI API.**
+11. **A dedicated data.gov.sg page for a real-time PM2.5 dataset**, as opposed to the historical PM2.5 datasets. *Found in Experiment 003:* <https://data.gov.sg/datasets/d_e1058d6974c877257e32048ab128ad83/view>.
+12. **The exact endpoint path and response format of the data.gov.sg real-time PSI API.** *Found in Experiment 003:* <https://api-open.data.gov.sg/v2/real-time/api/psi>, JSON.
 13. **The homepage roots of kemenlh.go.id and www.kehutanan.go.id.** Only subpages and documents appeared. *Partly resolved by the sceptic:* the kehutanan.go.id press-release page (<https://www.kehutanan.go.id/pers>) was found.
 14. **Any page hosted on sipongi.gakkum.kehutanan.go.id.** *Later found by the sceptic:* the root, `/peta` and `/sebaran-titik-panas`.
 15. **The JDIHN portal, jdihn.go.id.** *Later found by the sceptic:* <https://jdihn.go.id/>.
 16. **The peraturan.go.id homepage or about page.** *The homepage was later found by the sceptic*, but the operator is still not confirmed from an official page.
 17. **The number of the Indonesian presidential regulation that split the former Ministry of Environment and Forestry (KLHK).** It was not stated in any result.
 
+Not found in Experiment 003, by agents that could open pages:
+
+18. **A documented public feed or downloadable dataset of Malaysia's current Air Pollutant Index readings.** Absence is hard to prove; DOE should be asked.
+19. **A working, licensed, machine-readable source for ASMC's regional haze situation or hotspots.**
+20. **A DOI for NASA's NOAA-21 FIRMS active-fire product.** DOIs exist for the NOAA-20 and Suomi NPP products.
+21. **Whether data.gov.sg's wind direction is the direction the wind blows from** (the usual meteorological convention) or towards. The documentation does not say.
+22. **An NEA statement on whether real-time readings are later revised.** The likely page is on haze.gov.sg, which disallows automated access.
+23. **A statement from NASA on whether its regional files are intended for regular automated downloads.** FIRMS's robots.txt allows them with a one-second crawl delay.
+
 ---
 
 ## Rules for future integrations
 
-No source is integrated yet. When an experiment integrates one, these rules apply. They extend the eight data and claim safety rules in [`METHODOLOGY.md`](METHODOLOGY.md).
+These rules apply whenever an experiment integrates a source. They extend the eight data and claim safety rules in [`METHODOLOGY.md`](METHODOLOGY.md). Experiment 003 integrated sources on its branch; how it applied each rule is described in [`LIVE_EVIDENCE.md`](LIVE_EVIDENCE.md), and its one departure, from rule 1, is noted there.
 
 **Before integrating**
 
-1. **Evaluated first.** Only an *Evaluated* source may be integrated, and only within a documented experiment that has human approval.
+1. **Evaluated first.** Only an *Evaluated* source may be integrated, and only within a documented experiment that has human approval. *Experiment 003 departed from this rule: its brief authorised integrating public sources that need no credentials, but no human evaluated them first. Those sources are marked* Integrated, pending evaluation *until a human decides.*
 2. **Respect terms and licences.** Follow each source's terms of use, licence and attribution requirements, and record them in the source's entry. Do not scrape where the terms forbid it. Do not redistribute data whose licence does not allow it.
 3. **Respect rate limits.** Cache responsibly, and never work around access controls.
-4. **Keep V0's static architecture unless a documented decision changes it.** The site is static, and the build fails if any route needs request-time rendering. An integration must either work within that, for example with data fetched at build time and a visible snapshot date, or be preceded by a written, human-approved design change.
+4. **Keep V0's static architecture unless a documented decision changes it.** The site is static, and the build fails if any route needs request-time rendering. An integration must either work within that, for example with data fetched at build time and a visible snapshot date, or be preceded by a written, human-approved design change. *Experiment 003 works within it: `/live` is prerendered, and Next.js refreshes its data in the background on a host that runs Next.js, with retrieval times shown.*
 
 **Keys and secrets**
 
@@ -778,11 +876,11 @@ No source is integrated yet. When an experiment integrates one, these rules appl
 
 ## Maintaining this list
 
-- **Keep two files in step.** Change this document and [`src/content/sources.ts`](../src/content/sources.ts) in the same pull request. A source is `candidate` until it is evaluated, and `integrated` only when real code uses it.
+- **Keep the files in step.** Change this document and [`src/content/sources.ts`](../src/content/sources.ts) in the same pull request, and [`data/live-sources.json`](../data/live-sources.json) too for sources used on `/live`. A source is `candidate` until it is evaluated, and `integrated` only when real code uses it. Experiment 003 added the interim `integrated-pending-evaluation`, explained under [Status definitions](#status-definitions).
 - **Proposing a source.** Open a pull request or an issue with the same fields as the entries above. Say how you found the source and whether you opened it yourself.
 - **Recording an evaluation.** Fill in the checklist above in the source's entry, with your name or handle and the date. Then change its status. There is no evaluation log yet, because nothing has been evaluated.
 - **Reporting errors.** If a link is broken, wrong or misdescribed, open an issue. Corrections to published claims are recorded, not silently erased; see [`CORRECTIONS.md`](CORRECTIONS.md) and [`CONTRIBUTING.md`](../CONTRIBUTING.md).
 
 ---
 
-<sub>AI involvement: this document is **AI GENERATED**. Claude Code wrote it during Experiment 001 from the output of AI search agents and an AI sceptic agent, none of which could open the pages listed. **UNVERIFIED**: no link, description or caveat here has yet been checked by a human.</sub>
+<sub>AI involvement: this document is **AI GENERATED**. Claude Code wrote it during Experiment 001 from the output of AI search agents and an AI sceptic agent, none of which could open the pages listed. Claude Code updated it during Experiment 003 with findings from AI research and sceptic agents that did open the pages. **UNVERIFIED**: no link, description or caveat here has yet been checked by a human.</sub>

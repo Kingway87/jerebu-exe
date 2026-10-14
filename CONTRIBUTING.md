@@ -76,13 +76,13 @@ npm run dev        # http://localhost:3000
 Before you open a pull request, run:
 
 ```bash
-npm run check      # lint, typecheck and production build
+npm run check      # lint, typecheck, unit tests and production build
 ```
 
-CI ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)) runs the same lint, typecheck and build steps on every pull request.
+CI ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)) runs the same lint, typecheck, test and build steps on every pull request. `npm test` runs the unit tests alone; `npm run live:check` requests each live source once and prints the result.
 
 - Next.js collects anonymous telemetry by default. To turn it off locally, run `npx next telemetry disable`. CI already turns it off.
-- No API keys or environment variables are needed. If a future experiment needs one, supply it through an environment variable and **never commit it**. `.env` files are ignored by git.
+- No API keys or environment variables are needed. The live evidence page can use two optional keys, listed in [`.env.example`](.env.example). Put them in `.env.local` (ignored by git), never in source files, and never with a `NEXT_PUBLIC_` prefix, which would send them to browsers. **Never commit a key.**
 - This project uses Next.js 16, which has APIs that differ from older versions. Check the bundled docs in `node_modules/next/dist/docs/` before relying on memory or older tutorials. This also applies to AI agents: see [`AGENTS.md`](AGENTS.md).
 
 ## Where things live
@@ -92,6 +92,10 @@ CI ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)) runs the same lint, 
 | `src/app/` | Routes: `/`, `/evidence`, `/experiments`, `/about`, plus the root layout and the 404 page |
 | `src/components/` | UI components. General and homepage components sit at the top level. Some components written for `/evidence`, `/experiments` or `/about` sit in a subfolder named after that page |
 | `src/content/` | Typed content modules, the single source of truth for site copy and data |
+| `src/lib/live/` | The live evidence pipeline: fetching, validation, normalisation, caching and freshness rules |
+| `data/` | `live-sources.json`, the register of sources for `/live`, and its JSON Schema |
+| `scripts/` | `npm run live:check` and the basemap generator |
+| `tests/` | Unit tests, with real captured responses as fixtures |
 | `docs/` | Methodology, data sources, AI transparency, roadmap, corrections |
 | `experiments/` | Written experiment records |
 
@@ -99,11 +103,12 @@ CI ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)) runs the same lint, 
 
 - **Adding a factual claim to the site?** Add it to [`src/content/claims.ts`](src/content/claims.ts) as well. Each entry has the claim, a status and a note. A claim stays `unverified` until a reliable source is linked (`cited`), and becomes `human-verified` only once a named human reviewer has checked that source.
 - **Adding or changing a candidate source?** Update [`src/content/sources.ts`](src/content/sources.ts) and [`docs/DATA_SOURCES.md`](docs/DATA_SOURCES.md) together. A source is `candidate` until someone evaluates it, and `integrated` only when real code uses it.
+- **Changing `/live` or one of its sources?** Read [`docs/LIVE_EVIDENCE.md`](docs/LIVE_EVIDENCE.md) first, update [`data/live-sources.json`](data/live-sources.json), and keep the data path deterministic: no AI model may fetch, transform or summarise a value. Missing data is never shown as zero.
 - **Updating an experiment?** Update [`src/content/experiments.ts`](src/content/experiments.ts) and its record in `experiments/`.
 - **Reuse existing components** (`Container`, `SectionHeader`, `ButtonLink`, `ExternalLink`, `NotYetBuilt` and others) before you write new ones.
 - **Colours** come only from the project tokens in [`src/app/globals.css`](src/app/globals.css). Tailwind's default palette is switched off.
 
-**V0 is static only.** The root layout ([`src/app/layout.tsx`](src/app/layout.tsx)) exports `ensureStatic = "navigation"`, so `next build` fails if any route needs request-time rendering. Do not use `cookies()`, `headers()`, `searchParams`, uncached `fetch` calls or `connection()`. Changing this rule needs a documented experiment and an explicit human decision.
+**V0 is static only.** The root layout ([`src/app/layout.tsx`](src/app/layout.tsx)) exports `ensureStatic = "navigation"`, so `next build` fails if any route needs request-time rendering. Do not use `cookies()`, `headers()`, `searchParams`, uncached `fetch` calls or `connection()`. Changing this rule needs a documented experiment and an explicit human decision. Data from outside sources is fetched inside a `"use cache"` function with a cache lifetime, as in [`src/lib/live/snapshots.ts`](src/lib/live/snapshots.ts); the requests themselves use `cache: "no-store"` so that only that function's cache applies.
 
 ## Proposing an experiment
 

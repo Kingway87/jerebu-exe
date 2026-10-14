@@ -2,11 +2,11 @@
 
 > **Status: V0 draft, awaiting human review.**
 > Written by an AI agent (Claude Code) on 2026-10-14, during [Experiment 001](../experiments/001-autonomous-bootstrap.md). The eight safety rules, the four levels of the evidence ladder, the two inequalities and the six claim types come from the project founder's task brief. The rest of the wording was written by the AI.
-> AI involvement: **AI GENERATED + UNVERIFIED** (see [AI_TRANSPARENCY.md](AI_TRANSPARENCY.md)). No human has reviewed this document yet. It will change.
+> AI involvement: **AI GENERATED + UNVERIFIED** (see [AI_TRANSPARENCY.md](AI_TRANSPARENCY.md)). No human has reviewed this document yet. It will change. Two passages were updated during [Experiment 003](../experiments/003-live-evidence.md), which first applied this method to live data.
 
 This document sets out how JEREBU.EXE handles evidence and claims. It applies to everything the project publishes: website pages, documentation, data, code comments, issues and pull requests. It applies to every contributor, human or AI.
 
-It describes a method, not findings. At the time of writing, JEREBU.EXE holds no environmental data and has made no findings about any haze event, organisation or government. This methodology has not yet been tested on real evidence.
+It describes a method, not findings. JEREBU.EXE has made no findings about any haze event, organisation or government. Experiment 003 (on its branch, not yet merged) shows current official observations on `/live`, at the observation level only; that is the method's first use on real data.
 
 The structured version of the framework is in [`src/content/evidence.ts`](../src/content/evidence.ts), which the website's `/evidence` page displays. This document and that file should say the same thing. If they disagree, treat it as a bug and open an issue.
 
@@ -260,7 +260,7 @@ Most errors can be reported in a public GitHub issue. Report privately, by email
 ## 11. Limits of this methodology
 
 - **It is a V0 draft written by an AI.** It was written during Experiment 001 from rules set by the founder. No human has reviewed it yet, and no legal, scientific or data specialist has reviewed it.
-- **It is untested.** The project holds no environmental data, so no evidence has yet been handled under this method.
+- **It is barely tested.** Only Experiment 003 has handled real data under it, at the observation level only: no interpretation, attribution or finding has been made.
 - **Its thresholds are proposals.** For example, the minimum of two independent lines of evidence in section 8 needs a human decision.
 - **It cannot replace judgement.** Following it reduces the risk of error. It does not guarantee that a statement is correct.
 - **It is not legal advice,** and it does not describe what any law requires.

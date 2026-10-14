@@ -39,6 +39,7 @@ The project has a very small maintainer team: in practice, its founder alone. Ha
 - Dependencies, as used by this project (`package.json` and `package-lock.json`).
 - The CI workflow ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)), for example token permissions or unsafe handling of pull request content.
 - Secrets, credentials or personal data accidentally committed anywhere in the git history.
+- The handling of the optional data-source keys used by `/live` (`NASA_FIRMS_MAP_KEY`, `DATA_GOV_SG_API_KEY`), for example any way a key could reach a browser, a log, a cached page or the repository.
 - **Data-integrity issues**, for example:
   - a fabricated citation
   - a claim attributed to a source that does not say it
@@ -62,10 +63,11 @@ The project has a very small maintainer team: in practice, its founder alone. Ha
 V0 is deliberately minimal.
 
 - **Static site.** Every route is prerendered at build time. The root layout exports `ensureStatic = "navigation"`, so `next build` fails if any route needs request-time rendering. There are no API routes, server actions or request-time rendering.
+- **Outbound requests to public data sources** (Experiment 003 branch). The site's server fetches the data for `/live` at build time, and refreshes it in the background when the site runs on a Next.js server. Requests are GETs to fixed, documented URLs, with a timeout and a size limit, and responses are parsed as JSON or CSV, never executed. Nothing a reader sends reaches a source, and readers' browsers contact no data source. See [`docs/LIVE_EVIDENCE.md`](docs/LIVE_EVIDENCE.md#9-credentials-and-security).
 - **No database, no user accounts, no authentication, no forms and no file uploads.** The only contact method is a `mailto:` link.
 - **No cookies are set by the site's code.** No analytics, no tracking and no third-party scripts.
 - **Fonts are self-hosted.** `next/font` downloads them at build time and serves them from the site, so visitors' browsers do not contact a font provider. No images or scripts load from external hosts.
-- **No API keys or secrets are in the repository.** Any keys needed by future experiments must be supplied through environment variables and **never committed**. `.gitignore` excludes `.env` files (except `.env.example`) and `*.pem` files.
+- **No API keys or secrets are in the repository.** Keys must be supplied through environment variables and **never committed**. `.gitignore` excludes `.env` files (except `.env.example`) and `*.pem` files. `/live` needs no key, but can use two optional ones, listed with empty values in [`.env.example`](.env.example). They are read only on the server: neither has the `NEXT_PUBLIC_` prefix, and the module that reads them imports `server-only`. The FIRMS key is replaced by `{MAP_KEY}` in every recorded or displayed URL, and tests check this.
 - **CI** installs dependencies with `npm ci` from the lockfile, and runs with a read-only `contents: read` token. The checkout step does not persist its credentials, so later steps cannot read the token from the git configuration.
 - The `X-Powered-By` header is turned off (`poweredByHeader: false`). External links use `rel="noopener noreferrer"`.
 
@@ -73,7 +75,7 @@ This posture will need reviewing before any deployment, and again whenever an ex
 
 ## Known issues
 
-**Development-only `npm audit` advisory chain.** As of 14 October 2026, `npm audit` reports five high-severity vulnerable packages, and `npm audit --omit=dev` reports none. All five come from one advisory, GHSA-vfj7-8cjw-p6xm, in a single chain of development dependencies:
+**Development-only `npm audit` advisory chain.** As of 14 October 2026, `npm audit` reports five high-severity vulnerable packages, and `npm audit --omit=dev` reports none. Re-checked on 15 October 2026, after Experiment 003 added the development dependencies `tsx` and `ajv`: unchanged. All five come from one advisory, GHSA-vfj7-8cjw-p6xm, in a single chain of development dependencies:
 
 ```text
 eslint-config-next 16.4.0
@@ -91,4 +93,4 @@ npm's only suggested fix is `npm audit fix --force`. That would downgrade `eslin
 
 ---
 
-<sub>AI involvement: this policy is AI GENERATED. It was written by Claude Code during Experiment 001 and has not yet been reviewed by a human.</sub>
+<sub>AI involvement: this policy is AI GENERATED. It was written by Claude Code during Experiment 001, updated during Experiment 003, and has not yet been reviewed by a human.</sub>
