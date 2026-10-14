@@ -50,9 +50,12 @@ const humanDecisions = [
   "Started the Claude Code session for Experiment 001, with a written task brief.",
 ];
 
+/** Split so a narrow screen can break the address before the “@”, not inside the domain. */
+const [emailLocal, emailDomain] = site.contactEmail.split("@");
+
 /** What the AI did in Experiment 001. Keep in step with src/content/experiments.ts. */
 const aiWork = [
-  "Built this first version (V0) of the website, including this page, under human direction and following the founder’s brief.",
+  "Built this first version (V0) of the website, including this page, from the founder’s written brief.",
   "Wrote the first versions of the project’s documentation.",
 ];
 
@@ -508,9 +511,10 @@ export default function AboutPage() {
         <p className="mt-2">
           <a
             href={`mailto:${site.contactEmail}`}
-            className="font-mono text-2xl font-bold [overflow-wrap:anywhere] underline decoration-2 underline-offset-[6px] hover:text-signal-ink sm:text-3xl"
+            className="font-mono text-xl font-bold [overflow-wrap:anywhere] underline decoration-2 underline-offset-[6px] hover:text-signal-ink sm:text-3xl"
           >
-            {site.contactEmail}
+            {emailLocal}
+            <wbr />@{emailDomain}
           </a>
         </p>
 

@@ -32,7 +32,7 @@ No GitHub account? Write to [JEREBU.EXE@proton.me](mailto:JEREBU.EXE@proton.me).
 | Area | What helps |
 | --- | --- |
 | **Code** | Bug fixes, accessibility fixes, performance and maintainability improvements. V0 is deliberately small. Please do not add databases, accounts, analytics, forms or new dependencies without first agreeing a documented experiment. |
-| **Research** | Find reliable, citable sources for the site's own claims, which are listed in [`src/content/claims.ts`](src/content/claims.ts) and are all currently unverified. Help scope the planned experiments. |
+| **Research** | Find reliable, citable sources for the site's main factual claims, which are listed in [`src/content/claims.ts`](src/content/claims.ts) and are all currently unverified. Help scope the planned experiments. |
 | **Sources and data** | Check the candidate sources in [`src/content/sources.ts`](src/content/sources.ts) and [`docs/DATA_SOURCES.md`](docs/DATA_SOURCES.md). Open each link, then confirm who runs it, what it measures, how often it updates, its licence and its known limits. Report links that are broken or wrong. |
 | **Legal knowledge** | Lawyers, law students and policy researchers can help scope Experiment 004 (legal landscape) from primary sources. Contributions are not legal advice, and the project does not give legal advice. |
 | **Design** | Improve clarity within the existing design system (tokens in [`src/app/globals.css`](src/app/globals.css)). The look is restrained on purpose. Please do not add gradients, shadows, rounded cards or animation. |

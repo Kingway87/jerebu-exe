@@ -50,7 +50,7 @@ The full record is in [`experiments/001-autonomous-bootstrap.md`](../experiments
 
 - Review the pull request.
 - Correct or reject anything wrong, and record any corrections.
-- Check the site's own claims, which are listed in [`src/content/claims.ts`](../src/content/claims.ts) and are all currently unverified.
+- Check the site's main factual claims, which are listed in [`src/content/claims.ts`](../src/content/claims.ts) and are all currently unverified.
 - Record the cost of the session.
 - Decide whether, where and when to deploy (see [Open decisions](#open-decisions-for-humans)).
 

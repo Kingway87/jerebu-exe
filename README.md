@@ -20,7 +20,7 @@ It is **not** an official Malaysian or Singaporean initiative, a law firm, a sci
 
 ## Why
 
-The project starts from the premise, set by its founder, that haze episodes keep returning, and that the information needed to understand them is scattered across agencies, satellites, courts and archives. That premise has not yet been sourced in this repository. It is logged as unverified in [`src/content/claims.ts`](src/content/claims.ts) and is planned to be sourced in Experiment 002.
+The project starts from its founder's premise that haze episodes keep returning. The AI that wrote this README added a second assumption that is not in the founder's brief: that the information needed to understand haze episodes is scattered across agencies, satellites, courts and archives. Neither has been sourced in this repository yet. Both are logged as unverified in [`src/content/claims.ts`](src/content/claims.ts); the first is planned to be sourced in Experiment 002.
 
 Behind it sits a second question, from the founder's brief:
 
@@ -130,7 +130,7 @@ src/
     experiments.ts          The experiment log (001 in progress, 002–007 planned)
     evidence.ts             Evidence ladder, claim labels, the 8 safety rules, inequalities, pipeline
     sources.ts              Candidate public sources (none integrated)
-    claims.ts               The site's own factual claims and how well each is supported
+    claims.ts               The site's main factual claims and how well each is supported
     loop.ts                 Steps of "the loop" on the homepage
 docs/                       Methodology, data sources, AI transparency, roadmap, corrections
 experiments/                Written experiment records, one file per experiment
@@ -147,7 +147,7 @@ HOTSPOT      ≠  RESPONSIBLE COMPANY
 CORRELATION  ≠  LEGAL ATTRIBUTION
 ```
 
-A satellite hotspot alone does not establish ownership, responsibility or wrongdoing. A correlation between observations is not a legal finding. The project separates fact, observation, analysis, allegation, hypothesis and legal finding, and important claims must be cited. The site's own factual claims, and how well each is supported, are tracked in [`src/content/claims.ts`](src/content/claims.ts).
+A satellite hotspot alone does not establish ownership, responsibility or wrongdoing. A correlation between observations is not a legal finding. The project separates fact, observation, analysis, allegation, hypothesis and legal finding, and important claims must be cited. The site's main factual claims, and how well each is supported, are tracked in [`src/content/claims.ts`](src/content/claims.ts).
 
 The full method and the eight data and claim safety rules are in [`docs/METHODOLOGY.md`](docs/METHODOLOGY.md). Found an error? Open an issue, or see [`docs/CORRECTIONS.md`](docs/CORRECTIONS.md) for how corrections are recorded.
 

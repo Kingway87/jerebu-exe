@@ -99,8 +99,8 @@ export function ExperimentRecord({ experiment }: { experiment: Experiment }) {
           {phases && phases.length > 0 ? (
             <ul className="mt-4 max-w-md space-y-2 font-mono text-sm">
               {phases.map((phase) => (
-                <li key={phase.label} className="flex flex-wrap items-baseline gap-x-3">
-                  <span>{phase.label}</span>
+                <li key={phase.label} className="flex items-baseline gap-x-3">
+                  <span className="min-w-0">{phase.label}</span>
                   <span
                     aria-hidden="true"
                     className="min-w-4 flex-1 border-b border-dotted border-subtle"

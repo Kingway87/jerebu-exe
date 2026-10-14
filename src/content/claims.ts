@@ -41,6 +41,12 @@ export const siteClaims: readonly SiteClaim[] = [
     note: "Framing from the project brief. To be sourced in Experiments 002 and 003.",
   },
   {
+    claim:
+      "The information needed to understand haze is scattered across agencies, satellites, courts and archives.",
+    status: "unverified",
+    note: "Framing added by the AI that built V0; it is not in the founder’s brief. To be tested by later experiments.",
+  },
+  {
     claim: "People in Indonesia are also affected by fires and haze.",
     status: "unverified",
     note: "Framing from the project brief. To be sourced in Experiment 002.",

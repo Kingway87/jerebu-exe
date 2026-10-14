@@ -207,14 +207,14 @@ export default function Home() {
           <div className="grid gap-6 md:grid-cols-2">
             {jurisdictions.map((j) => (
               <article key={j.code} aria-labelledby={`jurisdiction-${j.code}`} className="flex flex-col border-2 border-ink">
-                <header className="flex flex-wrap items-center justify-between gap-4 border-b-2 border-ink p-6">
+                <header className="flex items-center justify-between gap-4 border-b-2 border-ink p-6">
                   <h3 id={`jurisdiction-${j.code}`} className="flex items-center gap-4 text-3xl font-bold tracking-tight">
                     <span aria-hidden="true" className="text-4xl leading-none">
                       {j.flag}
                     </span>
                     {j.name}
                   </h3>
-                  <span aria-hidden="true" className="label-mono text-muted">{j.code}</span>
+                  <span aria-hidden="true" className="label-mono hidden text-muted sm:inline">{j.code}</span>
                 </header>
                 <div className="flex-1 p-6">
                   <p className="label-mono text-muted">Questions for Experiment 004</p>
@@ -280,9 +280,9 @@ export default function Home() {
             </div>
             <ul className="grid gap-px self-start border-2 border-ink bg-ink sm:grid-cols-2 lg:col-span-8">
               {sourceCategories.map((category) => (
-                <li key={category.id} className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 bg-paper px-5 py-4">
+                <li key={category.id} className="flex flex-col gap-1 bg-paper px-5 py-4">
                   <span className="font-semibold">{category.name}</span>
-                  <span className="label-mono shrink-0 text-subtle">Not connected</span>
+                  <span className="label-mono text-subtle">Not connected</span>
                 </li>
               ))}
             </ul>

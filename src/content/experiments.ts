@@ -58,8 +58,8 @@ export const experiments: readonly Experiment[] = [
     output: [
       "A static Next.js, TypeScript and Tailwind CSS website with four routes: /, /evidence, /experiments and /about.",
       "An evidence framework separating observation, interpretation, attribution and legal responsibility.",
-      "A list of candidate public data sources, located by web search and marked as not yet verified or integrated.",
-      "A claims register on /evidence listing the site’s own factual statements, all currently unverified.",
+      "A list of candidate public data sources, located by web search and marked as not yet evaluated or integrated.",
+      "A claims register on /evidence listing the site’s main factual statements about the world, all currently unverified.",
       "Repository documentation: README, contributing guide, code of conduct, security policy, methodology, data sources, AI transparency policy, roadmap, corrections log, an experiment index and template, and this experiment’s record.",
       "A CI check (lint, typecheck, build), a pull request template that asks for AI disclosure, and AGENTS.md rules for AI agents.",
       "No live data, no database, no accounts, no tracking and no forms.",
@@ -71,6 +71,8 @@ export const experiments: readonly Experiment[] = [
       "Linked the Indonesian Supreme Court directory to a root address that never appeared in search results; replaced with the address that did.",
       "The orchestrating agent miscounted its own source review (it reported 17 sources kept with caveats; the true number was 20). Another agent caught the error by recounting the raw data.",
       "Several layout problems — misaligned labels, doubled rules, a navigation bar that wrapped on phones — were found in screenshot review and fixed.",
+      "Before any human review, AI reviewer agents checked the first complete build and reported 70 problems; AI verifier agents upheld 67 (12 rated major). Examples: source notes that presented search snippets as what agencies say, an organisation detail not found in the research, and a privacy promise in the code of conduct that contradicted the AI policy.",
+      "A second AI review round upheld 16 more problems, including layout regressions introduced by the first round’s fixes. Upheld problems were fixed before the pull request, apart from one optional clean-up listed in the written record.",
     ],
     humanReview:
       "Required before production deployment. Not yet performed at the time this record was written.",
