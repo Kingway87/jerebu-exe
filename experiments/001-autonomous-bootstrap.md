@@ -12,7 +12,7 @@
 | **AI** | Claude Code, an AI coding agent made by Anthropic, running as a cloud session (the brief calls this "Claude Code Cloud"). The model version is not recorded in this document. |
 | **Data used** | No environmental data. Candidate sources were located from web search results only (see [section 6](#data-used)) |
 | **Branch** | `claude/elegant-brown-k5c0dw` (see the note below) |
-| **Pull request** | Planned: a pull request against `main`, for human review |
+| **Pull request** | [Kingway87/jerebu-exe#1](https://github.com/Kingway87/jerebu-exe/pull/1), against `main`, for human review. Not merged |
 | **Human review** | Required before production deployment. Not yet performed. |
 | **Deployment** | None. Nothing has been deployed. |
 | **Cost** | To be recorded after session |
