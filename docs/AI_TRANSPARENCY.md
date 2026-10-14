@@ -157,7 +157,7 @@ Using several agents to check each other reduces these risks, but does not remov
 - **AI tools are run by third parties.** What you paste may be stored or processed under the provider's terms. Check the terms of any tool you use.
 - **This repository is public.** AI sessions working on it should only need information that is already public.
 - **If sensitive data is pasted or committed by mistake,** stop, do not push it, and if it has already been pushed, report it privately as described in [SECURITY.md](../SECURITY.md).
-- V0 of the website collects no personal data. Using AI tools must not change that.
+- The V0 site's code collects no personal data. Using AI tools must not change that.
 
 ## 8. Endorsement and independence
 

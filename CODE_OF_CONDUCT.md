@@ -45,7 +45,7 @@ Please share only the personal information needed to deal with the report. Repor
 
 The project currently has a **very small maintainer team: in practice, its founder alone**. Enforcement is carried out by the maintainers, following the Contributor Covenant's enforcement guidelines. Responses are best effort, and there is no guaranteed response time.
 
-AI tools may help a maintainer organise or summarise a report. Decisions about enforcement are always made by a human.
+Reports, and the personal data in them, are not pasted into AI tools (see [docs/AI_TRANSPARENCY.md](docs/AI_TRANSPARENCY.md), section 7). Decisions about enforcement are always made by a human.
 
 ## Conflicts of interest
 

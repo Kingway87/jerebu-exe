@@ -66,14 +66,14 @@ V0 is deliberately minimal.
 - **No cookies are set by the site's code.** No analytics, no tracking and no third-party scripts.
 - **Fonts are self-hosted.** `next/font` downloads them at build time and serves them from the site, so visitors' browsers do not contact a font provider. No images or scripts load from external hosts.
 - **No API keys or secrets are in the repository.** Any keys needed by future experiments must be supplied through environment variables and **never committed**. `.gitignore` excludes `.env` files (except `.env.example`) and `*.pem` files.
-- **CI** installs dependencies with `npm ci` from the lockfile, and runs with a read-only `contents: read` token.
+- **CI** installs dependencies with `npm ci` from the lockfile, and runs with a read-only `contents: read` token. The checkout step does not persist its credentials, so later steps cannot read the token from the git configuration.
 - The `X-Powered-By` header is turned off (`poweredByHeader: false`). External links use `rel="noopener noreferrer"`.
 
 This posture will need reviewing before any deployment, and again whenever an experiment adds data access or new dependencies.
 
 ## Known issues
 
-**Development-only `npm audit` advisory chain.** As of 14 October 2026, `npm audit` reports five high-severity advisories. All of them come from a single chain of development dependencies:
+**Development-only `npm audit` advisory chain.** As of 14 October 2026, `npm audit` reports five high-severity vulnerable packages, and `npm audit --omit=dev` reports none. All five come from one advisory, GHSA-vfj7-8cjw-p6xm, in a single chain of development dependencies:
 
 ```text
 eslint-config-next 16.4.0

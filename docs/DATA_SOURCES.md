@@ -143,7 +143,7 @@ Entries marked **LEAD** are legal texts or legal databases. For these, **only th
 - **URL:** <https://hazeportal.asean.org/>
 - **What search results said:** The portal describes itself as the ASEAN knowledge management platform on sustainable peatland and haze management. It hosts publications, news and training materials from the ASEAN Secretariat, Member States and partners.
 - **Access:** Public website. No registration was mentioned.
-- **Caveats:** It is a knowledge and publications repository, not a real-time monitoring portal. Results name external partners that support its programmes (the EU, BMU and IFAD). An older "ASEAN Haze Action Online" site appeared only in a 1999 ASEAN Secretariat release, and no live address for it was found (see [Not found](#not-found)).
+- **Caveats:** Results present it as a knowledge and publications repository, not a real-time monitoring portal. Results name external partners that support its programmes (the EU, BMU and IFAD). An older "ASEAN Haze Action Online" site appeared only in a 1999 ASEAN Secretariat release, and no live address for it was found (see [Not found](#not-found)).
 - **Confidence:** High · **Sceptic verdict:** Keep
 - **Status:** Candidate · ID `asean-haze-portal` · Shown on /evidence
 
@@ -262,7 +262,7 @@ Entries marked **LEAD** are legal texts or legal databases. For these, **only th
 - **URL:** <https://lom.agc.gov.my/act-detail.php?type=original&lang=BM&act=127>
 - **What search results said:** The AGC portal has a detail page for Act 127, with PDFs of a reprint and of an online updated text. The DOE's Acts page (<https://www.doe.gov.my/en/act/>) also hosts a copy.
 - **Access:** Free PDF download. An online updated text appeared at <https://lom.agc.gov.my/ilims/upload/portal/akta/outputaktap/2194944_BI/Act%20127%20(Online%202025).pdf>.
-- **Caveats:** **LEAD: only its existence has been located. Its content and legal effect have not been read or summarised, and its relevance to haze has not been assessed.** Several versions exist: a reprint, an online updated text and the PDF of an amendment Act. Online versions are not the official reprint. Check which version is current before citing it.
+- **Caveats:** **LEAD: only its existence has been located. Its content and legal effect have not been read or summarised, and its relevance to haze has not been assessed.** Several versions exist: a reprint, an online updated text and the PDF of an amendment Act. Search results say the online versions are not the official reprint (not verified; see the Laws of Malaysia entry). Check which version is current before citing it.
 - **Confidence:** High · **Sceptic verdict:** Keep
 - **Status:** Candidate · ID `my-eqa-1974-act127`
 
@@ -553,7 +553,7 @@ Indonesian sources are listed because fires and haze also affect people in Indon
 - **Access:** Not stated in results.
 - **Caveats:** The URL is a single category page. **The root homepage never appeared in results.** Some documents cite `putusan.mahkamahagung.go.id` instead of `putusan3`, so the canonical address may vary. Counts in snippets differ between snapshot dates. No decision has been searched or read. Decisions may name individuals, so see [Rules for future integrations](#rules-for-future-integrations).
 - **Confidence:** High · **Sceptic verdict:** Keep
-- **Status:** Candidate · ID `id-ma-direktori-putusan` · Shown on /evidence (the site links to the host root, which never appeared in search results; see the note in [Maintaining this list](#maintaining-this-list))
+- **Status:** Candidate · ID `id-ma-direktori-putusan` · Shown on /evidence (the site links to this category page, with a note that the directory root was not seen in search results)
 
 ---
 
@@ -649,7 +649,7 @@ Aggregators republish data from other providers. Before relying on one, trace ea
 #### OpenAQ
 
 - **Operator:** OpenAQ (non-profit)
-- **Category:** Secondary aggregator
+- **Category:** Secondary aggregator (air quality)
 - **URL:** <https://openaq.org/platform/>
 - **What search results said:** OpenAQ describes itself as an open-source, open-access platform for ground-level air-quality data. It aggregates government reference monitors and low-cost sensors, and provides physical measurements rather than index values, through its Explorer web app and a REST API.
 - **Access:** According to docs.openaq.org, the v3 API **requires a free API key**. The key is sent in an `X-API-Key` header and obtained by registering at <https://explore.openaq.org/register>. The terms (<https://docs.openaq.org/about/terms>) allow one key per individual. **This project uses no key.**
@@ -782,7 +782,6 @@ No source is integrated yet. When an experiment integrates one, these rules appl
 - **Proposing a source.** Open a pull request or an issue with the same fields as the entries above. Say how you found the source and whether you opened it yourself.
 - **Recording an evaluation.** Fill in the checklist above in the source's entry, with your name or handle and the date. Then change its status. There is no evaluation log yet, because nothing has been evaluated.
 - **Reporting errors.** If a link is broken, wrong or misdescribed, open an issue. Corrections to published claims are recorded, not silently erased; see [`CORRECTIONS.md`](CORRECTIONS.md) and [`CONTRIBUTING.md`](../CONTRIBUTING.md).
-- **Known mismatch with the site list.** For the Supreme Court of Indonesia directory, `src/content/sources.ts` links to the host root, `https://putusan3.mahkamahagung.go.id/`. That root never appeared in search results. The URL that did appear is the category page listed above. A human should open both and decide which to use.
 
 ---
 

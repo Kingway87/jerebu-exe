@@ -12,6 +12,7 @@ An experiment is a bounded piece of work that asks one question, and writes down
 - what existed before the work started;
 - what humans provided and decided;
 - what AI agents or tools did;
+- what data was used, and how it was accessed;
 - what was produced;
 - what was checked, and what was not;
 - what went wrong, including mistakes the AI made or caught in its own work;
@@ -118,6 +119,10 @@ Fill in every field. If a field does not apply, say why. If something is not kno
 
 <!-- What was actually done, in order. Include changes of plan and why they happened. -->
 
+## Data used
+
+<!-- Which sources or data were used, how they were accessed, and when. Write "None" if no data was used. -->
+
 ## Outputs
 
 <!-- Files, features, data or documents produced. Link to them. Say what was deliberately not produced. -->
@@ -137,6 +142,10 @@ Fill in every field. If a field does not apply, say why. If something is not kno
 ## Limitations
 
 <!-- What this experiment cannot show, and the known weaknesses of its method and outputs. -->
+
+## Open questions
+
+<!-- What remains uncertain or unresolved. -->
 
 ## Requires human review
 

@@ -42,19 +42,21 @@ No GitHub account? Write to [JEREBU.EXE@proton.me](mailto:JEREBU.EXE@proton.me).
 
 ## Ground rules for data and claims
 
-These rules apply to humans and AI alike. They are set out in full in [`docs/METHODOLOGY.md`](docs/METHODOLOGY.md) and on the site's `/evidence` page. In short:
+These rules apply to humans and AI alike. The founder set them, and they are reproduced here exactly as written. They are explained in full in [`docs/METHODOLOGY.md`](docs/METHODOLOGY.md) and shown on the site's `/evidence` page.
 
-1. **Never accuse** a company, individual or government of causing a particular haze event without sufficient reliable evidence.
-2. **A satellite hotspot alone** does not establish ownership, responsibility or wrongdoing.
-3. **Label every statement** as a fact, observation, analysis, allegation, hypothesis or legal finding.
-4. **Cite** important factual claims.
-5. **Prefer primary sources** where appropriate: the official dataset, the statute, the judgment, the paper. Do not rely on a news report or blog post that describes them.
-6. **Expose uncertainty.** When evidence conflicts, say so. Do not hide it.
-7. **AI-generated conclusions need human verification** before they are presented as established facts.
-8. **Never fabricate** environmental statistics, historical events, laws, cases or citations.
+1. Never accuse a company, individual or government of causing a particular haze event without sufficient reliable evidence.
+2. A satellite hotspot alone does not establish ownership, responsibility or wrongdoing.
+3. Distinguish: fact, observation, analysis, allegation, hypothesis, legal finding.
+4. Cite important factual claims.
+5. Prefer primary sources where appropriate.
+6. When evidence conflicts, expose uncertainty rather than hiding it.
+7. AI-generated conclusions require human verification before being presented as established facts.
+8. Never fabricate environmental statistics, historical events, laws, cases or citations.
 
 In practice, this also means:
 
+- **Label each statement** as a fact, observation, analysis, allegation, hypothesis or legal finding ([METHODOLOGY section 3](docs/METHODOLOGY.md#3-claim-labels)).
+- **Trace secondary sources back to the primary source** (the official dataset, statute, judgment or paper) where one exists. If you cannot, cite the secondary source and say that the primary source was not checked ([METHODOLOGY section 5](docs/METHODOLOGY.md#5-source-hierarchy)).
 - **No personal or sensitive data.** Do not add names, addresses, contact details, ID numbers or health information about private individuals, and do not collect any.
 - **No fake or placeholder data** that could be mistaken for real data. Unfinished panels use the `NotYetBuilt` component and say plainly that nothing is shown.
 - **If something is unknown, say it is unknown.** Leave the gap visible.
@@ -88,7 +90,7 @@ CI ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)) runs the same lint, 
 | Path | Contents |
 | --- | --- |
 | `src/app/` | Routes: `/`, `/evidence`, `/experiments`, `/about`, plus the root layout and the 404 page |
-| `src/components/` | Shared UI components. Components used by a single page sit in a subfolder named after that page |
+| `src/components/` | UI components. General and homepage components sit at the top level. Some components written for `/evidence`, `/experiments` or `/about` sit in a subfolder named after that page |
 | `src/content/` | Typed content modules, the single source of truth for site copy and data |
 | `docs/` | Methodology, data sources, AI transparency, roadmap, corrections |
 | `experiments/` | Written experiment records |
@@ -113,7 +115,7 @@ The project moves forward as numbered experiments. To propose one, or to challen
 4. How the result would be checked, and by whom.
 5. What could go wrong, or be misread.
 
-If the proposal is accepted, it gets a number and an entry in [`src/content/experiments.ts`](src/content/experiments.ts) with the status `planned`, and a written record in `experiments/` (see [`experiments/README.md`](experiments/README.md)). A planned experiment states its question only. It must never describe results that do not exist.
+If the proposal is accepted, it gets a number and an entry in [`src/content/experiments.ts`](src/content/experiments.ts) with the status `planned`. It gets a written record in `experiments/` once it starts (see [`experiments/README.md`](experiments/README.md)). A planned experiment states its question only. It must never describe results that do not exist.
 
 ## Pull requests
 

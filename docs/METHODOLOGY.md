@@ -229,7 +229,7 @@ Also:
 
 ## 9. The claims register
 
-The project applies its own rules to its own website. [`src/content/claims.ts`](../src/content/claims.ts) lists the factual statements the website makes about the world, each with a verification status and a note. The website's `/evidence` page displays it.
+The project applies its own rules to its own website. [`src/content/claims.ts`](../src/content/claims.ts) lists the main factual statements the website makes about the world, each with a verification status and a note. The website's `/evidence` page displays it. Descriptions of candidate sources are tracked, with their provenance, in [docs/DATA_SOURCES.md](DATA_SOURCES.md).
 
 | Status | Meaning |
 | --- | --- |
