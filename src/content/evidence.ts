@@ -72,7 +72,11 @@ export interface SafetyRule {
   rule: string;
 }
 
-/** Data and claim safety rules. These apply to humans and AI alike. */
+/**
+ * Data and claim safety rules, exactly as the project's human founder wrote
+ * them in the Experiment 001 brief. Do not reword. They apply to humans and
+ * AI alike.
+ */
 export const safetyRules: readonly SafetyRule[] = [
   {
     number: 1,
@@ -84,13 +88,13 @@ export const safetyRules: readonly SafetyRule[] = [
   },
   {
     number: 3,
-    rule: "Distinguish fact, observation, analysis, allegation, hypothesis and legal finding.",
+    rule: "Distinguish: fact, observation, analysis, allegation, hypothesis, legal finding.",
   },
   { number: 4, rule: "Cite important factual claims." },
   { number: 5, rule: "Prefer primary sources where appropriate." },
   {
     number: 6,
-    rule: "When evidence conflicts, expose the uncertainty rather than hiding it.",
+    rule: "When evidence conflicts, expose uncertainty rather than hiding it.",
   },
   {
     number: 7,

@@ -8,7 +8,7 @@
 
 - [ ] No AI tools were used
 - [ ] AI assisted (a human wrote or substantially rewrote the result)
-- [ ] AI generated (an AI produced most of the change; a human reviewed it)
+- [ ] AI generated (an AI produced most of the change; it stays unverified until a named reviewer records what they checked)
 
 Tools / agents used, and what a human checked:
 
