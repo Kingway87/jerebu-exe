@@ -7,6 +7,7 @@ import { Inequality } from "@/components/inequality";
 import { LoopDiagram } from "@/components/loop-diagram";
 import { SectionHeader } from "@/components/section-header";
 import { inequalities, sourceCategories } from "@/content/evidence";
+import { getExperiment, statusLabel } from "@/content/experiments";
 import { site } from "@/content/site";
 
 const inThirtySeconds = [
@@ -16,7 +17,7 @@ const inThirtySeconds = [
   },
   {
     q: "Why does haze matter?",
-    a: "It keeps coming back. Each season the same questions return — and the answers are scattered across agencies, satellites, courts and archives.",
+    a: "Haze can cross borders, affecting people in Malaysia, Singapore and Indonesia. And it keeps coming back: each season the same questions return, with the answers scattered across agencies, satellites, courts and archives.",
   },
   {
     q: "What is it investigating?",
@@ -60,6 +61,11 @@ const commitments = [
 ];
 
 export default function Home() {
+  const currentExperiment = getExperiment("001");
+  if (!currentExperiment) {
+    throw new Error('Experiment "001" is missing from src/content/experiments.ts.');
+  }
+
   return (
     <>
       {/* ───────────────────────────── HERO ───────────────────────────── */}
@@ -69,9 +75,9 @@ export default function Home() {
           className="haze-sun pointer-events-none absolute -top-1/4 -right-1/3 -z-10 aspect-square w-[150%] sm:-right-1/4 sm:w-[110%] lg:-top-1/2 lg:-right-[15%] lg:w-[80%]"
         />
         <Container className="pt-16 pb-20 sm:pt-24 sm:pb-28 lg:pt-28 lg:pb-32">
-          <p className="label-mono flex flex-wrap gap-x-4 gap-y-1 text-ink-muted">
+          <p className="label-mono flex flex-col gap-y-1 text-ink-muted sm:flex-row sm:flex-wrap sm:gap-x-4">
             <span>Open-source civic-tech experiment</span>
-            <span aria-hidden="true">·</span>
+            <span aria-hidden="true" className="hidden sm:inline">·</span>
             <span>Malaysia + Singapore</span>
           </p>
 
@@ -125,7 +131,7 @@ export default function Home() {
           <dl className="mt-8 grid gap-x-10 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
             {inThirtySeconds.map((entry, i) => (
               <div key={entry.q} className="border-t-2 border-ink pt-4">
-                <dt className="flex items-baseline gap-3 text-lg font-bold tracking-tight">
+                <dt className="flex items-baseline gap-3 text-lg font-bold tracking-tight lg:min-h-[2lh]">
                   <span aria-hidden="true" className="font-mono text-sm text-signal-ink">
                     {String(i + 1).padStart(2, "0")}
                   </span>
@@ -161,13 +167,11 @@ export default function Home() {
       <section aria-labelledby="question" className="surface-dark py-20 sm:py-28">
         <Container>
           <SectionHeader index="02" eyebrow="The question" id="question" title="One question drives the project." surface="dark" />
-          <blockquote className="max-w-5xl font-serif text-3xl leading-[1.15] sm:text-5xl lg:text-6xl">
-            <p>
-              Can AI agents and open public data make a decades-old environmental problem{" "}
-              <em className="text-signal">easier for ordinary people</em> to investigate and
-              understand?
-            </p>
-          </blockquote>
+          <p className="max-w-5xl font-serif text-3xl leading-[1.15] sm:text-5xl lg:text-6xl">
+            Can AI agents and open public data make a decades-old environmental problem{" "}
+            <em className="text-signal">easier for ordinary people</em> to investigate and
+            understand?
+          </p>
           <div className="mt-14 grid gap-10 border-t border-ink-line pt-10 md:grid-cols-2">
             <div>
               <h3 className="label-mono text-ink-muted">Behind it, a second question</h3>
@@ -203,14 +207,14 @@ export default function Home() {
           <div className="grid gap-6 md:grid-cols-2">
             {jurisdictions.map((j) => (
               <article key={j.code} aria-labelledby={`jurisdiction-${j.code}`} className="flex flex-col border-2 border-ink">
-                <header className="flex items-center justify-between gap-4 border-b-2 border-ink p-6">
+                <header className="flex flex-wrap items-center justify-between gap-4 border-b-2 border-ink p-6">
                   <h3 id={`jurisdiction-${j.code}`} className="flex items-center gap-4 text-3xl font-bold tracking-tight">
                     <span aria-hidden="true" className="text-4xl leading-none">
                       {j.flag}
                     </span>
                     {j.name}
                   </h3>
-                  <span className="label-mono text-muted">{j.code}</span>
+                  <span aria-hidden="true" className="label-mono text-muted">{j.code}</span>
                 </header>
                 <div className="flex-1 p-6">
                   <p className="label-mono text-muted">Questions for Experiment 004</p>
@@ -276,7 +280,7 @@ export default function Home() {
             </div>
             <ul className="grid gap-px self-start border-2 border-ink bg-ink sm:grid-cols-2 lg:col-span-8">
               {sourceCategories.map((category) => (
-                <li key={category.id} className="flex items-baseline justify-between gap-4 bg-paper px-5 py-4">
+                <li key={category.id} className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 bg-paper px-5 py-4">
                   <span className="font-semibold">{category.name}</span>
                   <span className="label-mono shrink-0 text-subtle">Not connected</span>
                 </li>
@@ -299,8 +303,10 @@ export default function Home() {
 
           <div className="grid gap-12 lg:grid-cols-12">
             <div className="lg:col-span-5">
-              <p className="label-mono text-muted">Now running · Experiment 001</p>
-              <h3 className="mt-3 text-3xl font-bold tracking-tight">Autonomous project bootstrap</h3>
+              <p className="label-mono text-muted">
+                {statusLabel[currentExperiment.status]} · Experiment {currentExperiment.id}
+              </p>
+              <h3 className="mt-3 text-3xl font-bold tracking-tight">{currentExperiment.name}</h3>
               <p className="mt-4 leading-relaxed text-muted">
                 Claude Code, an AI coding agent, was given this nearly empty repository and a
                 written brief from the project&rsquo;s human founder. Its task: build this first
@@ -330,7 +336,7 @@ export default function Home() {
               just the result.
             </p>
           </SectionHeader>
-          <ul className="grid gap-px border-2 border-ink bg-ink sm:grid-cols-2 lg:grid-cols-5">
+          <ul className="grid gap-px border-2 border-ink bg-ink sm:grid-cols-2 sm:[&>li:last-child]:col-span-2 lg:grid-cols-5 lg:[&>li:last-child]:col-span-1">
             {commitments.map((c) => (
               <li key={c.item} className="bg-paper p-6">
                 <span aria-hidden="true" className="font-mono text-sm text-signal-ink">

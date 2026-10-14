@@ -52,11 +52,11 @@ export default function ExperimentsPage() {
     <>
       {/* ──────────────────────────── HEADER ──────────────────────────── */}
       <section aria-labelledby="experiments-title" className="surface-dark">
-        <Container className="pt-16 pb-14 sm:pt-24 sm:pb-20">
+        <Container className="pt-14 pb-16 sm:pt-20 sm:pb-20">
           <p className="label-mono text-ink-muted">Experiment log</p>
           <h1
             id="experiments-title"
-            className="mt-6 max-w-4xl text-5xl leading-[0.98] font-bold tracking-[-0.04em] text-balance sm:text-6xl lg:text-7xl"
+            className="mt-6 max-w-4xl text-4xl leading-[1.02] font-bold tracking-[-0.03em] text-balance sm:text-5xl lg:text-6xl"
           >
             Every step is an experiment.
           </h1>
@@ -198,7 +198,7 @@ export default function ExperimentsPage() {
                 No GitHub account? Write to{" "}
                 <a
                   href={`mailto:${site.contactEmail}`}
-                  className="break-all text-paper underline underline-offset-4 hover:text-signal"
+                  className="whitespace-nowrap text-paper underline underline-offset-4 hover:text-signal"
                 >
                   {site.contactEmail}
                 </a>

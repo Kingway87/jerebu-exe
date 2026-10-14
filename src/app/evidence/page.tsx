@@ -425,6 +425,15 @@ export default function EvidencePage() {
           </SectionHeader>
 
           <div className="grid gap-6 lg:grid-cols-3">
+            <NotYetBuilt title="Haze history timeline" plannedFor="Experiment 002">
+              <p>
+                In future, this may show a timeline of past haze episodes, each entry linked to
+                its sources, with gaps and disagreements between sources left visible.
+              </p>
+              <p className="mt-3">
+                Nothing is shown because no historical records have been collected or reviewed.
+              </p>
+            </NotYetBuilt>
             <NotYetBuilt title="Satellite fire observations" plannedFor="Experiment 003">
               <p>
                 In future, this may show satellite fire detections (hotspots) with their source,
@@ -433,15 +442,6 @@ export default function EvidencePage() {
               </p>
               <p className="mt-3">
                 Nothing is shown because no data has been collected or reviewed.
-              </p>
-            </NotYetBuilt>
-            <NotYetBuilt title="Haze history timeline" plannedFor="Experiment 002">
-              <p>
-                In future, this may show a timeline of past haze episodes, each entry linked to
-                its sources, with gaps and disagreements between sources left visible.
-              </p>
-              <p className="mt-3">
-                Nothing is shown because no historical records have been collected or reviewed.
               </p>
             </NotYetBuilt>
             <NotYetBuilt title="Legal landscape" plannedFor="Experiment 004">
@@ -494,6 +494,16 @@ export default function EvidencePage() {
               The main factual statements this website makes about the world are listed here,
               with how well each is currently supported. {unverifiedCount} of {siteClaims.length}{" "}
               {unverifiedCount === 1 ? "is" : "are"} currently unverified.
+            </p>
+            <p className="mt-4">
+              Descriptions of candidate sources are tracked, with their provenance, in{" "}
+              <ExternalLink
+                href={repoFile("docs/DATA_SOURCES.md")}
+                className="text-ink underline underline-offset-4 hover:text-signal-ink"
+              >
+                docs/DATA_SOURCES.md
+              </ExternalLink>
+              .
             </p>
           </SectionHeader>
 

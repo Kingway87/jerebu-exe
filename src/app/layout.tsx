@@ -8,7 +8,10 @@ import "./globals.css";
 /**
  * Every route in V0 must be prerendered at build time. If a future change
  * introduces request-time rendering, `next build` fails instead of silently
- * adding a server dependency. Opt out deliberately, per route, if ever needed.
+ * adding a server dependency. Child segments cannot weaken this setting. If a
+ * route ever needs request-time rendering (which needs a documented
+ * experiment), move this export into a route-group layout that does not wrap
+ * that route.
  */
 export const ensureStatic = "navigation";
 
@@ -40,12 +43,12 @@ export const metadata: Metadata = {
   },
   description: site.description,
   applicationName: site.name,
+  // Only shared fields here: Next fills og:title and og:description from each
+  // page's own title and description.
   openGraph: {
-    title: `${site.name} — Clean air not found.`,
-    description: site.description,
     siteName: site.name,
     type: "website",
-    locale: "en",
+    locale: "en_GB",
   },
 };
 

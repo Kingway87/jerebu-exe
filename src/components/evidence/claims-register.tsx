@@ -1,4 +1,5 @@
-import { claimStatusLabel, siteClaims, type ClaimStatus } from "@/content/claims";
+import type { ReactNode } from "react";
+import { claimStatusLabel, siteClaims, type ClaimStatus, type SiteClaim } from "@/content/claims";
 
 const statusOrder: readonly ClaimStatus[] = ["unverified", "cited", "human-verified"];
 
@@ -26,6 +27,19 @@ function ClaimStatusTag({ status }: { status: ClaimStatus }) {
   );
 }
 
+/** The claim text, with any foreign-language term marked up for screen readers. */
+function claimText({ claim, term }: SiteClaim): ReactNode {
+  const at = term ? claim.indexOf(term.text) : -1;
+  if (!term || at === -1) return claim;
+  return (
+    <>
+      {claim.slice(0, at)}
+      <span lang={term.lang}>{term.text}</span>
+      {claim.slice(at + term.text.length)}
+    </>
+  );
+}
+
 /** The site's own factual claims and how well each is currently supported. */
 export function ClaimsRegister() {
   return (
@@ -50,7 +64,7 @@ export function ClaimsRegister() {
             className="grid gap-x-10 gap-y-5 border-b border-line py-8 md:grid-cols-12"
           >
             <p className="font-serif text-xl leading-snug sm:text-2xl md:col-span-7">
-              {entry.claim}
+              {claimText(entry)}
             </p>
             <dl className="space-y-4 md:col-span-5">
               <div>

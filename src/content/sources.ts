@@ -57,7 +57,7 @@ export const candidateSources: readonly CandidateSource[] = [
     jurisdiction: "regional",
     kind: "Satellite fire observations",
     url: "https://asmc.asean.org/home/",
-    note: "Regional haze situation, hotspot information and alerts. ASMC itself notes that a hotspot is a possible fire, not a confirmed one.",
+    note: "Regional haze situation, hotspot information and alerts. A portal snippet in search results describes a hotspot as a possible fire, not a confirmed one.",
     status: "candidate",
   },
   {
@@ -70,12 +70,12 @@ export const candidateSources: readonly CandidateSource[] = [
     status: "candidate",
   },
   {
-    name: "ASEAN Agreement on Transboundary Haze Pollution (text)",
+    name: "ASEAN Agreement on Transboundary Haze Pollution (text, PDF)",
     operator: "ASEAN Secretariat",
     jurisdiction: "regional",
     kind: "Legislation",
     url: "https://agreement.asean.org/media/download/20220330063051.pdf",
-    note: "Official copy located by search. Not yet read or analysed — a lead for Experiment 004.",
+    note: "A PDF that search results identify as the agreement text; not yet opened, read or analysed — a lead for Experiment 004.",
     status: "candidate",
   },
 
@@ -175,7 +175,7 @@ export const candidateSources: readonly CandidateSource[] = [
     name: "National Environment Agency — Managing haze",
     operator: "National Environment Agency (NEA), Singapore",
     jurisdiction: "singapore",
-    kind: "Government publications",
+    kind: "Air quality",
     url: "https://www.nea.gov.sg/our-services/pollution-control/air-pollution/managing-haze",
     status: "candidate",
   },
@@ -185,7 +185,7 @@ export const candidateSources: readonly CandidateSource[] = [
     jurisdiction: "singapore",
     kind: "Air quality",
     url: "https://www.haze.gov.sg/",
-    note: "Official PSI and PM2.5 readings. NEA notes real-time data may later be verified and corrected.",
+    note: "Official PSI and PM2.5 readings. Search results say real-time readings may later be verified and corrected.",
     status: "candidate",
   },
   {
@@ -246,7 +246,7 @@ export const candidateSources: readonly CandidateSource[] = [
     jurisdiction: "indonesia",
     kind: "Satellite fire observations",
     url: "https://sipongi.gakkum.kehutanan.go.id/",
-    note: "Hotspot maps. The ministry describes a hotspot as a temperature anomaly, not proof of fire.",
+    note: "Hotspot maps. News results quote the ministry as saying a hotspot is a temperature anomaly, not proof of fire.",
     status: "candidate",
   },
   {
@@ -278,7 +278,7 @@ export const candidateSources: readonly CandidateSource[] = [
   // Research discovery
   {
     name: "OpenAlex",
-    operator: "OpenAlex (non-profit)",
+    operator: "OpenAlex",
     jurisdiction: "global",
     kind: "Research discovery",
     url: "https://developers.openalex.org/",

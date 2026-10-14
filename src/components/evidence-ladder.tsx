@@ -5,10 +5,6 @@ interface EvidenceLadderProps {
   variant?: "compact" | "full";
 }
 
-/**
- * Observation → interpretation → attribution → legal responsibility.
- * Each level demands more evidence than the one before it.
- */
 /** Decorative meter: how much evidence a level demands, relative to the others. */
 function EvidenceMeter({ level, total }: { level: number; total: number }) {
   return (
@@ -23,6 +19,10 @@ function EvidenceMeter({ level, total }: { level: number; total: number }) {
   );
 }
 
+/**
+ * Observation → interpretation → attribution → legal responsibility.
+ * Each level demands more evidence than the one before it.
+ */
 export function EvidenceLadder({ variant = "compact" }: EvidenceLadderProps) {
   const full = variant === "full";
 

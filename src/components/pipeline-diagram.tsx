@@ -12,7 +12,17 @@ export function PipelineDiagram() {
           <li key={stage.name} className="bg-paper p-5">
             <span className="label-mono text-muted">
               {String(i + 1).padStart(2, "0")}
-              <span aria-hidden="true"> {i < pipeline.length - 1 ? "→" : "■"}</span>
+              <span aria-hidden="true">
+                {" "}
+                {i < pipeline.length - 1 ? (
+                  <>
+                    <span className="sm:hidden">↓</span>
+                    <span className="hidden sm:inline">→</span>
+                  </>
+                ) : (
+                  "■"
+                )}
+              </span>
             </span>
             <span className="mt-3 block text-lg font-bold tracking-tight">{stage.name}</span>
             <span className="mt-1 block text-sm text-muted">{stage.note}</span>

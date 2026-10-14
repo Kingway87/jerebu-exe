@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { AboutSection, Lede, Prose } from "@/components/about/about-section";
-import { TransparencyLabel } from "@/components/about/transparency-label";
+import { TransparencyLabel, type TransparencyLabelName } from "@/components/about/transparency-label";
 import { Container } from "@/components/container";
 import { ExternalLink } from "@/components/external-link";
 import { Inequality } from "@/components/inequality";
@@ -54,14 +54,13 @@ const humanDecisions = [
 const aiWork = [
   "Built this first version (V0) of the website, including this page, under human direction and following the founder’s brief.",
   "Wrote the first versions of the project’s documentation.",
-  "Its output is waiting for human review.",
 ];
 
 /**
  * Short, plain-language glosses of the AI-involvement labels. The full policy,
  * and how each label is applied, is in docs/AI_TRANSPARENCY.md.
  */
-const transparencyLabels = [
+const transparencyLabels: readonly { name: TransparencyLabelName; meaning: string }[] = [
   { name: "Human decision", meaning: "A choice made by a person, such as the project’s mission or scope." },
   { name: "AI assisted", meaning: "Work done by a person, with help from AI." },
   { name: "AI generated", meaning: "Work produced mainly by AI. Generated is not the same as checked." },
@@ -130,7 +129,7 @@ export default function AboutPage() {
 
           <nav aria-label="On this page" className="mt-10">
             <p className="label-mono text-ink-muted">On this page</p>
-            <ul className="label-mono mt-2 grid gap-x-6 sm:grid-cols-2 lg:grid-cols-3">
+            <ul className="label-mono mt-2 grid grid-cols-2 gap-x-6 lg:grid-cols-3">
               {onThisPage.map((item) => (
                 <li key={item.id}>
                   <a
@@ -204,7 +203,7 @@ export default function AboutPage() {
             and translation. Disagreement is welcome too, especially when it comes with a source.
           </p>
         </Prose>
-        <ul className="mt-8 grid max-w-[65ch] border-t-2 border-ink sm:grid-cols-2 sm:gap-x-8">
+        <ul className="mt-8 grid border-t-2 border-ink sm:grid-cols-2 sm:gap-x-8">
           {projectLinks.map((link) => (
             <li key={link.href} className="border-b border-line">
               <ExternalLink
@@ -224,7 +223,7 @@ export default function AboutPage() {
         eyebrow="Scope"
         id="scope"
         title="Why Malaysia and Singapore first."
-        meta={<TransparencyLabel>Human decision</TransparencyLabel>}
+        meta={<TransparencyLabel name="Human decision" />}
       >
         <Lede>
           Starting with Malaysia and Singapore was a decision made by the project&rsquo;s human
@@ -236,10 +235,11 @@ export default function AboutPage() {
             that haze matters less anywhere else.
           </p>
           <p>
-            Starting narrow is also deliberate. Evidence work done properly is slow: every source
-            has to be found, read and checked, and every country has its own laws, agencies, courts
-            and public data. A small scope gives that work a chance to be done carefully rather
-            than quickly.
+            The founder has not yet recorded reasons for this choice. One practical advantage of a
+            narrow start, suggested by the AI that wrote this page: evidence work done properly is
+            slow. Every source has to be found, read and checked, and every country has its own
+            laws, agencies, courts and public data. A small scope gives that work a chance to be
+            done carefully rather than quickly.
           </p>
           <p>
             Other jurisdictions, including Indonesia, may be added later. Widening the scope would
@@ -351,7 +351,7 @@ export default function AboutPage() {
 
         <div className="mt-10 grid gap-px border-2 border-ink bg-ink md:grid-cols-2">
           <div className="bg-paper p-6">
-            <TransparencyLabel>Human decision</TransparencyLabel>
+            <TransparencyLabel name="Human decision" />
             <h3 className="mt-4 text-xl font-bold tracking-tight">
               Decided by humans, before Experiment 001
             </h3>
@@ -369,8 +369,8 @@ export default function AboutPage() {
 
           <div className="flex flex-col bg-paper p-6">
             <p className="flex flex-wrap gap-2">
-              <TransparencyLabel>AI generated</TransparencyLabel>
-              <TransparencyLabel>Unverified</TransparencyLabel>
+              <TransparencyLabel name="AI generated" />
+              <TransparencyLabel name="Unverified" />
             </p>
             <h3 className="mt-4 text-xl font-bold tracking-tight">Done by AI, in Experiment 001</h3>
             <ul className="mt-5 space-y-3">
@@ -420,7 +420,7 @@ export default function AboutPage() {
               className="grid gap-2 border-b border-line py-4 sm:grid-cols-[12rem_1fr] sm:items-baseline sm:gap-6"
             >
               <dt>
-                <TransparencyLabel>{label.name}</TransparencyLabel>
+                <TransparencyLabel name={label.name} />
               </dt>
               <dd className="leading-relaxed text-graphite">{label.meaning}</dd>
             </div>
@@ -508,13 +508,13 @@ export default function AboutPage() {
         <p className="mt-2">
           <a
             href={`mailto:${site.contactEmail}`}
-            className="font-mono text-2xl font-bold break-all underline decoration-2 underline-offset-[6px] hover:text-signal-ink sm:text-3xl"
+            className="font-mono text-2xl font-bold [overflow-wrap:anywhere] underline decoration-2 underline-offset-[6px] hover:text-signal-ink sm:text-3xl"
           >
             {site.contactEmail}
           </a>
         </p>
 
-        <ul className="mt-10 max-w-[65ch] border-t-2 border-ink">
+        <ul className="mt-10 border-t-2 border-ink">
           <li className="border-b border-line py-4 leading-relaxed">
             <strong className="font-semibold">Do not send sensitive material.</strong>{" "}
             <span className="text-muted">
@@ -531,8 +531,8 @@ export default function AboutPage() {
           <li className="border-b border-line py-4 leading-relaxed">
             <strong className="font-semibold">No personal data collected here.</strong>{" "}
             <span className="text-muted">
-              The project does not collect personal data on this site. There are no forms,
-              accounts, cookies, analytics or third-party scripts.
+              The site&rsquo;s code collects no personal data. There are no forms, accounts,
+              cookies, analytics or third-party scripts.
             </span>
           </li>
           <li className="border-b border-line py-4 leading-relaxed">

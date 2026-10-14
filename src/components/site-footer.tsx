@@ -14,8 +14,8 @@ const projectLinks = [
 export function SiteFooter() {
   return (
     <footer className="surface-dark mt-auto border-t border-ink-line">
-      <Container className="grid gap-12 py-16 md:grid-cols-12">
-        <div className="md:col-span-5">
+      <Container className="grid gap-12 py-16 md:grid-cols-2 lg:grid-cols-12">
+        <div className="md:col-span-2 lg:col-span-4">
           <Link href="/" className="inline-flex text-xl" aria-label={`${site.name} home`}>
             <Wordmark />
           </Link>
@@ -31,7 +31,7 @@ export function SiteFooter() {
           </p>
         </div>
 
-        <nav aria-label="Footer" className="grid gap-10 sm:grid-cols-2 md:col-span-4">
+        <nav aria-label="Footer" className="grid gap-10 sm:grid-cols-2 lg:col-span-5">
           <div>
             <h2 className="label-mono text-ink-muted">Site</h2>
             <ul className="mt-4 space-y-2">
@@ -65,10 +65,10 @@ export function SiteFooter() {
           </div>
         </nav>
 
-        <div className="md:col-span-3">
+        <div className="lg:col-span-3">
           <h2 className="label-mono text-ink-muted">Contact</h2>
           <p className="mt-4">
-            <a href={`mailto:${site.contactEmail}`} className="break-all underline underline-offset-4 hover:text-signal">
+            <a href={`mailto:${site.contactEmail}`} className="[overflow-wrap:anywhere] underline underline-offset-4 hover:text-signal">
               {site.contactEmail}
             </a>
           </p>
