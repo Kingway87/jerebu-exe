@@ -156,17 +156,26 @@ export function FirePanel({ snapshot, summary, source }: FirePanelProps) {
         </div>
         <figcaption className="mt-4 grid gap-6 lg:grid-cols-12">
           <div className="lg:col-span-5">
-            <p className="label-mono text-muted">Detections per cell of {summary?.cellSizeDegrees ?? 0.1}° (about 11 km)</p>
-            <ul className="mt-2 flex flex-wrap gap-x-5 gap-y-2 text-sm">
-              {DENSITY_CLASSES.map((densityClass) => (
-                <li key={densityClass.label} className="flex items-center gap-2">
-                  <svg aria-hidden="true" viewBox="0 0 10 10" className="size-3.5">
-                    <rect width="10" height="10" className={densityClass.className} />
-                  </svg>
-                  {densityClass.label}
-                </li>
-              ))}
-            </ul>
+            {unavailable ? (
+              <p className="text-sm leading-relaxed font-semibold">
+                No detections are drawn because no FIRMS data was retrieved. An empty map here is not a map of
+                no fires.
+              </p>
+            ) : (
+              <>
+                <p className="label-mono text-muted">Detections per cell of {summary.cellSizeDegrees}° (about 11 km)</p>
+                <ul className="mt-2 flex flex-wrap gap-x-5 gap-y-2 text-sm">
+                  {DENSITY_CLASSES.map((densityClass) => (
+                    <li key={densityClass.label} className="flex items-center gap-2">
+                      <svg aria-hidden="true" viewBox="0 0 10 10" className="size-3.5">
+                        <rect width="10" height="10" className={densityClass.className} />
+                      </svg>
+                      {densityClass.label}
+                    </li>
+                  ))}
+                </ul>
+              </>
+            )}
           </div>
           <p className="text-sm leading-relaxed text-muted lg:col-span-7">
             Map window {describeBox()}. It is a display window, not a claim about where smoke comes from:

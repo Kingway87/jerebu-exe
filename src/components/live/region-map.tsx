@@ -37,6 +37,9 @@ const PLACE_LABELS = [
 
 const SINGAPORE = { lon: 103.82, lat: 1.35 };
 
+/** Where the "no data" label sits: over the sea between the peninsula and Borneo. */
+const NO_DATA_CENTRE_LON = 109.5;
+
 const GRATICULE_LON = [100, 105, 110, 115];
 const GRATICULE_LAT = [-5, 0, 5];
 
@@ -139,6 +142,33 @@ export function RegionMap({ fires, titleId, descriptionId, description }: Region
           </text>
         ))}
       </g>
+
+      {/* No data: say so on the map itself, so an empty map cannot be read as "no fires". Placed over the South China Sea. */}
+      {paths ? null : (
+        <g>
+          <rect
+            x={x(NO_DATA_CENTRE_LON) - 560}
+            y={60}
+            width={1120}
+            height={130}
+            className="fill-paper stroke-signal-ink"
+            strokeWidth={5}
+            strokeDasharray="16 10"
+          />
+          <text
+            x={x(NO_DATA_CENTRE_LON)}
+            y={146}
+            textAnchor="middle"
+            className="fill-signal-ink"
+            fontFamily="var(--font-mono)"
+            fontSize={58}
+            fontWeight={700}
+            letterSpacing={4}
+          >
+            NO DATA RETRIEVED
+          </text>
+        </g>
+      )}
 
       {/* Frame */}
       <rect x={1} y={1} width={width - 2} height={height - 2} fill="none" className="stroke-ink" strokeWidth={4} />
