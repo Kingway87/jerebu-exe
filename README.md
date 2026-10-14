@@ -46,7 +46,7 @@ At the time of writing (14 October 2026):
 | V0 build | Bootstrapped by Claude Code, an AI coding agent made by Anthropic, in Experiment 001, from a written brief by the human founder |
 | Human review | Pending. The work is submitted as a pull request against `main` |
 | Deployment | **Not deployed.** There is no production URL |
-| Data | **No live data.** No data source is connected. 27 candidate sources are listed in [`src/content/sources.ts`](src/content/sources.ts). They were located by web search only: the AI could not open the pages, and none has yet been evaluated by a human |
+| Data | **No live data.** No data source is connected. 27 candidate sources are listed on `/evidence` (from [`src/content/sources.ts`](src/content/sources.ts)), a curated subset of the 45 candidate data sources recorded with caveats in [`docs/DATA_SOURCES.md`](docs/DATA_SOURCES.md). They were located by web search only: the AI could not open the pages, and none has yet been evaluated by a human |
 | Experiments 002–007 | Planned. Not started |
 | Cost of Experiment 001 | To be recorded after session |
 

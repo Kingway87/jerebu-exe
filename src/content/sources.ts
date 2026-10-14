@@ -262,7 +262,8 @@ export const candidateSources: readonly CandidateSource[] = [
     operator: "Supreme Court of Indonesia (Mahkamah Agung)",
     jurisdiction: "indonesia",
     kind: "Court records",
-    url: "https://putusan3.mahkamahagung.go.id/",
+    url: "https://putusan3.mahkamahagung.go.id/direktori/index/kategori/kehutanan-1.html",
+    note: "Link opens the forestry (Kehutanan) category; the directory root was not seen in search results.",
     status: "candidate",
   },
   {

@@ -65,6 +65,7 @@ export const experiments: readonly Experiment[] = [
     aiErrors: [
       "Drafted a homepage line predicting that the haze “will be back” — an unsupported claim. Rewritten before review.",
       "The source-search agents overstated some details, such as a misspelt organisation name and contradictory dataset dates. A second, sceptical agent caught 14 such overclaims, and they were corrected.",
+      "The orchestrating agent miscounted its own source review (it reported 17 sources kept with caveats; the true number was 20). Another agent caught the error by recounting the raw data.",
       "Several layout problems — misaligned labels, doubled rules, a navigation bar that wrapped on phones — were found in screenshot review and fixed.",
     ],
     humanReview:
