@@ -2,11 +2,11 @@
 
 > **Status: V0 draft, awaiting human review.**
 > Written by an AI agent (Claude Code) on 2026-10-14, during [Experiment 001](../experiments/001-autonomous-bootstrap.md). The eight safety rules, the four levels of the evidence ladder, the two inequalities and the six claim types come from the project founder's task brief. The rest of the wording was written by the AI.
-> AI involvement: **AI GENERATED + UNVERIFIED** (see [AI_TRANSPARENCY.md](AI_TRANSPARENCY.md)). No human has reviewed this document yet. It will change. Two passages were updated during [Experiment 003](../experiments/003-live-evidence.md), which first applied this method to live data.
+> AI involvement: **AI GENERATED + UNVERIFIED** (see [AI_TRANSPARENCY.md](AI_TRANSPARENCY.md)). No human has reviewed this document yet. It will change. Three passages were updated during [Experiment 003](../experiments/003-live-evidence.md), which first applied this method to live data.
 
 This document sets out how JEREBU.EXE handles evidence and claims. It applies to everything the project publishes: website pages, documentation, data, code comments, issues and pull requests. It applies to every contributor, human or AI.
 
-It describes a method, not findings. JEREBU.EXE has made no findings about any haze event, organisation or government. Experiment 003 (on its branch, not yet merged) shows current official observations on `/live`, at the observation level only; that is the method's first use on real data.
+It describes a method, not findings. JEREBU.EXE has made no findings about any haze event, organisation or government. Experiment 003 (on its branch, not yet merged) shows current official observations on `/live`, and produces observations only; it also shows MET Malaysia's forecast, tagged as that agency's own interpretation (Level 2), which this site does not produce or extend. That is the method's first use on real data.
 
 The structured version of the framework is in [`src/content/evidence.ts`](../src/content/evidence.ts), which the website's `/evidence` page displays. This document and that file should say the same thing. If they disagree, treat it as a bug and open an issue.
 
@@ -249,7 +249,7 @@ Other rules:
 - **Unsupportable claims are removed.** A claim that cannot be supported should be reworded or removed, not left in place indefinitely as Unverified.
 - **Status is not a label.** Verification status says how far a claim has been checked. It does not replace the claim label (section 3).
 
-**Current state.** At the time of writing, every entry in the register is Unverified. The register does not yet have fields for a citation or for the reviewer's name and date. Those fields will need to be added to `src/content/claims.ts`, and to the component that displays it, when the first claim is cited.
+**Current state.** On the Experiment 003 branch, 10 of the 18 entries in the register are Cited and 8 are Unverified; none is Human verified. Each Cited entry records its citations: title, publisher, URL, date published, date accessed, the words relied on, who read it, an archived copy where one was read, and whether it may be linked. All were read by AI agents. The register does not yet have fields for a human reviewer's name and date.
 
 ## 10. Corrections
 

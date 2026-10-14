@@ -35,7 +35,7 @@ The long-term subject is transboundary haze accountability: how evidence, law an
 - **AI involvement is documented**, not hidden. See [AI transparency](#ai-transparency).
 - **Changes go through pull requests**, and a human reviews them before they are merged or deployed.
 
-A future evidence pipeline is sketched on `/evidence` (public data → ingestion → normalisation → evidence store → AI analysis → source verification → human review → public report). **None of it is implemented.**
+A future evidence pipeline is sketched on `/evidence` (public data → ingestion → normalisation → evidence store → AI analysis → source verification → human review → public report). **It is not implemented as a whole.** On its branch, Experiment 003's `/live` uses a narrow, separate path (source → fetch → validate → normalise → cache → display), with no evidence store and no AI stage; see [`docs/ROADMAP.md`](docs/ROADMAP.md).
 
 ## Status
 
@@ -44,10 +44,10 @@ At the time of writing (15 October 2026):
 | Area | State |
 | --- | --- |
 | V0 build | Bootstrapped by Claude Code, an AI coding agent made by Anthropic, in Experiment 001, from a written brief by the human founder |
-| Human review | Pending. The work is submitted as a pull request against `main` |
+| Human review | Pending in the records. Experiment 001's pull request (#1) was merged into `main` as `5d12fad` on 15 October 2026; whether that merge followed a full human review is for the founder to record |
 | Deployment | **Not deployed.** There is no production URL |
 | Data | On `main`: none. On the Experiment 003 branch: `/live` reads seven official feeds (NASA FIRMS; NEA and MSS via data.gov.sg; MET Malaysia via data.gov.my) on the server, with no credentials, and shows each with its source and age. The 17 sources investigated are in [`data/live-sources.json`](data/live-sources.json). AI agents checked them; no human has evaluated any source yet. 27 candidate sources are listed on `/evidence` (from [`src/content/sources.ts`](src/content/sources.ts)), a curated subset of the 45 recorded with caveats in [`docs/DATA_SOURCES.md`](docs/DATA_SOURCES.md) |
-| Experiment 002 | Running independently on its own branch |
+| Experiment 002 | Running independently on its own branch, according to the founder's brief for Experiment 003. Its record and log status will come from that branch, so the log on this branch still lists it as Planned |
 | Experiment 003 | AI build complete on `experiment/003-live-evidence`; human review pending; not merged |
 | Experiments 004–007 | Planned. Not started |
 | Cost of Experiment 001 | To be recorded after session |
@@ -87,7 +87,7 @@ Read the policy in [`docs/AI_TRANSPARENCY.md`](docs/AI_TRANSPARENCY.md) and the 
 
 ## Getting started
 
-**Requirements:** Node.js 20.9 or later (CI uses Node 22) and npm.
+**Requirements:** Node.js 22 or later (as in CI) and npm.
 
 ```bash
 git clone https://github.com/Kingway87/jerebu-exe.git
@@ -133,7 +133,7 @@ src/
     evidence/, experiments/, about/, live/   Components used by a single page
   content/                  Typed content modules: the single source of truth for site copy and data
     site.ts                 Name, tagline, repository URL, contact address, navigation
-    experiments.ts          The experiment log (001 in progress, 002–007 planned)
+    experiments.ts          The experiment log (001 and 003 in progress, 002 and 004–007 planned)
     evidence.ts             Evidence ladder, claim labels, the 8 safety rules, inequalities, pipeline
     sources.ts              Candidate public sources for /evidence (two integrated on the Experiment 003 branch)
     claims.ts               The site's main factual claims and how well each is supported

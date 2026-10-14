@@ -163,4 +163,4 @@ Fill in every field. If a field does not apply, say why. If something is not kno
 
 ---
 
-<sub>AI involvement: this document is AI GENERATED + UNVERIFIED. It was written by Claude Code during Experiment 001 and has not yet been reviewed by a human.</sub>
+<sub>AI involvement: this document is AI GENERATED + UNVERIFIED. It was written by Claude Code during Experiment 001, updated during Experiment 003, and has not yet been reviewed by a human.</sub>

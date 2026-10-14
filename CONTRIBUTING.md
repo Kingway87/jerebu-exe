@@ -32,7 +32,7 @@ No GitHub account? Write to [JEREBU.EXE@proton.me](mailto:JEREBU.EXE@proton.me).
 | Area | What helps |
 | --- | --- |
 | **Code** | Bug fixes, accessibility fixes, performance and maintainability improvements. V0 is deliberately small. Please do not add databases, accounts, analytics, forms or new dependencies without first agreeing a documented experiment. |
-| **Research** | Find reliable, citable sources for the site's main factual claims, which are listed in [`src/content/claims.ts`](src/content/claims.ts) and are all currently unverified. Help scope the planned experiments. |
+| **Research** | Find reliable, citable sources for the site's main factual claims, which are listed in [`src/content/claims.ts`](src/content/claims.ts). Some are cited by AI agents and the rest are unverified; none has been checked by a human. Help scope the planned experiments. |
 | **Sources and data** | Check the candidate sources in [`src/content/sources.ts`](src/content/sources.ts) and [`docs/DATA_SOURCES.md`](docs/DATA_SOURCES.md). Open each link, then confirm who runs it, what it measures, how often it updates, its licence and its known limits. Report links that are broken or wrong. |
 | **Legal knowledge** | Lawyers, law students and policy researchers can help scope Experiment 004 (legal landscape) from primary sources. Contributions are not legal advice, and the project does not give legal advice. |
 | **Design** | Improve clarity within the existing design system (tokens in [`src/app/globals.css`](src/app/globals.css)). The look is restrained on purpose. Please do not add gradients, shadows, rounded cards or animation. |
@@ -64,7 +64,7 @@ In practice, this also means:
 
 ## Development setup
 
-**Requirements:** Node.js 20.9 or later (CI uses Node 22) and npm.
+**Requirements:** Node.js 22 or later (as in CI) and npm.
 
 ```bash
 git clone https://github.com/Kingway87/jerebu-exe.git
@@ -89,20 +89,20 @@ CI ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)) runs the same lint, 
 
 | Path | Contents |
 | --- | --- |
-| `src/app/` | Routes: `/`, `/evidence`, `/experiments`, `/about`, plus the root layout and the 404 page |
-| `src/components/` | UI components. General and homepage components sit at the top level. Some components written for `/evidence`, `/experiments` or `/about` sit in a subfolder named after that page |
+| `src/app/` | Routes: `/`, `/live`, `/evidence`, `/experiments`, `/about`, plus the root layout and the 404 page |
+| `src/components/` | UI components. General and homepage components sit at the top level. Some components written for `/live`, `/evidence`, `/experiments` or `/about` sit in a subfolder named after that page |
 | `src/content/` | Typed content modules, the single source of truth for site copy and data |
 | `src/lib/live/` | The live evidence pipeline: fetching, validation, normalisation, caching and freshness rules |
 | `data/` | `live-sources.json`, the register of sources for `/live`, and its JSON Schema |
 | `scripts/` | `npm run live:check` and the basemap generator |
 | `tests/` | Unit tests, with real captured responses as fixtures |
-| `docs/` | Methodology, data sources, AI transparency, roadmap, corrections |
+| `docs/` | Methodology, data sources, live evidence, AI transparency, roadmap, corrections |
 | `experiments/` | Written experiment records |
 
 **Content goes in `src/content/`, not in page files**, whenever it appears in more than one place or is data rather than layout.
 
 - **Adding a factual claim to the site?** Add it to [`src/content/claims.ts`](src/content/claims.ts) as well. Each entry has the claim, a status and a note. A claim stays `unverified` until a reliable source is linked (`cited`), and becomes `human-verified` only once a named human reviewer has checked that source.
-- **Adding or changing a candidate source?** Update [`src/content/sources.ts`](src/content/sources.ts) and [`docs/DATA_SOURCES.md`](docs/DATA_SOURCES.md) together. A source is `candidate` until someone evaluates it, and `integrated` only when real code uses it.
+- **Adding or changing a candidate source?** Update [`src/content/sources.ts`](src/content/sources.ts) and [`docs/DATA_SOURCES.md`](docs/DATA_SOURCES.md) together. A source is `candidate` until someone evaluates it, and `integrated` only when real code uses it. Experiment 003 added an interim `integrated-pending-evaluation` status (see [`docs/DATA_SOURCES.md`](docs/DATA_SOURCES.md#status-definitions)).
 - **Changing `/live` or one of its sources?** Read [`docs/LIVE_EVIDENCE.md`](docs/LIVE_EVIDENCE.md) first, update [`data/live-sources.json`](data/live-sources.json), and keep the data path deterministic: no AI model may fetch, transform or summarise a value. Missing data is never shown as zero.
 - **Updating an experiment?** Update [`src/content/experiments.ts`](src/content/experiments.ts) and its record in `experiments/`.
 - **Reuse existing components** (`Container`, `SectionHeader`, `ButtonLink`, `ExternalLink`, `NotYetBuilt` and others) before you write new ones.
@@ -128,7 +128,7 @@ If the proposal is accepted, it gets a number and an entry in [`src/content/expe
 2. **Fill in the [pull request template](.github/pull_request_template.md).**
    - **AI disclosure is required.** Tick the box that applies (no AI, AI assisted, or AI generated), name the tools or agents you used, and say what a human checked.
    - Complete the claims and sources checklist if your change adds or edits any factual statement, data or source.
-3. **CI must pass:** lint, typecheck and build.
+3. **CI must pass:** lint, typecheck, unit tests and build.
 4. **A human reviews every pull request** before it is merged, including pull requests opened by AI agents.
 5. **If you correct a factual error**, record the correction in [`docs/CORRECTIONS.md`](docs/CORRECTIONS.md). Mistakes are recorded with their corrections, not quietly erased.
 
@@ -176,4 +176,4 @@ Open an issue, or write to [JEREBU.EXE@proton.me](mailto:JEREBU.EXE@proton.me).
 
 ---
 
-<sub>AI involvement: this guide is AI GENERATED. It was written by Claude Code during Experiment 001 and has not yet been reviewed by a human.</sub>
+<sub>AI involvement: this guide is AI GENERATED. It was written by Claude Code during Experiment 001, updated during Experiment 003, and has not yet been reviewed by a human.</sub>
