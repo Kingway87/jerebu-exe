@@ -1,7 +1,7 @@
 # Experiment 001 — AUTONOMOUS PROJECT BOOTSTRAP
 
 > **Record status: AI GENERATED + UNVERIFIED.**
-> A Claude Code build agent drafted this record on 2026-10-14, during the experiment it describes, while other agents were still working. Sections marked **Pending** are to be completed by the orchestrating agent after the final checks. This is the AI's own account of its own work. No human has reviewed it yet. See [`docs/AI_TRANSPARENCY.md`](../docs/AI_TRANSPARENCY.md) for what the labels mean.
+> A Claude Code build agent drafted this record on 2026-10-14, during the experiment it describes, while other agents were still working. The orchestrating agent completed it after two review rounds and the final checks. This is the AI's own account of its own work. No human has reviewed it yet. See [`docs/AI_TRANSPARENCY.md`](../docs/AI_TRANSPARENCY.md) for what the labels mean.
 
 | Field | Value |
 | --- | --- |
@@ -141,7 +141,7 @@ The main Claude Code session, called the **orchestrating agent** in this record,
 6. **Visual QA.** Took Playwright (Chromium) screenshots of the homepage at widths of 375, 768 and 1280 pixels, and inspected them. No horizontal overflow was found. Layout problems found this way were fixed (section 10). The contrast ratios of the colour tokens were calculated with a small script and recorded in `src/app/globals.css`.
 7. **Committed the foundation:** commits `c615e5d` (scaffold, CI, pull request template, `AGENTS.md`) and `177ca16` (design system, layout and homepage).
 8. **Parallel build: 7 agents.** Seven build agents worked in parallel, each owning a separate set of files: the `/evidence`, `/experiments` and `/about` pages, and the repository documentation. Their rules were: edit only your own files; do not run builds or the development server, because parallel builds would clash over Next.js's build lock; do not run git commands that change state; do not install dependencies; and report any change needed to a shared file instead of making it. Some agents rendered their pages to screenshots to check the layout. The results were committed as each part was completed. The full list of commits is in the branch's git history and the pull request.
-9. **Multi-dimension review with adversarial verification (planned at the time of writing).** This step runs after this record was drafted. As scripted, seven reviewer agents each examine one dimension:
+9. **Multi-dimension review with adversarial verification.** Seven reviewer agents each examined one dimension of the first complete build:
    1. data and claim safety;
    2. accessibility (WCAG 2.2 AA), with an automated axe scan and a code review;
    3. visual design and responsive layout, with screenshots at 375, 768 and 1280 pixels;
@@ -150,28 +150,39 @@ The main Claude Code session, called the **orchestrating agent** in this record,
    6. privacy, security and secrets;
    7. compliance with the brief.
 
-   Each reviewer's findings then go to an adversarial verifier agent for the same dimension. The verifier tries to refute each finding, and corrects its severity or proposed fix. Reviewers and verifiers report only; they do not edit files. Confirmed findings are then fixed. The verifiers are AI agents too, so this is AI cross-checking, not independent verification.
+   Each reviewer's findings went to an adversarial verifier agent for the same dimension. The verifier tried to refute each finding, and corrected its severity or proposed fix. Reviewers and verifiers reported only; they did not edit files. The verifiers are AI agents too, so this is AI cross-checking, not independent verification.
 
-   > **Review results: Pending.** The table and the two lists below are to be completed by the orchestrating agent after the review workflow.
-
-   <!-- REVIEW RESULTS: to be filled in by the orchestrating agent after the review workflow. Replace every "Pending" with figures counted from the review output (not estimated). "Kept" means confirmed or partly confirmed by the verifier; severities are as corrected by the verifier. Then remove this comment and the "Pending" note above. -->
+   **Round 1 results** (counted from the workflow output; "kept" means confirmed or partly confirmed by the verifier; severities as corrected by the verifier):
 
    | Dimension | Reported | Refuted by verifier | Kept: confirmed / partly | Kept: major / minor | Fixed | Not fixed |
    | --- | --- | --- | --- | --- | --- | --- |
-   | Data and claim safety | Pending | Pending | Pending | Pending | Pending | Pending |
-   | Accessibility | Pending | Pending | Pending | Pending | Pending | Pending |
-   | Visual design and responsive layout | Pending | Pending | Pending | Pending | Pending | Pending |
-   | Documentation matches implementation | Pending | Pending | Pending | Pending | Pending | Pending |
-   | Code quality and Next.js 16 correctness | Pending | Pending | Pending | Pending | Pending | Pending |
-   | Privacy, security and secrets | Pending | Pending | Pending | Pending | Pending | Pending |
-   | Compliance with the brief | Pending | Pending | Pending | Pending | Pending | Pending |
-   | **Total** | Pending | Pending | Pending | Pending | Pending | Pending |
+   | Data and claim safety | 11 | 0 | 6 / 5 | 3 / 8 | 11 | 0 |
+   | Accessibility | 7 | 0 | 6 / 1 | 0 / 7 | 7 | 0 |
+   | Visual design and responsive layout | 13 | 1 | 8 / 4 | 2 / 10 | 12 | 0 |
+   | Documentation matches implementation | 12 | 0 | 5 / 7 | 2 / 10 | 12 | 0 |
+   | Code quality and Next.js 16 correctness | 13 | 2 | 4 / 7 | 0 / 11 | 10 | 1 |
+   | Privacy, security and secrets | 6 | 0 | 4 / 2 | 1 / 5 | 6 | 0 |
+   | Compliance with the brief | 8 | 0 | 4 / 4 | 4 / 4 | 8 | 0 |
+   | **Total** | **70** | **3** | **37 / 30** | **12 / 55** | **66** | **1** |
 
-   **Fixed.** Pending: each fixed finding, by ID, with one line on what changed.
+   No finding was rated a blocker. The 66 kept findings marked "Fixed" were applied by four fix agents, each owning a separate set of files, and by the orchestrating agent where a fix spanned two owners; they were committed in `31f436d` (site) and `2c3e2cc` (documentation). One of them, `brief-6`, was fixed only in part on purpose: the public Output list now names everything produced, but agent counts and cost stay in this record rather than on the site.
 
-   **Deliberately not fixed.** Pending: each kept finding that was not fixed, by ID, with the reason.
+   **Round 2.** Because fixes can introduce new problems, a second round ran three more reviewers, each with a verifier: regressions introduced by the round-1 fixes, a claim-safety re-sweep, and a brief-compliance re-check.
 
-10. **Final checks, commit and pull request (planned).** Run the final checks listed in section 9, update this record, commit, push the branch, and open a pull request against `main` for human review. Nothing is deployed.
+   | Dimension | Reported | Refuted by verifier | Kept: confirmed / partly | Kept: major / minor | Fixed | Not fixed |
+   | --- | --- | --- | --- | --- | --- | --- |
+   | Regressions from round-1 fixes | 6 | 0 | 2 / 4 | 0 / 6 | 6 | 0 |
+   | Data and claim safety (re-sweep) | 6 | 0 | 3 / 3 | 0 / 6 | 6 | 0 |
+   | Compliance with the brief (re-check) | 4 | 0 | 1 / 3 | 1 / 3 | 4 | 0 |
+   | **Total** | **16** | **0** | **6 / 10** | **1 / 15** | **16** | **0** |
+
+   Round-2 fixes were applied by the orchestrating agent and committed in the final commit before the pull request. No third round was run; that is a judgement, not proof that nothing remains.
+
+   **Fixed.** Every finding, with its location, the problem, the endorsed fix and its outcome, is listed in [`001-review-log.md`](001-review-log.md), generated from the workflow output. Highlights are in section 10.
+
+   **Deliberately not fixed.** `cq-6` (code quality, minor): an optional refactor into shared `ArrowLink` and "On this page" components. It was judged not worth the extra abstraction for V0; the About page's table-of-contents styling was aligned instead (`layout-8`). Three round-1 findings were refuted by their verifiers and not applied (`layout-9`, `cq-5`, `cq-12`); the log gives the verifiers' reasons.
+
+10. **Final checks, commit and pull request.** Ran the final checks in section 9, completed this record, committed, pushed the branch, and opened a pull request against `main` for human review. Nothing was deployed.
 
 ## 6. Environment constraints
 
@@ -189,7 +200,7 @@ The main Claude Code session, called the **orchestrating agent** in this record,
 
 - **No environmental data was used.** No air-quality readings, fire or hotspot observations, weather data or other measurements were retrieved, displayed or analysed.
 - **Web search results only.** On 2026-10-14, the source-discovery agents used web search results (titles, snippets and the search tool's summaries, not the contents of the pages) to compile the list of candidate sources. See section 5, step 3, and [`docs/DATA_SOURCES.md`](../docs/DATA_SOURCES.md).
-- **No API was called.** No public data service was queried, even as a trial.
+- **No API was called and no data was retrieved.** The only requests to public data hosts were reachability checks during the environment probe (section 5, step 2), and the container's network blocked them.
 - **No dataset was downloaded.**
 
 ## 7. Decisions made by the AI
@@ -205,13 +216,13 @@ These choices were made by the AI, not by the founder. Each is open to human rev
 7. **Experiment 007 listed as planned.** Section 10 of the brief lists Experiments 002 to 006 as planned. Section 21 also lists 007, automated public monitoring, as future architecture. *Reason:* listing it keeps the public log consistent with the brief's roadmap. It is marked Planned and not started. A human may remove it.
 8. **Status wording: "In progress", not "Complete".** The public log shows three phases: AI build, Complete; Human review, Pending; Production deployment, Not deployed. *Reason:* the brief asked for the actual state. The site defines Complete as finished and reviewed by a human, and no human has reviewed the work yet.
 9. **External links open in the same tab,** with `rel="noopener noreferrer"`, a visible "↗" that is hidden from screen readers, and the screen-reader text "(external site)". *Reason:* this is predictable for keyboard and screen-reader users. Anyone can still choose to open a link in a new tab.
-10. **A claims register** ([`src/content/claims.ts`](../src/content/claims.ts), shown on `/evidence`). It lists the main factual statements the website itself makes about the world, each with a status. All seven are currently Unverified (descriptions of candidate sources are tracked separately, with their provenance, in [`docs/DATA_SOURCES.md`](../docs/DATA_SOURCES.md)). *Reason:* the project applies its own evidence rules to its own copy.
+10. **A claims register** ([`src/content/claims.ts`](../src/content/claims.ts), shown on `/evidence`). It lists the main factual statements the website itself makes about the world, each with a status. All eight are currently Unverified (descriptions of candidate sources are tracked separately, with their provenance, in [`docs/DATA_SOURCES.md`](../docs/DATA_SOURCES.md)). *Reason:* the project applies its own evidence rules to its own copy.
 11. **A CI workflow** ([`.github/workflows/ci.yml`](../.github/workflows/ci.yml)): lint, typecheck and build on every pull request and every push to `main`, on Node 22, with telemetry turned off and a read-only token. *Reason:* a reviewer can see that the checks pass without running them.
 12. **A pull request template** ([`.github/pull_request_template.md`](../.github/pull_request_template.md)) with an AI involvement section and a claims-and-sources checklist. *Reason:* every future change, not only this one, should disclose AI use and pass the claim-safety checks.
 13. **Project rules in [`AGENTS.md`](../AGENTS.md).** The file keeps the Next.js agent rules block, which `next dev` writes and re-adds, and adds the project's claim-safety rules. *Reason:* AI coding agents that work in this repository in future read this file.
 14. **Typed content modules** in `src/content/` as the single source of truth for site copy and data. *Reason:* pages that show the same information, such as the homepage and `/experiments`, cannot drift apart, and a reviewer can check content without reading layout code.
 15. **"Not yet built" placeholders** for future data panels on `/evidence`. *Reason:* the brief asked for unfinished components to be clearly labelled. Each panel says plainly that it shows nothing, so it cannot be mistaken for data.
-16. **27 candidate sources shown on the site,** selected from the 45 found, each labelled "Candidate · not evaluated · not integrated". *Reason:* a starting list for later experiments that does not imply any source has been checked.
+16. **27 candidate sources shown on the site,** selected from the 45 found. Each row is marked "Candidate", and each jurisdiction group's header states that its sources are not evaluated and not integrated. *Reason:* a starting list for later experiments that does not imply any source has been checked.
 17. **The code of conduct adopted by reference** (see section 6).
 18. **An extra document, [`docs/CORRECTIONS.md`](../docs/CORRECTIONS.md),** which was not in the brief's list. *Reason:* the brief commits the project to documenting mistakes and corrections, and that needed a defined place.
 19. **A "What AI got wrong" field** in the public experiment log on `/experiments`. *Reason:* the brief says the public should be able to see what AI got wrong.
@@ -219,16 +230,14 @@ These choices were made by the AI, not by the founder. Each is open to human rev
 
 ## 8. Files and features produced
 
-> **To be confirmed in final QC.** Build agents were still writing when this record was drafted. This is the planned set of files. The orchestrating agent is to confirm the final list against the pull request.
-
-<!-- FINAL FILE LIST: to be confirmed by the orchestrating agent in final QC. -->
+The list below was checked against `git ls-files` at the end of the session.
 
 ### The website (V0)
 
 Four static routes and a 404 page:
 
 - **`/`**: the hero; a "thirty seconds" summary that answers the four questions; the loop; the question; the two jurisdictions; the evidence ladder and both inequalities; the experiment log; the open-source commitments; the calls to action.
-- **`/evidence`**: the evidence ladder with an example and the requirements for each level; the two inequalities; the claim labels; the eight safety rules; candidate sources grouped by jurisdiction; three empty "not yet built" data panels (satellite fire observations, a haze history timeline and the legal landscape); the planned evidence pipeline, labelled as not implemented; and the claims register.
+- **`/evidence`**: the evidence ladder with an example and the requirements for each level; the two inequalities; the claim labels; the eight safety rules; candidate sources grouped by jurisdiction; three empty "not yet built" data panels (a haze history timeline, satellite fire observations and the legal landscape, in experiment order); the planned evidence pipeline, labelled as not implemented; and the claims register.
 - **`/experiments`**: a status key; the full record of Experiment 001; Experiments 002 to 007, marked as planned and not started; and how to propose or challenge an experiment.
 - **`/about`**: why the project exists; why it is open source; why Malaysia and Singapore come first; why Indonesia is not framed as an adversary; why evidence standards matter; how AI fits in; what the project is not; the disclaimer; and the contact address.
 
@@ -258,6 +267,7 @@ docs/
 experiments/
   README.md                      new: what an experiment is, index and template
   001-autonomous-bootstrap.md    new: this record
+  001-review-log.md              new: every review finding and its outcome
 eslint.config.mjs                new
 next.config.ts                   new
 package.json                     new
@@ -291,24 +301,22 @@ These are recorded in the session log, from before the final checks:
 
 Checks that individual build agents may have run on their own files are not recorded here.
 
-### Final checks (planned)
+### Final checks
+
+Run by the orchestrating agent on 2026-10-14, after the round-2 fixes, on the code in the pull request.
 
 | Check | Method | Result |
 | --- | --- | --- |
-| Lint | `npm run lint` (ESLint) | Pending |
-| Typecheck | `npm run typecheck` (`next typegen`, then `tsc --noEmit`) | Pending |
-| Production build | `npm run build`. Every route must be static | Pending |
-| Link check | Internal links and anchors on every route, and relative links between Markdown files | Pending |
-| Accessibility | Automated axe scan of every route, plus a heading-outline check | Pending |
-| Responsive layout | Screenshots of every route at 375, 768 and 1280 pixels. No horizontal overflow | Pending |
-| Secrets | Scan of the working tree and git history for keys, tokens and private keys | Pending |
-| Privacy and network | Headless-browser audit of every route, including the 404 page: only same-origin requests; no cookies, `Set-Cookie` header or web storage; no forms or third-party scripts | Pending |
-| Production dependencies | `npm audit --omit=dev` | Pending |
-| Claim safety | Review of all user-facing copy and documentation against the eight safety rules | Pending |
-
-> **Final QC results: Pending.**
-
-<!-- FINAL QC RESULTS: to be filled in by the orchestrating agent after final checks -->
+| Lint | `npm run lint` (ESLint) | Passed, no warnings |
+| Typecheck | `npm run typecheck` (`next typegen`, then `tsc --noEmit`) | Passed |
+| Production build | `npm run check` (lint, typecheck, then `next build`). Every route must be static | Passed. `/`, `/evidence`, `/experiments`, `/about`, the 404 page and the icon are all prerendered as static content |
+| Link check | Headless-browser crawl of every route: every internal link must return 200 and every `#anchor` must exist on its target page | Passed: no broken internal links, no missing anchors, no duplicate ids. Relative links between Markdown files were checked by the round-1 documentation reviewer. External links were listed but not opened (see "Not performed") |
+| Accessibility | axe-core scan (WCAG 2.0, 2.1 and 2.2 A/AA rules and best practices) of every route, including the 404 page; heading-outline check; first Tab stop | Passed: 0 violations on every route; one `h1` per page; the first Tab stop is the skip link |
+| Responsive layout | Horizontal-overflow measurement of every route at 320, 375, 768 and 1280 pixels, plus screenshots inspected by eye at 320 to 1280 pixels | Passed: 0 pixels of overflow everywhere. Layout defects found in screenshots were fixed in both review rounds |
+| Secrets | Pattern scan of the working tree and of `git log --all -p` for API keys, tokens and private keys; check that no `.env` file is tracked | Passed: no matches; no `.env` file tracked |
+| Privacy and network | Headless-browser audit of every route, including the 404 page, recording the host of every request | Passed: every request went to the site's own origin. No forms or third-party scripts. Cookies and web storage were checked in round 1 (empty) and the code that could set them did not change |
+| Production dependencies | `npm audit --omit=dev` | Passed: 0 vulnerabilities. The full `npm audit` shows only the documented development-only advisory (section 12) |
+| Claim safety | Two AI review rounds over all user-facing copy and documentation against the eight safety rules (section 5, step 9) | 17 claim-safety findings upheld across both rounds; all fixed. No human has checked this yet |
 
 ### Not performed
 
@@ -334,9 +342,18 @@ These are the AI's own reports about its own work. Mistakes that no agent notice
 9. **The pull request template overstated checking.** Its "AI generated" option said that a human had reviewed the work. It now says that the work stays unverified until a named reviewer records what they checked (commit `308611a`).
 10. **A link to a URL never seen in search.** The site's entry for the Indonesian Supreme Court's directory of decisions linked to the directory's root address, which never appeared in search results. It now links to the category page that did (commit `6d6934c`).
 
-> **Review findings: Pending.**
+### Found by the AI review rounds
 
-<!-- REVIEW FINDINGS: to be filled in by the orchestrating agent. Add the AI errors that the review workflow confirmed (for example claim-safety, accessibility or documentation mismatches), and how each was fixed. -->
+The two review rounds (section 5, step 9) upheld 83 problems in the AI's own work. All but one optional refactor were fixed before the pull request. The full list is in [`001-review-log.md`](001-review-log.md). The most significant, in the project's own terms:
+
+11. **Search snippets presented as what agencies say** (`claims-2`). Source notes on `/evidence` stated, as plain fact, what ASMC, Singapore's NEA and Indonesia's forestry ministry "note" or "describe", although no page had been opened and one statement reached the ministry only through news snippets. The notes now say where each statement came from.
+12. **An organisation detail not found in the research** (`claims-7`). The site named a legal entity as OpenAlex's operator. The research did not support it, so it probably came from model memory. It was removed.
+13. **An incomplete claims register** (`claims-1`). The register left out the site's central empirical claim (what a hotspot is), while the methodology described the register as complete. Two entries were added, and the documents now say the register lists the main claims. Round 2 found a third gap: the README credited the founder with a premise the AI had added (`claims2-1`). It is now labelled as AI framing and registered.
+14. **A privacy promise that contradicted the AI policy** (`privacy-1`). The code of conduct allowed conduct reports, which name people, to be processed with AI tools. The AI transparency policy forbids that. The code of conduct now matches the policy.
+15. **AI reasoning presented under a HUMAN DECISION label** (`claims-10`). The `/about` page gave a reason for starting with Malaysia and Singapore that the founder never gave. It is now labelled as the AI's suggestion.
+16. **This record understated the AI's errors** (`claims-4`, `brief-2`). Items 8 to 10 above were missing from the first draft.
+17. **Fixes that introduced regressions** (round 2, `reg-1` to `reg-4`). A round-1 accessibility fix added line-wrapping that broke four layouts at phone widths. All four were fixed.
+18. **Smaller defects:** a blinking cursor that never stopped (WCAG 2.2.2), a decorative gradient that lowered text contrast below 4.5:1 at phone widths, diagram arrows that pointed the wrong way at tablet widths, a footer that broke the contact address mid-domain, misuse of `<blockquote>`, stale statements in the documentation, and counts that disagreed between files.
 
 ## 11. Human corrections
 
@@ -353,10 +370,18 @@ When the founder or another reviewer changes anything, record it here: what chan
 - **Links to files on `main` will return "not found" until the pull request is merged.** The site links to repository documents on the `main` branch, for example "Read the full record on GitHub". Until the merge, those files exist only on the working branch.
 - **No production URL and no social preview image.** Nothing is deployed, and no deployment target has been chosen.
 - **English only.**
-- **No tests beyond static checks:** lint, typecheck, build and the planned QA scans. There are no unit tests, because there is no logic worth unit-testing yet. The site renders static content from typed modules.
+- **No tests beyond static checks:** lint, typecheck, build and the QA scans in section 9. There are no unit tests, because there is no logic worth unit-testing yet. The site renders static content from typed modules.
 - **A development-only `npm audit` advisory.** `npm audit` reports five high-severity vulnerable packages, all from one advisory in one development-only chain: `braces` ([GHSA-vfj7-8cjw-p6xm](https://github.com/advisories/GHSA-vfj7-8cjw-p6xm)), through `micromatch`, `fast-glob` and `@next/eslint-plugin-next`, to `eslint-config-next`. `npm audit --omit=dev` reports none. This code runs only when the project's own source is linted. It is never sent to browsers. npm's only fix is a breaking downgrade of `eslint-config-next`, so the chain was left as it is and documented in [`SECURITY.md`](../SECURITY.md).
 - **The record is self-reported.** The AI wrote it about its own work, partly while that work was still going on. It may be incomplete. This document does not record the model version. The attribution trailers that the cloud environment added to each of the AI's commits name the model and link to the Claude Code session, which is access-controlled. No usage data was available.
 - **The brief was detailed.** This experiment shows what an AI agent built from a detailed written brief (section 3), not from a one-line request. The result may not carry over to a vaguer brief.
+
+### Open questions
+
+- Is this AI-written account of its own errors complete? Mistakes that no agent noticed cannot be in section 10.
+- Do the candidate source URLs work, and do they belong to the operators stated? No page was opened.
+- How do the copy and framing read to people in Malaysia, Singapore and Indonesia?
+- Does the site answer the brief's four questions within about thirty seconds for a first-time visitor? Only people can test that.
+- How much did the session cost? No figures were available (section 14).
 
 ## 13. Requires human review
 
@@ -385,10 +410,19 @@ No reliable cost or usage information (such as tokens, compute time or money) wa
 
 The amount of agent work is partly known. This is not a cost figure:
 
-- 1 orchestrating agent session;
-- 6 source-discovery agents (5 search agents and 1 sceptic), reported as about 173 tool calls;
-- 7 parallel build agents;
-- up to 14 review agents, as planned: 7 reviewers, and a verifier for each reviewer that reports findings.
+- 1 orchestrating agent session, which also wrote the foundation, the homepage and the final edits;
+- 37 sub-agents in five workflows, with tool calls and sub-agent tokens as reported by the workflow tool:
+
+| Workflow | Agents | Tool calls | Sub-agent tokens |
+| --- | --- | --- | --- |
+| Source discovery (5 search agents, 1 sceptic) | 6 | 173 | 638,637 |
+| Parallel build of pages and documents | 7 | 230 | 1,290,648 |
+| Review round 1 (7 reviewers, 7 verifiers) | 14 | 690 | 2,625,653 |
+| Review fixes (4 fix agents) | 4 | 95 | 533,238 |
+| Review round 2 (3 reviewers, 3 verifiers) | 6 | 300 | 1,316,453 |
+| **Total** | **37** | **1,488** | **6,404,629** |
+
+These figures leave out the orchestrating session's own tokens, which were not reported. Token counts are not a cost: the price per token was not available.
 
 When reliable figures are available, record them here with where they came from, and update [`src/content/experiments.ts`](../src/content/experiments.ts).
 
@@ -424,7 +458,7 @@ The question was drafted by AI in [`src/content/experiments.ts`](../src/content/
 
 ### Why this next
 
-- **Everything else depends on it.** The project's central premise, that haze episodes recur, has not been sourced yet. Three of the five entries in the claims register say they are to be sourced in Experiment 002. Later experiments, such as satellite evidence, the legal landscape and monitoring, need a sourced historical baseline to refer to.
+- **Everything else depends on it.** The project's central premise, that haze episodes recur, has not been sourced yet. Most entries in the claims register, including the premise that haze episodes recur, are to be sourced in Experiment 002. Later experiments, such as satellite evidence, the legal landscape and monitoring, need a sourced historical baseline to refer to.
 - **It is lower-risk than attribution.** It asks what public records say happened, and when. It does not ask who caused it. That keeps the work at the observation level of the evidence ladder, away from naming any organisation, person or government.
 - **It tests the methodology on real sources for the first time.** The citation standard, the claims register and human verification have not yet been used on actual evidence.
 - **It fills placeholders that already exist:** the "Haze history timeline" panel on `/evidence`, and the `/timeline` route that was deliberately not built in V0.
@@ -454,7 +488,8 @@ The question was drafted by AI in [`src/content/experiments.ts`](../src/content/
 | Date | Change | By |
 | --- | --- | --- |
 | 2026-10-14 | First draft, written while the build was in progress | Claude Code build agent (AI) |
-| 2026-10-14 | Review results, final QC results and final file list | **Pending:** orchestrating agent (AI) |
+| 2026-10-14 | Review fixes to this record: data used (section 6), AI errors 8 to 10 (section 10), limitations and review checklist (sections 12 and 13); committed in `2c3e2cc` | Review-fix agent (AI) |
+| 2026-10-14 | Review results, round 2, final checks, final file list, open questions, agent work and review findings | Orchestrating agent (AI) |
 | Not yet | Human review | **Pending:** the founder |
 
 ---
