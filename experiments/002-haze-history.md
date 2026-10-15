@@ -3,14 +3,15 @@
 > **Record status:** AI GENERATED + UNVERIFIED. Written by Claude Code, the AI agent that ran the experiment, on 2026-10-15. It is the agent's own account of its work, including its mistakes. No human has reviewed it.
 > **Research status:** the haze history it produced is **AI GENERATED + SOURCE ATTACHED**. It is not HUMAN CHECKED or HUMAN VERIFIED.
 > See [docs/AI_TRANSPARENCY.md](../docs/AI_TRANSPARENCY.md) for what these labels mean.
+> **Update, 2026-10-15:** at the founder's request, the agent pushed the branch to GitHub after the work was complete. This record was then updated to say so; nothing else in it was changed.
 
 | Field | Value |
 | --- | --- |
 | **ID** | 002 |
 | **Name** | HAZE HISTORY |
-| **Status** | In progress: AI research, build, AI review and fixes complete; human review pending. Committed on the branch below, which has not been pushed. Not merged into `main`. Not deployed. |
+| **Status** | In progress: AI research, build, AI review and fixes complete; human review pending. Committed on the branch below and pushed to GitHub at the founder's request. Not merged into `main`. Not deployed. |
 | **Dates** | 2026-10-15 (one working session) |
-| **Branch and pull request** | Branch `experiment/002-haze-history`, local only. No pull request yet: the brief asked the agent to prepare the branch so that a human can review it and open one. |
+| **Branch and pull request** | Branch `experiment/002-haze-history`, pushed to the project's GitHub repository (`origin`) on 2026-10-15 at the founder's request. No pull request yet: the brief asked the agent to prepare the branch so that a human can review it and open one. |
 
 ## Question
 
@@ -44,12 +45,13 @@ All HUMAN DECISION:
 - The Experiment 002 brief: the research question, the study period, the jurisdictions, the core rule ("no source → no claim"), the source hierarchy, the attribution distinctions (hotspot ≠ land ownership ≠ fire starter ≠ legal responsibility; correlation ≠ causation), the health distinctions, the requested dataset shape, the timeline's order of exploration, the review stages (AI GENERATED, SOURCE ATTACHED, HUMAN CHECKED, HUMAN VERIFIED), the list of things not to do, the quality-control checklist and the completion report.
 - The list of years to look at first (1997, 2005, 2013, 2015, 2019, 2023, 2026), given in the brief as leads only, "NOT an instruction that every listed year must appear".
 - Starting the session on the branch and reviewing the result.
+- After the work was complete, instructing the agent to push the branch to GitHub (`git push -u origin experiment/002-haze-history`) and to record the push in this record.
 
 No human took part in the research during the session.
 
 ## AI responsibility
 
-From the brief: research, dataset construction, implementation and initial validation. Claude Code (the orchestrating agent) planned the work, wrote the tools, wrote the selection criteria and confidence method, decided which episodes to include, ran the sub-agents, assembled and checked the dataset, built the page and wrote the documents. Sub-agents searched, read sources, drafted entries and checked each other's work. The agent did not merge, deploy, publish or contact anyone.
+From the brief: research, dataset construction, implementation and initial validation. Claude Code (the orchestrating agent) planned the work, wrote the tools, wrote the selection criteria and confidence method, decided which episodes to include, ran the sub-agents, assembled and checked the dataset, built the page and wrote the documents. Sub-agents searched, read sources, drafted entries and checked each other's work. The agent did not merge, deploy or contact anyone. Its only external action came after the work was complete: at the founder's request, it pushed the branch to the project's GitHub repository. It did not open a pull request.
 
 ## Process
 
@@ -74,7 +76,7 @@ From the brief: research, dataset construction, implementation and initial valid
 - **Research notes:** [`docs/research/HAZE_HISTORY.md`](../docs/research/HAZE_HISTORY.md).
 - **AI review log:** [`002-review-log.md`](002-review-log.md), every final-review finding and its outcome, generated from the workflow output.
 - **This record**, the entry in `src/content/experiments.ts`, and updates to the README, contributing guide, roadmap, methodology, AI transparency policy, data sources document, experiments index, the status rows of the Experiment 001 record, the evidence, about and home pages, the footer, the claims register and the candidate-source notes.
-- **Deliberately not produced:** no attribution of any fire or haze to a company, person or government; no ranking or list of companies; no live data; no personal or health data about individuals; no deployment, publication, social media post, email or contact with anyone.
+- **Deliberately not produced:** no attribution of any fire or haze to a company, person or government; no ranking or list of companies; no live data; no personal or health data about individuals; no deployment, social media post, email or contact with anyone. The only external action was pushing this branch to the project's GitHub repository, at the founder's request, after the work was complete.
 
 ## Sources
 
@@ -168,7 +170,7 @@ The research limitations are set out in [HAZE_HISTORY.md](../docs/research/HAZE_
 - [ ] Decide whether the evidence page's data-panel rule should change, and whether the `/timeline` exception stands.
 - [ ] Record whether Experiment 001 (pull request #1, merged into `main`) was reviewed by a human; the documents now say no review has been recorded.
 - [ ] Decide whether the rule that every new factual statement on the site is added to the claims register (`AGENTS.md`, `CONTRIBUTING.md`, METHODOLOGY section 9) should cover the haze history's claims, which are tracked in the dataset instead.
-- [ ] Review the code and the changes to existing pages and documents, then push the branch and open the pull request.
+- [ ] Review the code and the changes to existing pages and documents, then open the pull request (the branch is already pushed).
 
 ## Cost
 
