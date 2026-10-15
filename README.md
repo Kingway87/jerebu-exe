@@ -4,7 +4,7 @@
 
 An open-source experiment using AI agents and public data to investigate recurring transboundary haze in Southeast Asia.
 
-> **Status (14 October 2026):** V0, bootstrapped by an AI coding agent in [Experiment 001](experiments/001-autonomous-bootstrap.md). Awaiting human review. Not deployed. No live data.
+> **Status (15 October 2026):** V0, bootstrapped by an AI coding agent in [Experiment 001](experiments/001-autonomous-bootstrap.md). On the branch `experiment/002-haze-history`, an AI research agent has added a sourced haze history in [Experiment 002](experiments/002-haze-history.md): AI GENERATED + SOURCE ATTACHED, not yet checked by a human. Not deployed. No live data.
 
 [Methodology](docs/METHODOLOGY.md) · [Data sources](docs/DATA_SOURCES.md) · [AI transparency](docs/AI_TRANSPARENCY.md) · [Roadmap](docs/ROADMAP.md) · [Experiments](experiments/README.md) · [Contributing](CONTRIBUTING.md)
 
@@ -14,13 +14,13 @@ An open-source experiment using AI agents and public data to investigate recurri
 
 JEREBU.EXE is an independent, open-source civic-tech experiment. It explores whether AI agents, public environmental data and community participation can help people understand recurring transboundary haze affecting Malaysia and Singapore. _Jerebu_ is the Malay word for haze.
 
-V0 is a small static website with four pages: `/` (overview), `/evidence` (how evidence is judged), `/experiments` (the public experiment log) and `/about`.
+V0 is a small static website with four pages: `/` (overview), `/evidence` (how evidence is judged), `/experiments` (the public experiment log) and `/about`. Experiment 002 adds a fifth, `/timeline`: a history of major transboundary haze episodes affecting Malaysia, Singapore or both since 1997, with a page for each episode, pages of legal, policy and other milestones, and a page of the periods considered but left out, all generated from a sourced dataset in [`data/`](data/README.md).
 
 It is **not** an official Malaysian or Singaporean initiative, a law firm, a scientific authority, an accusation platform, or a system for identifying guilty companies. It is not an anti-Indonesia or anti-government campaign: people in Indonesia are also affected by fires and haze. The project is **not affiliated with or endorsed by Anthropic or any government.**
 
 ## Why
 
-The project starts from its founder's premise that haze episodes keep returning. The AI that wrote this README added a second assumption that is not in the founder's brief: that the information needed to understand haze episodes is scattered across agencies, satellites, courts and archives. Neither has been sourced in this repository yet. Both are logged as unverified in [`src/content/claims.ts`](src/content/claims.ts); the first is planned to be sourced in Experiment 002.
+The project starts from its founder's premise that haze episodes keep returning. The AI that wrote this README added a second assumption that is not in the founder's brief: that the information needed to understand haze episodes is scattered across agencies, satellites, courts and archives. Both are logged in [`src/content/claims.ts`](src/content/claims.ts), with how well each is supported. Experiment 002 linked sources to the first, through the haze history dataset; no human has checked those sources yet. The second is still unverified.
 
 Behind it sits a second question, from the founder's brief:
 
@@ -39,23 +39,26 @@ A future evidence pipeline is sketched on `/evidence` (public data → ingestion
 
 ## Status
 
-At the time of writing (14 October 2026):
+At the time of writing (15 October 2026):
 
 | Area | State |
 | --- | --- |
 | V0 build | Bootstrapped by Claude Code, an AI coding agent made by Anthropic, in Experiment 001, from a written brief by the human founder |
-| Human review | Pending. The work is submitted as a pull request against `main` |
+| Human review | Experiment 001 was merged into `main` through pull request #1; no human review of it has been recorded. Experiment 002 is on the branch `experiment/002-haze-history`, waiting for human review; it has not been merged |
 | Deployment | **Not deployed.** There is no production URL |
 | Data | **No live data.** No data source is connected. 27 candidate sources are listed on `/evidence` (from [`src/content/sources.ts`](src/content/sources.ts)), a curated subset of the 45 candidate data sources recorded with caveats in [`docs/DATA_SOURCES.md`](docs/DATA_SOURCES.md). They were located by web search only: the AI could not open the pages, and none has yet been evaluated by a human |
-| Experiments 002–007 | Planned. Not started |
+| Haze history | Experiment 002: a dataset of haze episodes, legal and policy milestones, and periods considered but left out, in [`data/haze-events.json`](data/haze-events.json), shown on `/timeline`. Every claim carries its source and the exact passage relied on. Compiled by an AI agent from public documents; AI GENERATED + SOURCE ATTACHED, not human verified. It is a static file, not a live data feed |
+| Experiment 002 | In progress. AI research, build, AI review and fixes complete on its branch; human review pending |
+| Experiments 003–007 | Planned. Not started |
 | Cost of Experiment 001 | To be recorded after session |
+| Cost of Experiment 002 | Not directly measured (see the [record](experiments/002-haze-history.md#cost)) |
 
 ## Tech stack
 
 - [Next.js](https://nextjs.org/) 16 (App Router), React 19, TypeScript 5
 - Tailwind CSS 4, with the default colour palette replaced by a small set of project tokens in [`src/app/globals.css`](src/app/globals.css)
 - ESLint 9 (`eslint-config-next`)
-- **Static only.** The root layout exports `ensureStatic = "navigation"`, so `next build` fails if any route needs request-time rendering.
+- **Static only.** The root layout exports `ensureStatic = "navigation"`, so `next build` fails if any route needs request-time rendering. Every page is prerendered at build time. One exception: under `next start`, an unknown id on the dynamic timeline routes (for example `/timeline/1999`) is rendered on the server when requested and then returns "not found" (see the comment in `next.config.ts`).
 - Fonts (Inter, JetBrains Mono, Newsreader) via `next/font`. They are downloaded at build time and served from the site itself.
 - GitHub Actions CI ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)): lint, typecheck and build on every pull request and every push to `main`, on Node 22.
 - Runtime dependencies: `next`, `react`, `react-dom`. Nothing else.
@@ -75,11 +78,12 @@ Code, research, sources, legal knowledge, design, accessibility, translation and
 AI transparency is part of the product, not a footnote.
 
 - **Humans decided** the concept, the name, the project email, the public repository, the mission, and the task brief that started Experiment 001. Claude did not conceive this project.
-- **AI built** the V0 code and its first documentation (including this README) during Experiment 001. That work has not yet been reviewed by a human.
+- **AI built** the V0 code and its first documentation (including this README) during Experiment 001. No human review of that work has been recorded.
+- **AI researched and wrote** the haze history (dataset, `/timeline` and research notes) during Experiment 002, from the founder's brief. Every claim in the dataset has a source attached, but no human has checked it yet.
 - **AI output is not evidence.** AI-generated research must be checked by a human, and important claims need traceable sources, before anything is presented as fact.
-- Contributions are labelled **HUMAN DECISION**, **AI ASSISTED**, **AI GENERATED**, **HUMAN VERIFIED** or **UNVERIFIED**. The pull request template asks every contributor to disclose AI use.
+- Contributions are labelled **HUMAN DECISION**, **AI ASSISTED**, **AI GENERATED**, **HUMAN VERIFIED** or **UNVERIFIED**. Research content also carries a review stage (AI GENERATED, SOURCE ATTACHED, HUMAN CHECKED, HUMAN VERIFIED; see [`docs/AI_TRANSPARENCY.md`](docs/AI_TRANSPARENCY.md#review-stages-for-research-content)). The pull request template asks every contributor to disclose AI use.
 
-Read the policy in [`docs/AI_TRANSPARENCY.md`](docs/AI_TRANSPARENCY.md) and the full record of the bootstrap in [`experiments/001-autonomous-bootstrap.md`](experiments/001-autonomous-bootstrap.md).
+Read the policy in [`docs/AI_TRANSPARENCY.md`](docs/AI_TRANSPARENCY.md), the full record of the bootstrap in [`experiments/001-autonomous-bootstrap.md`](experiments/001-autonomous-bootstrap.md) and the record of the haze history research in [`experiments/002-haze-history.md`](experiments/002-haze-history.md).
 
 ---
 
@@ -117,6 +121,9 @@ Notes:
 src/
   app/                      Routes (Next.js App Router)
     page.tsx                /             Overview: the loop, the question, the two jurisdictions
+    timeline/               /timeline     Haze history, generated from data/haze-events.json:
+                                          an overview, one page per episode (/timeline/<year>)
+                                          and milestone pages (/timeline/milestones/...)
     evidence/page.tsx       /evidence     Evidence ladder, safety rules, candidate sources, claims register
     experiments/page.tsx    /experiments  Experiment log
     about/page.tsx          /about        Why the project exists, disclaimer, contact
@@ -124,15 +131,18 @@ src/
     not-found.tsx           404 page
     globals.css             Design tokens and custom utilities
   components/               Shared UI (Container, SectionHeader, ButtonLink, NotYetBuilt, EvidenceLadder, ...)
-    evidence/, experiments/, about/   Components used by a single page
+    evidence/, experiments/, about/, timeline/   Components used by a single page
   content/                  Typed content modules: the single source of truth for site copy and data
     site.ts                 Name, tagline, repository URL, contact address, navigation
-    experiments.ts          The experiment log (001 in progress, 002–007 planned)
+    experiments.ts          The experiment log (001 and 002 in progress, 003–007 planned)
+    haze-history.ts         Types, build-time validation and helpers for the haze history dataset
     evidence.ts             Evidence ladder, claim labels, the 8 safety rules, inequalities, pipeline
     sources.ts              Candidate public sources (none integrated)
     claims.ts               The site's main factual claims and how well each is supported
     loop.ts                 Steps of "the loop" on the homepage
+data/                       The haze history dataset, its JSON Schema and a README
 docs/                       Methodology, data sources, AI transparency, roadmap, corrections
+  research/                 Research notes, e.g. HAZE_HISTORY.md (Experiment 002)
 experiments/                Written experiment records, one file per experiment
 .github/                    CI workflow and pull request template
 AGENTS.md                   Rules for AI coding agents (and humans) working in this repository
@@ -167,4 +177,4 @@ Please do not send personal health information or confidential documents. For se
 
 ---
 
-<sub>AI involvement: this README is AI GENERATED. It was written by Claude Code during Experiment 001 and has not yet been reviewed by a human.</sub>
+<sub>AI involvement: this README is AI GENERATED. It was written by Claude Code during Experiment 001 and updated during Experiment 002. Pull request #1 merged the Experiment 001 version into `main`; no human review of it has been recorded. The Experiment 002 changes have not yet been reviewed by a human.</sub>

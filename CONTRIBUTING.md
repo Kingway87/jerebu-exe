@@ -32,7 +32,7 @@ No GitHub account? Write to [JEREBU.EXE@proton.me](mailto:JEREBU.EXE@proton.me).
 | Area | What helps |
 | --- | --- |
 | **Code** | Bug fixes, accessibility fixes, performance and maintainability improvements. V0 is deliberately small. Please do not add databases, accounts, analytics, forms or new dependencies without first agreeing a documented experiment. |
-| **Research** | Find reliable, citable sources for the site's main factual claims, which are listed in [`src/content/claims.ts`](src/content/claims.ts) and are all currently unverified. Help scope the planned experiments. |
+| **Research** | Check the haze history from Experiment 002: open the sources cited in [`data/haze-events.json`](data/haze-events.json) and confirm, or correct, each claim as worded. Start with the priority claims in [`docs/research/HAZE_HISTORY.md`](docs/research/HAZE_HISTORY.md#priority-claims-for-human-verification). Find reliable, citable sources for the site's main factual claims, listed with their status in [`src/content/claims.ts`](src/content/claims.ts); none is human verified yet. Help scope the planned experiments. |
 | **Sources and data** | Check the candidate sources in [`src/content/sources.ts`](src/content/sources.ts) and [`docs/DATA_SOURCES.md`](docs/DATA_SOURCES.md). Open each link, then confirm who runs it, what it measures, how often it updates, its licence and its known limits. Report links that are broken or wrong. |
 | **Legal knowledge** | Lawyers, law students and policy researchers can help scope Experiment 004 (legal landscape) from primary sources. Contributions are not legal advice, and the project does not give legal advice. |
 | **Design** | Improve clarity within the existing design system (tokens in [`src/app/globals.css`](src/app/globals.css)). The look is restrained on purpose. Please do not add gradients, shadows, rounded cards or animation. |
@@ -89,16 +89,18 @@ CI ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)) runs the same lint, 
 
 | Path | Contents |
 | --- | --- |
-| `src/app/` | Routes: `/`, `/evidence`, `/experiments`, `/about`, plus the root layout and the 404 page |
-| `src/components/` | UI components. General and homepage components sit at the top level. Some components written for `/evidence`, `/experiments` or `/about` sit in a subfolder named after that page |
+| `src/app/` | Routes: `/`, `/timeline`, `/evidence`, `/experiments`, `/about`, plus the root layout and the 404 page |
+| `src/components/` | UI components. General and homepage components sit at the top level. Some components written for `/timeline`, `/evidence`, `/experiments` or `/about` sit in a subfolder named after that page |
 | `src/content/` | Typed content modules, the single source of truth for site copy and data |
-| `docs/` | Methodology, data sources, AI transparency, roadmap, corrections |
+| `data/` | The haze history dataset (`haze-events.json`), its JSON Schema and a README. [`src/content/haze-history.ts`](src/content/haze-history.ts) checks it when the site is built |
+| `docs/` | Methodology, data sources, AI transparency, roadmap, corrections, and research notes in `docs/research/` |
 | `experiments/` | Written experiment records |
 
 **Content goes in `src/content/`, not in page files**, whenever it appears in more than one place or is data rather than layout.
 
 - **Adding a factual claim to the site?** Add it to [`src/content/claims.ts`](src/content/claims.ts) as well. Each entry has the claim, a status and a note. A claim stays `unverified` until a reliable source is linked (`cited`), and becomes `human-verified` only once a named human reviewer has checked that source.
 - **Adding or changing a candidate source?** Update [`src/content/sources.ts`](src/content/sources.ts) and [`docs/DATA_SOURCES.md`](docs/DATA_SOURCES.md) together. A source is `candidate` until someone evaluates it, and `integrated` only when real code uses it.
+- **Changing the haze history?** Edit [`data/haze-events.json`](data/haze-events.json), never the `/timeline` page: the page is generated from the file. Every claim needs a source reference with the exact passage relied on, and the build fails if one is missing. See [`data/README.md`](data/README.md).
 - **Updating an experiment?** Update [`src/content/experiments.ts`](src/content/experiments.ts) and its record in `experiments/`.
 - **Reuse existing components** (`Container`, `SectionHeader`, `ButtonLink`, `ExternalLink`, `NotYetBuilt` and others) before you write new ones.
 - **Colours** come only from the project tokens in [`src/app/globals.css`](src/app/globals.css). Tailwind's default palette is switched off.
@@ -171,4 +173,4 @@ Open an issue, or write to [JEREBU.EXE@proton.me](mailto:JEREBU.EXE@proton.me).
 
 ---
 
-<sub>AI involvement: this guide is AI GENERATED. It was written by Claude Code during Experiment 001 and has not yet been reviewed by a human.</sub>
+<sub>AI involvement: this guide is AI GENERATED. It was written by Claude Code during Experiment 001 and updated during Experiment 002. Pull request #1 merged the Experiment 001 version into `main`; no human review of it has been recorded. The Experiment 002 changes have not yet been reviewed by a human.</sub>

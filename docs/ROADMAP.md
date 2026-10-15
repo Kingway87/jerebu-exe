@@ -1,6 +1,6 @@
 # Roadmap
 
-> **Draft, subject to human decision.** An AI agent (Claude Code) wrote this roadmap during [Experiment 001](../experiments/001-autonomous-bootstrap.md), from the founder's brief. No human has reviewed it yet.
+> **Draft, subject to human decision.** An AI agent (Claude Code) wrote this roadmap during [Experiment 001](../experiments/001-autonomous-bootstrap.md), from the founder's brief, and updated the Experiment 001 and 002 sections during [Experiment 002](../experiments/002-haze-history.md). No human review of it has been recorded.
 >
 > **No dates are committed.** There are no timelines, deadlines or release targets. Within *Next* and *Later*, the order is not a commitment either. Any experiment may be changed, merged, split, reordered or dropped.
 
@@ -23,7 +23,7 @@ JEREBU.EXE moves forward through numbered, public **experiments**. Each experime
 - **Next** is what is most likely to come after it.
 - **Later** is work that depends on earlier experiments, or needs decisions that have not been made.
 
-**Planned experiments have not started, and none has results.** Their questions are taken from [`src/content/experiments.ts`](../src/content/experiments.ts), which feeds the site's `/experiments` page. Each section below says what an experiment *might* produce. These are possibilities to discuss, not commitments.
+**Planned experiments have not started, and none has results.** Experiment 002 has started and is listed under *Now*. The questions are taken from [`src/content/experiments.ts`](../src/content/experiments.ts), which feeds the site's `/experiments` page. Each section below says what an experiment *might* produce. These are possibilities to discuss, not commitments.
 
 Every experiment follows the project's evidence rules in [`METHODOLOGY.md`](METHODOLOGY.md) and its AI policy in [`AI_TRANSPARENCY.md`](AI_TRANSPARENCY.md). Every experiment's output goes through a pull request and human review before it is merged or published.
 
@@ -33,7 +33,7 @@ Every experiment follows the project's evidence rules in [`METHODOLOGY.md`](METH
 
 ### 001: Autonomous project bootstrap
 
-**Status:** In progress. AI build complete; awaiting human review; **not deployed**.
+**Status:** In progress. AI build complete; merged into `main` through pull request #1, with no human review recorded; **not deployed**.
 
 **Question:** How much of JEREBU.EXE V0 can Claude Code Cloud autonomously build from a nearly empty repository?
 
@@ -48,9 +48,9 @@ The full record is in [`experiments/001-autonomous-bootstrap.md`](../experiments
 
 **Still to happen (human):**
 
-- Review the pull request.
-- Correct or reject anything wrong, and record any corrections.
-- Check the site's main factual claims, which are listed in [`src/content/claims.ts`](../src/content/claims.ts) and are all currently unverified.
+- Pull request #1 was merged into `main`; no human review is recorded. Record whether a human reviewed it, what was covered, and any corrections.
+- Correct anything wrong, and record the corrections.
+- Check the site's main factual claims, which are listed in [`src/content/claims.ts`](../src/content/claims.ts). None has been verified by a human yet; Experiment 002 attached sources to three of them.
 - Record the cost of the session.
 - Decide whether, where and when to deploy (see [Open decisions](#open-decisions-for-humans)).
 
@@ -58,33 +58,37 @@ The full record is in [`experiments/001-autonomous-bootstrap.md`](../experiments
 
 ---
 
-## Next
-
 ### 002: Haze history
 
-**Question:** Can a sourced, checkable timeline of past haze episodes affecting Malaysia and Singapore be assembled from public records?
+**Status:** In progress. AI research, build, AI review and fixes complete on the branch `experiment/002-haze-history`; awaiting human review; **not merged and not deployed**.
 
-**What it might produce:**
+**Question (HUMAN DECISION, from the founder's Experiment 002 brief):** Can an AI research agent reconstruct a source-verifiable history of major transboundary haze events affecting Malaysia and Singapore without fabricating facts, overstating evidence, or making unsupported attribution claims?
 
-- A timeline in which every entry cites a primary or otherwise reliable source. A human must verify each entry before it is published.
-- A short method note on what counts as an "episode", and which records are used.
-- A visible list of the places where sources disagree, or where records are missing.
-- Possibly the `/timeline` route that V0 deliberately left out, but only once there is sourced content to show.
-- Sources for the site's own framing claims, which are currently unverified. For example, the claims that haze has recurred over decades and that people in Indonesia are also affected.
+It replaces the question drafted by AI during Experiment 001: "Can a sourced, checkable timeline of past haze episodes affecting Malaysia and Singapore be assembled from public records?"
 
-**Preconditions and risks:**
+**What it produced:**
 
-- **Fabricated history.** AI tools can invent events, dates and figures. No entry is added without a citation that a human has checked.
-- **Unevaluated sources.** The relevant sources must first move from *Candidate* to *Evaluated* (see the checklist in [`DATA_SOURCES.md`](DATA_SOURCES.md)).
-- **Inconsistent measures.** Measurement methods and air-quality indices may differ between countries and over time. Any comparison must say so.
-- **Conflicting accounts.** Where accounts conflict, the conflict is shown, not resolved by assumption.
+- A machine-readable dataset, [`data/haze-events.json`](../data/haze-events.json), with a JSON Schema and a [README](../data/README.md): haze episodes from 1997 to 2026, legal and policy milestones, and periods considered but not included. Every claim carries its source and the exact passage relied on.
+- A `/timeline` page generated from that dataset.
+- Research notes, [`docs/research/HAZE_HISTORY.md`](research/HAZE_HISTORY.md): scope, method, selection criteria, findings, contradictions, gaps, and the claims a human should check first.
+- The experiment record, [`experiments/002-haze-history.md`](../experiments/002-haze-history.md).
+- Sources linked to some of the site's framing claims in [`src/content/claims.ts`](../src/content/claims.ts), which are now marked as cited but not human verified.
 
-**What it will not do:**
+**Still to happen (human):**
 
-- Assign the cause of any episode to a country, organisation or person.
-- Rank or blame jurisdictions.
-- Make health claims of its own.
-- Present an uncited event as fact.
+- Review the branch and open the pull request.
+- Check the priority claims listed in the research notes, then the rest.
+- Decide whether the timeline may be published before every entry is human verified. Before Experiment 002, this roadmap said a human must verify each entry before it is published. The founder's Experiment 002 brief sets the end state of the experiment as AI GENERATED + SOURCE ATTACHED, and the page labels every entry as not yet verified. Which rule applies to publication is a human decision.
+- Approve, change or reject the selection criteria and the confidence method, which the AI wrote.
+- Decide whether any party withheld from legal and enforcement milestones should be named ([`METHODOLOGY.md`](METHODOLOGY.md) section 8).
+- Check the use of quoted passages and decide the dataset's licence.
+- Record the cost of the session, if it can be found.
+
+**What it does not do:** It does not attribute any fire or haze episode to a company, person or government; rank or list companies; collect personal or health data; show live data; deploy; publish; or contact anyone.
+
+---
+
+## Next
 
 ### 003: Satellite evidence
 
@@ -266,7 +270,8 @@ None of these would be added without a documented experiment, a stated need and 
 
 These decisions belong to the founder or future maintainers. They are listed so that they are not made by default, or by an AI.
 
-- **Review of Experiment 001.** Accept, change or reject the bootstrap pull request, and record any corrections.
+- **Review of Experiment 001.** Pull request #1 was merged without a recorded human review. Record whether and how it was reviewed, record any corrections, and decide when Experiment 001 is Complete.
+- **Review of Experiment 002.** Review the haze history branch; decide whether the timeline may be published before every entry is human verified, and whether to adopt the AI-written selection criteria and confidence method.
 - **Hosting and deployment.** Whether to deploy at all, and if so where, when and under whose account. The site is static, so many hosts would work. Nothing is deployed, and an AI agent must not deploy to production without human approval.
 - **Domain.** Whether to register a domain, and which one. The AI was instructed not to buy one.
 - **Languages.** Whether to add Malay (Bahasa Melayu) and Indonesian (Bahasa Indonesia) versions, and possibly other languages used in the region. Also how translations would be produced and checked.
@@ -289,4 +294,4 @@ These decisions belong to the founder or future maintainers. They are listed so 
 
 ---
 
-<sub>AI involvement: this document is **AI GENERATED**. Claude Code wrote it during Experiment 001 from the founder's brief. It is a **draft** and has not been reviewed by a human. The experiment questions are taken from `src/content/experiments.ts`. The descriptions of what each experiment might produce are proposals, not commitments.</sub>
+<sub>AI involvement: this document is **AI GENERATED**. Claude Code wrote it during Experiment 001 from the founder's brief, and updated the Experiment 002 sections during Experiment 002. It is a **draft** and has not been reviewed by a human. The experiment questions are taken from `src/content/experiments.ts`. The descriptions of what each experiment might produce are proposals, not commitments.</sub>

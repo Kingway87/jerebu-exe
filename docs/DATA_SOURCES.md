@@ -2,12 +2,12 @@
 
 Candidate public data sources for future JEREBU.EXE experiments.
 
-> **Status, 14 October 2026: no source is integrated.**
+> **Status, 15 October 2026: no source is integrated.**
 >
 > - **Nothing on this list has been evaluated.** Every entry is a *Candidate*. No human has yet checked any of them.
-> - **No data from any source is displayed on the site.** No page fetches, stores or shows environmental data.
+> - **No data feed from any source is displayed on the site.** No page fetches or stores environmental data. Since Experiment 002 (15 October 2026), the `/timeline` pages quote figures from published documents, each with its source, from a static file ([`data/haze-events.json`](../data/haze-events.json)) compiled by an AI agent. That research opened publications from several organisations on this list, and cited three of their published datasets as sources (NEA's historical 24-hour PSI and NEA's real-time PSI API, both on data.gov.sg, the latter read through `api.data.gov.sg/v1/environment/psi`, and Malaysia's monthly air pollution averages on data.gov.my); some figures on the timeline were worked out by the AI agent from these datasets, and say so. None of those organisations or datasets has been evaluated or integrated under the checklist below.
 > - **No API keys are used or stored.** The project uses no credentials of any kind, and no secret is kept in the repository.
-> - **The AI that compiled this list never opened any of these pages.** Every link must be opened and checked by a human before anyone relies on it.
+> - **The AI that compiled this list never opened any of these pages** during Experiment 001. Experiment 002 later read some of them, or other pages on the same sites, as sources for the timeline, without evaluating them. Every link must be opened and checked by a human before anyone relies on it.
 > - Inclusion is not an endorsement. It is not a claim that a source is accurate, complete, current or fit for any purpose.
 
 ## Contents
@@ -169,7 +169,7 @@ Entries marked **LEAD** are legal texts or legal databases. For these, **only th
 - **URL:** <https://agreement.asean.org/media/download/20220330063051.pdf>
 - **What search results said:** Searches for the agreement's title returned this PDF from ASEAN's agreements repository. The snippet showed the opening of the agreement.
 - **Access:** Public PDF download.
-- **Caveats:** **LEAD: only its existence has been located. The content has not been read or analysed.** The file has a numeric name, so its identity rests on the search snippet. Other official ASEAN pages seen:
+- **Caveats:** **LEAD: only its existence has been located. The content has not been read or analysed.** (Experiment 002 note: the haze history research later downloaded this PDF and quoted passages from it, including its preamble, objective and entry-into-force clause, as sources for milestones on `/timeline`. It has still not been analysed or evaluated.) The file has a numeric name, so its identity rests on the search snippet. Other official ASEAN pages seen:
   - a news item, "ASEAN Haze Agreement to Enter Into Force" (<https://asean.org/asean-haze-agreement-to-enter-into-force>);
   - an ASEAN Resource Centre record (<https://resourcecentre.asean.org/Book_Detail/?ID=2131>).
 
@@ -213,6 +213,7 @@ Entries marked **LEAD** are legal texts or legal databases. For these, **only th
 - **What search results said:** A "Monthly Air Pollution" dataset of monthly pollutant concentrations compiled from station data, available as CSV and Parquet files. The same dataset also appears on OpenDOSM (open.dosm.gov.my).
 - **Access:** Open download (CSV and Parquet). The API is documented at developer.data.gov.my (API ID `air_pollution`), and snippets showed no key requirement. The licence is listed as CC BY 4.0 on the OpenDOSM listing; confirm it on data.gov.my itself.
 - **Caveats:** Pages disagree on how current the data is. One summary says it runs to 31 December 2024, with some 2024 values missing. The OpenDOSM copy shows "Data as of 31 Dec 2022", last updated 27 November 2023. The data is monthly and aggregated, not real-time. A legacy portal (archive.data.gov.my) holds older air-quality datasets, and different listings give different coverage years for them.
+- **Experiment 002 note:** the haze history research downloaded this dataset's CSV file and cited monthly values from it on `/timeline`, including comparisons the AI agent worked out from the data. The dataset has still not been evaluated or integrated.
 - **Confidence:** High (search agent); the sceptic recommends **Medium** because freshness is uncertain · **Sceptic verdict:** Keep with caveat
 - **Status:** Candidate · ID `datagovmy-air-pollution` · Shown on /evidence
 
@@ -335,6 +336,7 @@ Entries marked **LEAD** are legal texts or legal databases. For these, **only th
   - The status page (status.data.gov.sg) lists the PSI and PM2.5 real-time APIs among its incidents, and notes that data may go stale during scheduled maintenance.
 
   Both notices are *as reported in search results; not verified.* A separate "Legacy Pollutant Standards Index (PSI) (API)" dataset also appears, with coverage reportedly ending in April 2026, so make sure the current dataset is used. The exact endpoint path and response format were not confirmed.
+- **Experiment 002 note:** the haze history research cited nine responses from the v1 real-time endpoint (`api.data.gov.sg/v1/environment/psi`, called without a key) as sources for 2025 and 2026 readings on `/timeline`. The API has not been evaluated or integrated, and the site does not call it.
 - **Confidence:** High · **Sceptic verdict:** Keep with caveat
 - **Status:** Candidate · ID `datagovsg-psi-api` · Shown on /evidence
 
@@ -346,6 +348,7 @@ Entries marked **LEAD** are legal texts or legal databases. For these, **only th
 - **What search results said:** A data.gov.sg dataset titled "Historical 24-hr PSI", published by NEA. A collection page, "Historical Pollutant Standards Index (PSI)", and separate datasets for individual years also appeared.
 - **Access:** Results describe the licence as the Open Data Licence. data.gov.sg API key tiers and rate limits apply (see the previous entry).
 - **Caveats:** An older path also appeared: <https://data.gov.sg/dataset/historical-24-hr-psi>. The collection page seen was <https://data.gov.sg/collections/2215/view>.
+- **Experiment 002 note:** the haze history research downloaded records from this dataset through the data.gov.sg API and cited them on `/timeline`, including figures the AI agent worked out from them, such as a year's highest 24-hour PSI. The dataset has still not been evaluated or integrated.
 - **Confidence:** High · **Sceptic verdict:** Keep
 - **Status:** Candidate · ID `datagovsg-historical-psi`
 
@@ -785,4 +788,4 @@ No source is integrated yet. When an experiment integrates one, these rules appl
 
 ---
 
-<sub>AI involvement: this document is **AI GENERATED**. Claude Code wrote it during Experiment 001 from the output of AI search agents and an AI sceptic agent, none of which could open the pages listed. **UNVERIFIED**: no link, description or caveat here has yet been checked by a human.</sub>
+<sub>AI involvement: this document is **AI GENERATED**. Claude Code wrote it during Experiment 001 from the output of AI search agents and an AI sceptic agent, none of which could open the pages listed. It was updated during Experiment 002 (the status note on the haze history and the Experiment 002 notes on four entries); those updates have not yet been reviewed by a human. **UNVERIFIED**: no link, description or caveat here has yet been checked by a human.</sub>
