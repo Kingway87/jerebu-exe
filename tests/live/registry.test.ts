@@ -17,9 +17,14 @@ describe("data/live-sources.json", () => {
     assert.deepEqual(registryProblems(registryJson as LiveSourceRegistry), []);
   });
 
-  test("records that no entry has been verified by a human yet", () => {
+  test("records who verified each entry, when, and what they checked", () => {
     for (const source of liveSources) {
-      assert.equal(source.verification.humanVerified, false, source.id);
+      if (!source.verification.humanVerified) continue;
+      const record = source.verification.humanVerification;
+      assert.ok(record, source.id);
+      assert.ok(record.by.length > 0, source.id);
+      assert.match(record.on, /^\d{4}-\d{2}-\d{2}$/, source.id);
+      assert.ok(record.notes.length > 20, source.id);
     }
   });
 
@@ -95,7 +100,7 @@ describe("registryProblems", () => {
 
   test("rejects a claim of human verification that does not say who verified", () => {
     const problems = registryProblems(
-      withSource({ verification: { ...base.verification, humanVerified: true } }),
+      withSource({ verification: { ...base.verification, humanVerified: true, humanVerification: undefined } }),
     );
     assert.ok(problems.some((p) => p.includes("human verification")));
   });

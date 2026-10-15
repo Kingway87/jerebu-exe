@@ -109,7 +109,9 @@ function SourceCard({ source }: { source: LiveSource }) {
               {source.verification.method} Checked on {source.verification.checkedOn} by{" "}
               {source.verification.checkedBy}.{" "}
               <strong className="font-semibold text-ink">
-                {source.verification.humanVerified ? "Verified by a human." : "Not yet verified by a human."}
+                {source.verification.humanVerified && source.verification.humanVerification
+                  ? `Reviewed by ${source.verification.humanVerification.by} on ${source.verification.humanVerification.on}.`
+                  : "Not yet verified by a human."}
               </strong>
             </p>
             {source.linkable !== false && source.documentationUrls.length > 0 ? (

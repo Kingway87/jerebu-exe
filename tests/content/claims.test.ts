@@ -21,12 +21,19 @@ describe("claims register", () => {
     }
   });
 
-  test("no claim is marked human verified while the record says an AI read its sources", () => {
+  test("a claim is human verified only with a record of who verified it and when", () => {
     for (const entry of siteClaims) {
       if (entry.status === "human-verified") {
+        assert.ok(entry.humanVerification, entry.claim);
+        assert.ok((entry.humanVerification?.by ?? "").length > 0, entry.claim);
+        assert.match(entry.humanVerification?.on ?? "", /^\d{4}-\d{2}-\d{2}$/, entry.claim);
+        assert.ok((entry.humanVerification?.notes ?? "").length > 0, entry.claim);
+        // A human-verified claim cannot still say that no human has checked its sources.
         for (const citation of entry.citations ?? []) {
-          assert.doesNotMatch(citation.readBy, /\bAI\b/, entry.claim);
+          assert.doesNotMatch(citation.readBy, /not yet checked by a human/i, entry.claim);
         }
+      } else {
+        assert.equal(entry.humanVerification, undefined, entry.claim);
       }
     }
   });

@@ -94,7 +94,7 @@ export const experiments: readonly Experiment[] = [
       "Can JEREBU.EXE collect, normalise and present current public environmental observations relevant to transboundary haze affecting Malaysia and Singapore without confusing observation, interpretation, attribution or legal responsibility?",
     phases: [
       { label: "AI build", state: "Complete" },
-      { label: "Human review", state: "Pending" },
+      { label: "Human review", state: "Evidence reviewed, 15 Oct 2026" },
       { label: "Merged", state: "No" },
       { label: "Production deployment", state: "Not deployed" },
     ],
@@ -120,7 +120,7 @@ export const experiments: readonly Experiment[] = [
       "A final AI review of the finished branch upheld 84 problems. Among them: the page could call unreadable or undated satellite files “no detections”, a slow NASA server could fail the build, a forecast for a day that had ended could be labelled current, and this record claimed checks that had not yet run. All were fixed before the final commit.",
     ],
     humanReview:
-      "Required before the branch is merged or deployed. Not yet performed at the time this record was written.",
+      "The project’s maintainer (Kingway87) reviewed the evidence presented on /live and /evidence on 15 October 2026, against JEREBU.EXE’s evidence rules, and supplied the “Human reviewed · Open for contribution” notice now shown on those pages. Decisions on linking to NEA and ASMC, contacting DOE and ASMC, hosting and merging remain open.",
     cost: "To be recorded after session",
     record: "experiments/003-live-evidence.md",
   },

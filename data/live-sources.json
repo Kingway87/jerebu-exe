@@ -2,7 +2,7 @@
   "$schema": "./live-sources.schema.json",
   "schemaVersion": 1,
   "registryUpdated": "2026-10-15",
-  "about": "Sources investigated for the live evidence page (/live) in Experiment 003. Every entry was checked by AI agents opening official pages and, where possible, making a small number of requests, on 15 October 2026, Malaysia and Singapore time (14 October UTC). Where an official page refused automated requests (NASA's earthdata.nasa.gov), its wording was read from an Internet Archive copy, given as archivedCopy. No entry has yet been checked by a human (verification.humanVerified is false throughout). Quotes in verification.evidence are copied from the pages named (or their archived copies). See docs/LIVE_EVIDENCE.md and docs/DATA_SOURCES.md.",
+  "about": "Sources investigated for the live evidence page (/live) in Experiment 003. Every entry was checked by AI agents opening official pages and, where possible, making a small number of requests, on 15 October 2026, Malaysia and Singapore time (14 October UTC). Where an official page refused automated requests (NASA's earthdata.nasa.gov), its wording was read from an Internet Archive copy, given as archivedCopy. The project’s maintainer reviewed the evidence presented on /live, including every entry here, on 15 October 2026 (verification.humanVerification records the review). Quotes in verification.evidence are copied from the pages named (or their archived copies). See docs/LIVE_EVIDENCE.md and docs/DATA_SOURCES.md.",
   "sources": [
     {
       "id": "nasa-firms",
@@ -119,7 +119,12 @@
         "checkedOn": "2026-10-15",
         "checkedBy": "AI agents (Claude Code), Experiment 003: a researcher and a separate sceptic",
         "method": "Read the FIRMS API, active-fire, map-key and outage pages and NOAA's Suomi NPP notice live; read NASA's FIRMS FAQ and attribute table from Internet Archive copies (earthdata.nasa.gov refused automated requests); downloaded the regional files; made one area-API request with a deliberately invalid key to record the error response.",
-        "humanVerified": false,
+        "humanVerified": true,
+        "humanVerification": {
+          "by": "Kingway87 (project maintainer)",
+          "on": "2026-10-15",
+          "notes": "Part of the maintainer’s review of the evidence presented on /live and /evidence against JEREBU.EXE’s evidence rules (branch experiment/003-live-evidence, commit 56d74b1), which includes this entry as /live presents it. Stated by the maintainer on 15 October 2026; the individual checks were not itemised. Recorded by Claude Code at the maintainer’s instruction."
+        },
         "evidence": [
           {
             "claim": "What a detection represents",
@@ -303,7 +308,12 @@
         "checkedOn": "2026-10-15",
         "checkedBy": "AI agents (Claude Code), Experiment 003: a researcher and a separate sceptic",
         "method": "Opened the data.gov.sg developer guide, rate-limit page, dataset page, dataset metadata API, Open Data Licence and API Terms of Service; requested the endpoint without a key and compared the response with the published OpenAPI specification.",
-        "humanVerified": false,
+        "humanVerified": true,
+        "humanVerification": {
+          "by": "Kingway87 (project maintainer)",
+          "on": "2026-10-15",
+          "notes": "Part of the maintainer’s review of the evidence presented on /live and /evidence against JEREBU.EXE’s evidence rules (branch experiment/003-live-evidence, commit 56d74b1), which includes this entry as /live presents it. Stated by the maintainer on 15 October 2026; the individual checks were not itemised. Recorded by Claude Code at the maintainer’s instruction."
+        },
         "evidence": [
           {
             "claim": "Rate-limit mechanics",
@@ -403,7 +413,12 @@
         "checkedOn": "2026-10-15",
         "checkedBy": "AI agents (Claude Code), Experiment 003: a researcher and a separate sceptic",
         "method": "Opened the developer guide, dataset page and dataset metadata API; requested the endpoint without a key.",
-        "humanVerified": false,
+        "humanVerified": true,
+        "humanVerification": {
+          "by": "Kingway87 (project maintainer)",
+          "on": "2026-10-15",
+          "notes": "Part of the maintainer’s review of the evidence presented on /live and /evidence against JEREBU.EXE’s evidence rules (branch experiment/003-live-evidence, commit 56d74b1), which includes this entry as /live presents it. Stated by the maintainer on 15 October 2026; the individual checks were not itemised. Recorded by Claude Code at the maintainer’s instruction."
+        },
         "evidence": [
           {
             "claim": "Unit",
@@ -497,7 +512,12 @@
         "checkedOn": "2026-10-15",
         "checkedBy": "AI agents (Claude Code), Experiment 003",
         "method": "Read the dataset metadata through the documented data.gov.sg metadata API and the published OpenAPI specification; requested the endpoint without a key.",
-        "humanVerified": false,
+        "humanVerified": true,
+        "humanVerification": {
+          "by": "Kingway87 (project maintainer)",
+          "on": "2026-10-15",
+          "notes": "Part of the maintainer’s review of the evidence presented on /live and /evidence against JEREBU.EXE’s evidence rules (branch experiment/003-live-evidence, commit 56d74b1), which includes this entry as /live presents it. Stated by the maintainer on 15 October 2026; the individual checks were not itemised. Recorded by Claude Code at the maintainer’s instruction."
+        },
         "evidence": [
           {
             "claim": "Averaging period",
@@ -581,7 +601,12 @@
         "checkedOn": "2026-10-15",
         "checkedBy": "AI agents (Claude Code), Experiment 003",
         "method": "Read the dataset metadata and the published OpenAPI specification; requested the endpoint without a key.",
-        "humanVerified": false,
+        "humanVerified": true,
+        "humanVerification": {
+          "by": "Kingway87 (project maintainer)",
+          "on": "2026-10-15",
+          "notes": "Part of the maintainer’s review of the evidence presented on /live and /evidence against JEREBU.EXE’s evidence rules (branch experiment/003-live-evidence, commit 56d74b1), which includes this entry as /live presents it. Stated by the maintainer on 15 October 2026; the individual checks were not itemised. Recorded by Claude Code at the maintainer’s instruction."
+        },
         "evidence": [
           {
             "claim": "Averaging period",
@@ -656,7 +681,12 @@
         "checkedOn": "2026-10-15",
         "checkedBy": "AI agents (Claude Code), Experiment 003",
         "method": "Read the dataset metadata and the published OpenAPI specification; requested the endpoint without a key.",
-        "humanVerified": false,
+        "humanVerified": true,
+        "humanVerification": {
+          "by": "Kingway87 (project maintainer)",
+          "on": "2026-10-15",
+          "notes": "Part of the maintainer’s review of the evidence presented on /live and /evidence against JEREBU.EXE’s evidence rules (branch experiment/003-live-evidence, commit 56d74b1), which includes this entry as /live presents it. Stated by the maintainer on 15 October 2026; the individual checks were not itemised. Recorded by Claude Code at the maintainer’s instruction."
+        },
         "evidence": [
           {
             "claim": "Update frequency",
@@ -741,7 +771,12 @@
         "checkedOn": "2026-10-15",
         "checkedBy": "AI agents (Claude Code), Experiment 003",
         "method": "Read the data.gov.my developer documentation (weather, query, rate limit, FAQ) and requested the endpoint.",
-        "humanVerified": false,
+        "humanVerified": true,
+        "humanVerification": {
+          "by": "Kingway87 (project maintainer)",
+          "on": "2026-10-15",
+          "notes": "Part of the maintainer’s review of the evidence presented on /live and /evidence against JEREBU.EXE’s evidence rules (branch experiment/003-live-evidence, commit 56d74b1), which includes this entry as /live presents it. Stated by the maintainer on 15 October 2026; the individual checks were not itemised. Recorded by Claude Code at the maintainer’s instruction."
+        },
         "evidence": [
           {
             "claim": "No token",
@@ -817,7 +852,12 @@
         "checkedOn": "2026-10-15",
         "checkedBy": "AI agents (Claude Code), Experiment 003",
         "method": "Read Natural Earth's terms of use and the repository's release tags; downloaded the pinned files and processed them with a committed script.",
-        "humanVerified": false,
+        "humanVerified": true,
+        "humanVerification": {
+          "by": "Kingway87 (project maintainer)",
+          "on": "2026-10-15",
+          "notes": "Part of the maintainer’s review of the evidence presented on /live and /evidence against JEREBU.EXE’s evidence rules (branch experiment/003-live-evidence, commit 56d74b1), which includes this entry as /live presents it. Stated by the maintainer on 15 October 2026; the individual checks were not itemised. Recorded by Claude Code at the maintainer’s instruction."
+        },
         "evidence": [
           {
             "claim": "Public domain",
@@ -878,7 +918,12 @@
         "checkedOn": "2026-10-15",
         "checkedBy": "AI agents (Claude Code), Experiment 003: a researcher and a separate sceptic",
         "method": "Opened the APIMS page and its scripts, DOE's open-data and disclaimer pages and DOE media statements, and read the full method document (PDF). Looked for any documented interface, licence or robots policy.",
-        "humanVerified": false,
+        "humanVerified": true,
+        "humanVerification": {
+          "by": "Kingway87 (project maintainer)",
+          "on": "2026-10-15",
+          "notes": "Part of the maintainer’s review of the evidence presented on /live and /evidence against JEREBU.EXE’s evidence rules (branch experiment/003-live-evidence, commit 56d74b1), which includes this entry as /live presents it. Stated by the maintainer on 15 October 2026; the individual checks were not itemised. Recorded by Claude Code at the maintainer’s instruction."
+        },
         "evidence": [
           {
             "claim": "The index is the highest pollutant sub-index",
@@ -951,7 +996,12 @@
         "checkedOn": "2026-10-15",
         "checkedBy": "AI agents (Claude Code), Experiment 003",
         "method": "Read the developer documentation and dataset page; queried the Open API for the latest rows.",
-        "humanVerified": false,
+        "humanVerified": true,
+        "humanVerification": {
+          "by": "Kingway87 (project maintainer)",
+          "on": "2026-10-15",
+          "notes": "Part of the maintainer’s review of the evidence presented on /live and /evidence against JEREBU.EXE’s evidence rules (branch experiment/003-live-evidence, commit 56d74b1), which includes this entry as /live presents it. Stated by the maintainer on 15 October 2026; the individual checks were not itemised. Recorded by Claude Code at the maintainer’s instruction."
+        },
         "evidence": [
           {
             "claim": "Licence",
@@ -1000,7 +1050,12 @@
         "checkedOn": "2026-10-15",
         "checkedBy": "AI sceptic agent (Claude Code), Experiment 003",
         "method": "Searched the legacy catalogue; tried three downloads.",
-        "humanVerified": false,
+        "humanVerified": true,
+        "humanVerification": {
+          "by": "Kingway87 (project maintainer)",
+          "on": "2026-10-15",
+          "notes": "Part of the maintainer’s review of the evidence presented on /live and /evidence against JEREBU.EXE’s evidence rules (branch experiment/003-live-evidence, commit 56d74b1), which includes this entry as /live presents it. Stated by the maintainer on 15 October 2026; the individual checks were not itemised. Recorded by Claude Code at the maintainer’s instruction."
+        },
         "evidence": [
           {
             "claim": "Catalogue search result",
@@ -1050,7 +1105,12 @@
         "checkedOn": "2026-10-15",
         "checkedBy": "AI agents (Claude Code), Experiment 003",
         "method": "Read haze.gov.sg's robots.txt and NEA's Terms of Use; no haze.gov.sg page was opened.",
-        "humanVerified": false,
+        "humanVerified": true,
+        "humanVerification": {
+          "by": "Kingway87 (project maintainer)",
+          "on": "2026-10-15",
+          "notes": "Part of the maintainer’s review of the evidence presented on /live and /evidence against JEREBU.EXE’s evidence rules (branch experiment/003-live-evidence, commit 56d74b1), which includes this entry as /live presents it. Stated by the maintainer on 15 October 2026; the individual checks were not itemised. Recorded by Claude Code at the maintainer’s instruction."
+        },
         "evidence": [
           {
             "claim": "Automated access disallowed",
@@ -1110,7 +1170,12 @@
         "checkedOn": "2026-10-15",
         "checkedBy": "AI agents (Claude Code), Experiment 003",
         "method": "Read ASMC's terms of use and public pages; a separate AI sceptic re-read the terms and NOAA's satellite notices.",
-        "humanVerified": false,
+        "humanVerified": true,
+        "humanVerification": {
+          "by": "Kingway87 (project maintainer)",
+          "on": "2026-10-15",
+          "notes": "Part of the maintainer’s review of the evidence presented on /live and /evidence against JEREBU.EXE’s evidence rules (branch experiment/003-live-evidence, commit 56d74b1), which includes this entry as /live presents it. Stated by the maintainer on 15 October 2026; the individual checks were not itemised. Recorded by Claude Code at the maintainer’s instruction."
+        },
         "evidence": [
           {
             "claim": "Clause 4.3 permits limited use (it conflicts with clause 8.1 on linking)",
@@ -1181,7 +1246,12 @@
         "checkedOn": "2026-10-15",
         "checkedBy": "AI agents (Claude Code), Experiment 003",
         "method": "Read the portal pages, the WMO discovery metadata and the WMO WIS 2.0 Guide; made a small number of requests to the documented HTTP API (a researcher and a separate sceptic, about 15 requests in all).",
-        "humanVerified": false,
+        "humanVerified": true,
+        "humanVerification": {
+          "by": "Kingway87 (project maintainer)",
+          "on": "2026-10-15",
+          "notes": "Part of the maintainer’s review of the evidence presented on /live and /evidence against JEREBU.EXE’s evidence rules (branch experiment/003-live-evidence, commit 56d74b1), which includes this entry as /live presents it. Stated by the maintainer on 15 October 2026; the individual checks were not itemised. Recorded by Claude Code at the maintainer’s instruction."
+        },
         "evidence": [
           {
             "claim": "Hotspot endpoint returned HTTP 502 when tested (15 October 2026)",
@@ -1245,7 +1315,12 @@
         "checkedOn": "2026-10-15",
         "checkedBy": "AI agents (Claude Code), Experiment 003",
         "method": "Read the public landing page.",
-        "humanVerified": false,
+        "humanVerified": true,
+        "humanVerification": {
+          "by": "Kingway87 (project maintainer)",
+          "on": "2026-10-15",
+          "notes": "Part of the maintainer’s review of the evidence presented on /live and /evidence against JEREBU.EXE’s evidence rules (branch experiment/003-live-evidence, commit 56d74b1), which includes this entry as /live presents it. Stated by the maintainer on 15 October 2026; the individual checks were not itemised. Recorded by Claude Code at the maintainer’s instruction."
+        },
         "evidence": [
           {
             "claim": "Rate limit",
@@ -1296,7 +1371,12 @@
         "checkedOn": "2026-10-15",
         "checkedBy": "AI agents (Claude Code), Experiment 003",
         "method": "Read the open-data pages and made one request to the forecast API.",
-        "humanVerified": false,
+        "humanVerified": true,
+        "humanVerification": {
+          "by": "Kingway87 (project maintainer)",
+          "on": "2026-10-15",
+          "notes": "Part of the maintainer’s review of the evidence presented on /live and /evidence against JEREBU.EXE’s evidence rules (branch experiment/003-live-evidence, commit 56d74b1), which includes this entry as /live presents it. Stated by the maintainer on 15 October 2026; the individual checks were not itemised. Recorded by Claude Code at the maintainer’s instruction."
+        },
         "evidence": [
           {
             "claim": "Attribution required",
@@ -1343,7 +1423,12 @@
         "checkedOn": "2026-10-15",
         "checkedBy": "AI agents (Claude Code), Experiment 003",
         "method": "Read the public pages and disclaimer.",
-        "humanVerified": false,
+        "humanVerified": true,
+        "humanVerification": {
+          "by": "Kingway87 (project maintainer)",
+          "on": "2026-10-15",
+          "notes": "Part of the maintainer’s review of the evidence presented on /live and /evidence against JEREBU.EXE’s evidence rules (branch experiment/003-live-evidence, commit 56d74b1), which includes this entry as /live presents it. Stated by the maintainer on 15 October 2026; the individual checks were not itemised. Recorded by Claude Code at the maintainer’s instruction."
+        },
         "evidence": [
           {
             "claim": "Required citation",

@@ -363,7 +363,7 @@
               "$ref": "#/$defs/nonEmptyString"
             },
             "humanVerified": {
-              "description": "True only when a named human has checked the entry against its sources. An AI agent must never set this.",
+              "description": "True only when a named human has checked the entry against its sources and said so. An AI agent may record that human's attestation, at their instruction, but must never set this on its own judgement.",
               "type": "boolean"
             },
             "humanVerification": {

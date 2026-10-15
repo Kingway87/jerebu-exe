@@ -12,6 +12,7 @@ import { SingaporeAirPanel } from "@/components/live/singapore-air-panel";
 import { SourceStatusTable, type StatusRow } from "@/components/live/source-status-table";
 import { SourcesRegister } from "@/components/live/sources-register";
 import { StatusChip } from "@/components/live/status-chip";
+import { ReviewNotice } from "@/components/review-notice";
 import { SectionHeader } from "@/components/section-header";
 import { repoFile } from "@/content/site";
 import { getLiveSource } from "@/lib/live/registry";
@@ -145,7 +146,7 @@ export default async function LivePage() {
           <dl className="mt-12 grid gap-6 border-t border-ink-line pt-6 sm:grid-cols-3">
             <div>
               <dt className="label-mono text-ink-muted">Status</dt>
-              <dd className="mt-1">Experiment 003, awaiting human review</dd>
+              <dd className="mt-1">Experiment 003. Human reviewed on 15 October 2026; open for contribution</dd>
             </div>
             <div>
               <dt className="label-mono text-ink-muted">Data</dt>
@@ -177,6 +178,13 @@ export default async function LivePage() {
           </nav>
         </Container>
       </section>
+
+      {/* ─────────────────────────── HUMAN REVIEW ─────────────────────────── */}
+      <div className="border-b border-line py-10 sm:py-12">
+        <Container>
+          <ReviewNotice liveData />
+        </Container>
+      </div>
 
       {/* ───────────────────────────── §01 STATUS ──────────────────────────── */}
       <section aria-labelledby="status" className="py-20 sm:py-24">
@@ -358,7 +366,8 @@ export default async function LivePage() {
               <ExternalLink href={repoFile("data/live-sources.json")} className="text-ink underline underline-offset-4 hover:text-signal-ink">
                 data/live-sources.json
               </ExternalLink>
-              . AI agents opened each official page during Experiment 003. No human has checked them yet.
+              . AI agents opened each official page during Experiment 003, and the project&rsquo;s maintainer
+              reviewed the register on 15 October 2026.
             </p>
           </SectionHeader>
           <SourcesRegister />

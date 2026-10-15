@@ -51,7 +51,7 @@ To propose a new experiment, or to challenge an existing one, see [Proposing an 
 | --- | --- | --- | --- |
 | 001 | AUTONOMOUS PROJECT BOOTSTRAP | In progress — AI build complete, human review pending | [001-autonomous-bootstrap.md](001-autonomous-bootstrap.md) |
 | 002 | HAZE HISTORY | Planned | No record yet |
-| 003 | LIVE EVIDENCE | In progress — AI build complete on branch `experiment/003-live-evidence`, human review pending, not merged | [003-live-evidence.md](003-live-evidence.md) |
+| 003 | LIVE EVIDENCE | In progress — AI build complete on branch `experiment/003-live-evidence`; evidence reviewed by the maintainer on 15 October 2026; not merged | [003-live-evidence.md](003-live-evidence.md) |
 | 004 | LEGAL LANDSCAPE | Planned | No record yet |
 | 005 | EVIDENCE AGENT | Planned | No record yet |
 | 006 | COMMUNITY ACTION | Planned | No record yet |

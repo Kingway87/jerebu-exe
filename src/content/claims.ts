@@ -42,6 +42,14 @@ export interface Citation {
   linkable: boolean;
 }
 
+/** Who checked a claim, when, and what they checked. Recorded on a human's own word, never by an AI on its own. */
+export interface HumanVerification {
+  by: string;
+  /** YYYY-MM-DD */
+  on: string;
+  notes: string;
+}
+
 export interface SiteClaim {
   claim: string;
   status: ClaimStatus;
@@ -50,10 +58,24 @@ export interface SiteClaim {
   term?: { text: string; lang: string };
   /** Required for "cited" and "human-verified" claims. */
   citations?: readonly Citation[];
+  /** Required for "human-verified" claims. */
+  humanVerification?: HumanVerification;
 }
 
 /** Who read the sources cited in Experiment 003. */
-const EXP003_READER = "AI agents (Claude Code), Experiment 003; not yet checked by a human";
+const EXP003_READER =
+  "AI agents (Claude Code), Experiment 003; then reviewed by the project’s maintainer (Kingway87) on 15 October 2026";
+
+/**
+ * The maintainer's review of the evidence on /live and /evidence, which
+ * covers every claim cited in Experiment 003 (see src/content/review.ts).
+ */
+const EXP003_REVIEW: HumanVerification = {
+  by: "Kingway87 (project maintainer)",
+  on: "2026-10-15",
+  notes:
+    "Part of the maintainer’s review of the evidence presented on /live and /evidence against JEREBU.EXE’s evidence rules (branch experiment/003-live-evidence, commit 56d74b1), as stated by the maintainer on 15 October 2026. The individual checks were not itemised.",
+};
 
 export const siteClaims: readonly SiteClaim[] = [
   {
@@ -91,8 +113,9 @@ export const siteClaims: readonly SiteClaim[] = [
   {
     claim:
       "A satellite hotspot is a detection of unusual heat at a place and time; it may or may not be a fire.",
-    status: "cited",
-    note: "Cited in Experiment 003 to NASA’s own description of FIRMS detections. NASA’s FAQ was read from an Internet Archive copy because earthdata.nasa.gov refused automated requests; a human should check the live page.",
+    status: "human-verified",
+    humanVerification: EXP003_REVIEW,
+    note: "Cited in Experiment 003 to NASA’s own description of FIRMS detections. NASA’s FAQ was read from an Internet Archive copy because earthdata.nasa.gov refused automated requests.",
     citations: [
       {
         title: "FIRMS FAQ",
@@ -119,8 +142,9 @@ export const siteClaims: readonly SiteClaim[] = [
   {
     claim:
       "Singapore’s 24-hour PSI is computed from six pollutants: each gets a sub-index, and the highest sub-index is the PSI.",
-    status: "cited",
-    note: "Stated on /live, which also names the pollutant whose published sub-index equals the PSI. For Singapore’s five regions, the published PSI equalled the highest of the five published sub-indices in every region-hour two AI agents checked (125 from 14 October 2026 to 01:00 on 15 October; 455 across six dates from 2021 to 2026). A separate “national” series, which the API returns for some older dates, did not always match: on 1 January 2021 its PSI equalled the west region’s PSI, not its own highest sub-index, in all 8 hours returned. One agent noted that the ozone and carbon monoxide sub-indices behave like 8-hour averages, so NEA’s “24-hour average” wording may be a simplification. NEA’s page was read once by an AI agent and not re-opened, because NEA’s terms forbid automated copying; a human should check it.",
+    status: "human-verified",
+    humanVerification: EXP003_REVIEW,
+    note: "Stated on /live, which also names the pollutant whose published sub-index equals the PSI. For Singapore’s five regions, the published PSI equalled the highest of the five published sub-indices in every region-hour two AI agents checked (125 from 14 October 2026 to 01:00 on 15 October; 455 across six dates from 2021 to 2026). A separate “national” series, which the API returns for some older dates, did not always match: on 1 January 2021 its PSI equalled the west region’s PSI, not its own highest sub-index, in all 8 hours returned. One agent noted that the ozone and carbon monoxide sub-indices behave like 8-hour averages, so NEA’s “24-hour average” wording may be a simplification. NEA’s page was read once by an AI agent and not re-opened, because NEA’s terms forbid automated copying.",
     citations: [
       {
         title: "FAQs",
@@ -138,7 +162,8 @@ export const siteClaims: readonly SiteClaim[] = [
   {
     claim:
       "NEA describes the 24-hour PSI as 0–50 Good, 51–100 Moderate, 101–200 Unhealthy, 201–300 Very unhealthy and above 300 Hazardous.",
-    status: "cited",
+    status: "human-verified",
+    humanVerification: EXP003_REVIEW,
     note: "Used to label each PSI reading on /live with NEA’s own descriptor.",
     citations: [
       {
@@ -156,7 +181,8 @@ export const siteClaims: readonly SiteClaim[] = [
   {
     claim:
       "NEA’s bands for 1-hour PM2.5 are Band I (Normal) 0–55, Band II (Elevated) 56–150, Band III (High) 151–250 and Band IV (Very high) 251 µg/m³ and above.",
-    status: "cited",
+    status: "human-verified",
+    humanVerification: EXP003_REVIEW,
     note: "From NEA’s infographic dated June 2026. NEA’s FAQ describes the Elevated band as “55 µg/m3 to 150 µg/m3”, so the two NEA sources differ by one at that edge; /live follows the infographic.",
     citations: [
       {
@@ -175,7 +201,8 @@ export const siteClaims: readonly SiteClaim[] = [
   {
     claim:
       "Malaysia’s Air Pollutant Index is the highest of its pollutant sub-indices, with bands 0–50 Good, 51–100 Moderate, 101–200 Unhealthy, 201–300 Very unhealthy and above 300 Hazardous.",
-    status: "cited",
+    status: "human-verified",
+    humanVerification: EXP003_REVIEW,
     note: "From the Department of Environment’s method document, which also gives each pollutant’s averaging period. Its health table calls 101–200 “Unhealthy (for sensitive group)” and adds “Emergency” above 500.",
     citations: [
       {
@@ -194,7 +221,8 @@ export const siteClaims: readonly SiteClaim[] = [
   {
     claim:
       "Malaysia’s Air Pollutant Index and Singapore’s PSI are calculated differently: for example, DOE averages sulphur dioxide over one hour, while NEA publishes a 24-hour sulphur dioxide value and describes the PSI as based on 24-hour averages.",
-    status: "cited",
+    status: "human-verified",
+    humanVerification: EXP003_REVIEW,
     note: "The reason /live tells readers not to compare the two indices directly. NEA also says that readings or indices from other websites, such as aqicn.org, are not comparable with its 24-hour PSI. NEA’s own PSI response publishes nitrogen dioxide as a 1-hour maximum and ozone and carbon monoxide as 8-hour maxima, so its “24-hour average” wording does not apply to every pollutant.",
     citations: [
       {
@@ -232,7 +260,8 @@ export const siteClaims: readonly SiteClaim[] = [
   {
     claim:
       "The wind readings that data.gov.sg publishes for Singapore’s weather stations are 10-minute means, and the weather data is subject to later correction.",
-    status: "cited",
+    status: "human-verified",
+    humanVerification: EXP003_REVIEW,
     note: "Stated next to the wind and rainfall readings on /live.",
     citations: [
       {
@@ -251,7 +280,8 @@ export const siteClaims: readonly SiteClaim[] = [
   {
     claim:
       "A FIRMS detection does not give a fire’s exact location or size: it marks the centre of a satellite pixel about 375 metres across for VIIRS, in which at least one fire or other thermal anomaly was detected.",
-    status: "cited",
+    status: "human-verified",
+    humanVerification: EXP003_REVIEW,
     note: "Stated on /live, next to the satellite detections. Read from an Internet Archive copy of NASA’s FAQ (see above).",
     citations: [
       {
@@ -271,7 +301,8 @@ export const siteClaims: readonly SiteClaim[] = [
   {
     claim:
       "Satellites miss some fires: fires that start and end between overpasses, fires hidden by cloud, heavy smoke or tree canopy, and fires too small or too cool to detect. Zero detections is not zero fires.",
-    status: "cited",
+    status: "human-verified",
+    humanVerification: EXP003_REVIEW,
     note: "The basis for the page’s rule that no detections never means no fires.",
     citations: [
       {
@@ -290,7 +321,8 @@ export const siteClaims: readonly SiteClaim[] = [
   },
   {
     claim: "Delivery of Suomi NPP satellite data ends on 2 November 2026 at 13:00 UTC, so /live uses VIIRS on NOAA-20 and NOAA-21 only.",
-    status: "cited",
+    status: "human-verified",
+    humanVerification: EXP003_REVIEW,
     note: "NASA says the date is subject to change; an older FIRMS notice gave 1 November 2026.",
     citations: [
       {

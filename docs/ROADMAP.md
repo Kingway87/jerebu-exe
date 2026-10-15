@@ -58,7 +58,7 @@ The full record is in [`experiments/001-autonomous-bootstrap.md`](../experiments
 
 ### 003: Live evidence
 
-**Status:** In progress on the branch `experiment/003-live-evidence`. AI build complete; awaiting human review; **not merged, not deployed**. Experiment 002 ran independently and was not required.
+**Status:** In progress on the branch `experiment/003-live-evidence`. AI build complete; evidence reviewed by the project's maintainer on 15 October 2026; **not merged, not deployed**. Experiment 002 ran independently and was not required.
 
 **Question:** Can JEREBU.EXE collect, normalise and present current public environmental observations relevant to transboundary haze affecting Malaysia and Singapore without confusing observation, interpretation, attribution or legal responsibility?
 
@@ -73,7 +73,7 @@ This question comes from the founder's brief for Experiment 003. It replaces the
 
 Details: [`LIVE_EVIDENCE.md`](LIVE_EVIDENCE.md) and the record, [`experiments/003-live-evidence.md`](../experiments/003-live-evidence.md).
 
-**Still to happen (human):** the review checklist in the record, including whether to accept integration before human evaluation, how to refer to NEA and ASMC, and how to host a page whose data refreshes.
+**Still to happen (human):** the remaining decisions in the record: how to refer to NEA and ASMC, whether to ask DOE and ASMC for data, how to host a page whose data refreshes, and the merge order with Experiment 002.
 
 **What it does not do:** attribution of any kind, company or land-ownership data, history or trends, AI interpretation, tracking, or deployment.
 
@@ -264,7 +264,7 @@ None of these would be added without a documented experiment, a stated need and 
 These decisions belong to the founder or future maintainers. They are listed so that they are not made by default, or by an AI.
 
 - **Review of Experiment 001.** Accept, change or reject the bootstrap pull request, and record any corrections.
-- **Review of Experiment 003.** Accept, change or reject the live evidence branch, using the checklist in its record. This includes whether a source may be integrated before a human has evaluated it (the branch uses an interim status, "integrated, pending evaluation"), and the order in which Experiments 002 and 003 are merged.
+- **Review of Experiment 003.** The maintainer reviewed the evidence on `/live` and `/evidence` on 15 October 2026. Still to decide, using the checklist in its record: merging the branch, and the order in which Experiments 002 and 003 are merged.
 - **Referring to NEA and ASMC.** Their terms of use set conditions on linking and forbid automated copying, and are internally inconsistent. Whether to link to them, ask them, or only name them.
 - **Asking DOE and ASMC for data.** Whether to ask DOE Malaysia for a documented feed of current Air Pollutant Index readings, and ASMC about its regional data, and who asks.
 - **Live data hosting and keys.** `/live` refreshes its data only on a host that runs Next.js. Whether to use such a host, and whether to obtain a data.gov.sg API key (recommended for production) and a NASA FIRMS MAP_KEY (optional).

@@ -125,6 +125,17 @@ export function ClaimsRegister() {
                 <dt className="label-mono text-muted">Note</dt>
                 <dd className="mt-2 leading-relaxed text-muted">{entry.note}</dd>
               </div>
+              {entry.humanVerification ? (
+                <div>
+                  <dt className="label-mono text-muted">Human verification</dt>
+                  <dd className="mt-2 leading-relaxed text-muted">
+                    <span className="font-semibold text-ink">
+                      {entry.humanVerification.by}, {entry.humanVerification.on}.
+                    </span>{" "}
+                    {entry.humanVerification.notes}
+                  </dd>
+                </div>
+              ) : null}
               {entry.citations && entry.citations.length > 0 ? (
                 <div>
                   <dt className="label-mono text-muted">{entry.citations.length === 1 ? "Source" : "Sources"}</dt>

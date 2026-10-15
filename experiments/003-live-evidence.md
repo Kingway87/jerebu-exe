@@ -1,13 +1,13 @@
 # Experiment 003 — LIVE EVIDENCE
 
-> **Record status: AI GENERATED / SOURCE ATTACHED until human review.**
-> Claude Code wrote this record during the experiment, and it is the AI's own account. Every source fact in it was gathered by AI agents from official pages (or, where those refused automated requests, from Internet Archive copies), with quotes and URLs in [`data/live-sources.json`](../data/live-sources.json) and [`src/content/claims.ts`](../src/content/claims.ts). No human has checked it yet. See [`docs/AI_TRANSPARENCY.md`](../docs/AI_TRANSPARENCY.md) for the labels.
+> **Record status: AI GENERATED / SOURCE ATTACHED · HUMAN REVIEWED (evidence, 15 October 2026) · Open for contribution.**
+> Claude Code wrote this record during the experiment, and it is the AI's own account. Every source fact in it was gathered by AI agents from official pages (or, where those refused automated requests, from Internet Archive copies), with quotes and URLs in [`data/live-sources.json`](../data/live-sources.json) and [`src/content/claims.ts`](../src/content/claims.ts). The project's maintainer (Kingway87) reviewed the evidence presented on `/live` and `/evidence` on 15 October 2026; this record itself was not part of that review. See [`docs/AI_TRANSPARENCY.md`](../docs/AI_TRANSPARENCY.md) for the labels.
 
 | Field | Value |
 | --- | --- |
 | **ID** | 003 |
 | **Name** | LIVE EVIDENCE |
-| **Status** | In progress. AI build complete on the branch; human review pending; not merged; not deployed |
+| **Status** | In progress. AI build complete on the branch; evidence reviewed by the maintainer on 15 October 2026; not merged; not deployed |
 | **Dates** | 15 October 2026 (Malaysia and Singapore time), one session |
 | **Environment** | Claude Code Local (the command-line agent, on a local macOS machine), model Claude Opus 5.5 |
 | **Worktree** | `jerebu-exe-003` (`~/Projects/jerebu-exe-003`) |
@@ -25,7 +25,8 @@ From the founder's brief:
 
 - **HUMAN DECISION:** the experiment, its name and question, and the written brief: goals, the evidence model, the non-negotiable rules, the sources to research, the route, the freshness, failure, privacy and security requirements, the record's fields and the completion report.
 - **HUMAN DECISION:** the worktree and branch, and the instructions not to merge, not to deploy, not to publish externally, and not to depend on Experiment 002.
-- **HUMAN DECISION:** that the founder reviews the result. No human took part during the session itself: no question was asked and none was answered.
+- **HUMAN DECISION:** that the founder reviews the result. During the build no human took part: no question was asked and none was answered.
+- **HUMAN DECISION:** on 15 October 2026, after the build, the maintainer reported that they had reviewed the evidence presented on `/live` and `/evidence`, supplied the wording of the "Human reviewed · Open for contribution" notice, chose where it appears (`/live`, `/evidence`, the README and CONTRIBUTING.md), and asked for the records to be updated to match. The checks they made were not itemised.
 
 ## AI responsibility
 
@@ -61,6 +62,7 @@ No AI model runs inside the site: the page uses no AI at build time or at run ti
 5. **Applying the sceptics' corrections** as each report arrived (see [Mistakes and corrections](#mistakes-and-corrections)).
 6. **First checks and commits.** Unit tests, `npm run check`, `npm run live:check` against the real sources, browser checks with Playwright, a secrets scan of the changed files, and a build with every source address made unreachable. The work was committed in four commits, and the forced-failure build led to a fifth.
 7. **Final AI review** (a workflow of 10 agents, after those commits). The verifiers refuted none of the 84 findings: after verification, 9 were rated major, 55 minor and 20 cosmetic. All 84 were addressed, together with three problems the AI found in its own screenshots during the review, and the checks were run again (see [Checks performed](#checks-performed)).
+8. **Human review** (after step 7). The maintainer reviewed the evidence on `/live` and `/evidence` and supplied the notice. At the maintainer's instruction, Claude Code recorded the review in [`src/content/review.ts`](../src/content/review.ts), in the claims register (the 10 cited claims are now Human verified) and in the source registry (every entry records the review), moved FIRMS and the data.gov.sg PSI API from "integrated, pending evaluation" to "integrated", and added the notice to the pages and documents chosen.
 
 ## Outputs
 
@@ -149,12 +151,12 @@ Results below are from the final run, after the final review's findings were fix
 
 | Check (brief, section 21) | Method | Result |
 | --- | --- | --- |
-| 1–2. Every claimed source verified, official documentation preferred | Research agents opened the official pages; sceptic agents re-checked them; the final review's facts reviewer checked quotes and statements against the saved copies | Done by AI for all 17 registry entries; quotes and URLs recorded, with archive copies where NASA's pages refused automated requests. **Not checked by a human.** |
+| 1–2. Every claimed source verified, official documentation preferred | Research agents opened the official pages; sceptic agents re-checked them; the final review's facts reviewer checked quotes and statements against the saved copies; then the maintainer's review | Done by AI for all 17 registry entries; quotes and URLs recorded, with archive copies where NASA's pages refused automated requests. Reviewed by the maintainer on 15 October 2026 (checks not itemised). |
 | 3. API integrations tested | `npm run live:check` against the real sources (during the session); unit tests with real captured responses | All 7 feeds retrieved; tests pass |
 | 4. Failure states | Unit tests for network errors, timeouts (including mid-response), redirects, HTTP 401, 403, 429, error bodies, malformed responses, wrong units, empty responses, missing headline values, oversized responses, unreadable FIRMS rows, partial FIRMS failures, an invalid FIRMS key. Plus a production build with every source address made unreachable, viewed in a browser | Pass. In the forced-failure build every feed showed "Unavailable" with its reason, newest data "Not retrieved", the time labelled "Attempted", the map labelled "NO DATA RETRIEVED", and no zero anywhere; `/live` was still static, with the 2-minute retry lifetime |
 | 5. Timestamps and freshness | Unit tests for thresholds, boundaries, time-zone offsets, unreadable and future times, data that cannot be dated ("Age unknown"), and the end of a forecast's day; the fetch-cache bug was found and fixed here | Pass |
 | 6. NO DATA never shown as ZERO | Tests: missing values become `null`; an empty response is a failure; a FIRMS file whose rows cannot be read is a failure; zero detections is described as NASA's zero only for a complete, readable, current retrieval, and never as zero fires | Pass |
-| 7. Observation separated from interpretation | Separate types for observations, forecasts and (unused) interpretations; evidence-level tags on the page; tests on the observation sentences | Pass, by design and test. Not yet judged by a human reader |
+| 7. Observation separated from interpretation | Separate types for observations, forecasts and (unused) interpretations; evidence-level tags on the page; tests on the observation sentences | Pass, by design and test. Reviewed by the maintainer on 15 October 2026 |
 | 8. No unsupported attribution | No owner, cause or responsibility fields exist; tests check that none of the nine sentence forms names a company, a government or a cause; the final AI review's evidence-integrity reviewer read all page copy and found no attribution | Pass |
 | 9. JSON and data schemas | The registry is validated against its JSON Schema in the tests and re-checked at build time | Pass |
 | 10–13. Lint, typecheck, build, errors fixed | `npm run check` | Pass: lint clean, typecheck clean, 95 of 95 tests, build succeeded with every route static and `/live` refreshing at 10 minutes, expiring at 1 hour |
@@ -233,7 +235,7 @@ Not every sceptic correction or omission is listed here: they made 51 of each, a
 - **Malaysia's air quality is not shown as data**, and neither is the official regional haze picture. These are the biggest gaps against the brief's goals 2 and 4.
 - **Weather is Singapore's only.** A station's wind reading cannot show where smoke came from.
 - **No history.** The page shows the latest data only; trends would need storage and a design.
-- **AI-verified only.** Every source fact, threshold and piece of copy is the AI's work, checked by other AI agents, not by a person.
+- **AI-built, human-reviewed.** Every source fact, threshold and piece of copy is the AI's work, checked by other AI agents. The maintainer's review of 15 October 2026 covered the evidence on `/live` and `/evidence` but did not itemise its checks, and it covers only that version.
 - **One session.** Freshness thresholds and latencies come from published cycles, one night's observation, and past-day records from the PSI API.
 - **The map window** is the AI's choice, not an analysis.
 - **Untested hosting.** Background refresh works only on a host that runs Next.js. On a static file host the data stays at build time (and is labelled as ageing). On a serverless host the cache usually does not persist, so every page refresh would contact every source unless a persistent cache is configured.
@@ -246,14 +248,16 @@ See also [`docs/LIVE_EVIDENCE.md`](../docs/LIVE_EVIDENCE.md#15-limitations).
 
 **Required.** Before the branch is merged or anything is deployed, a human should:
 
-- [ ] Read `/live` as a member of the public would. Does it keep observation, interpretation, attribution and legal responsibility apart? Is anything worded as blame?
-- [ ] Check the registry entries for the integrated sources against the official pages, especially licences, attribution notices and update frequencies, and set `humanVerified` only for what was actually checked.
-- [ ] Decide whether to accept the interim status "integrated, pending evaluation" (FIRMS and data.gov.sg PSI on `/evidence`), which departs from the rule that a source must be Evaluated by a human before it is integrated ([`DATA_SOURCES.md`](../docs/DATA_SOURCES.md#rules-for-future-integrations)), or to evaluate the sources first.
-- [ ] Decide whether `/evidence` keeps the Experiment 001 commitment that data panels stay empty until reviewed by a human. This branch states an exception for Experiment 003.
+Items ticked were covered by the maintainer's review of 15 October 2026, as the maintainer described it.
+
+- [x] Read `/live` as a member of the public would. Does it keep observation, interpretation, attribution and legal responsibility apart? Is anything worded as blame?
+- [x] Check the registry entries for the integrated sources against the official pages, especially licences, attribution notices and update frequencies, and set `humanVerified` only for what was actually checked. (Recorded for every entry, as the review covered everything `/live` presents.)
+- [x] Decide whether to accept the interim status "integrated, pending evaluation" (FIRMS and data.gov.sg PSI on `/evidence`), which departs from the rule that a source must be Evaluated by a human before it is integrated ([`DATA_SOURCES.md`](../docs/DATA_SOURCES.md#rules-for-future-integrations)), or to evaluate the sources first. (Resolved by the review: both are now "integrated".)
+- [x] Decide whether `/evidence` keeps the Experiment 001 commitment that data panels stay empty until reviewed by a human. (Kept: the Experiment 003 panel has now had that review.)
 - [ ] Decide how the site may refer to NEA (haze.gov.sg and nea.gov.sg pages) and ASMC, given their terms, and whether the NEA bands and quotes read before NEA's terms may be used. The `/evidence` links to them from Experiment 001 were removed on this branch pending that decision. weather.gov.sg's terms were not checked, and `/evidence` still links to it.
 - [ ] Decide whether to contact DOE (about a feed of current readings and reuse terms) and ASMC (about linking, reuse and the WIS 2.0 portal).
 - [ ] Decide on a data.gov.sg API key for production (and who renews it), and whether to request a FIRMS MAP_KEY.
-- [ ] Check the wording of the claims added to [`src/content/claims.ts`](../src/content/claims.ts) against their cited sources.
+- [x] Check the wording of the claims added to [`src/content/claims.ts`](../src/content/claims.ts) against their cited sources. (The 10 cited claims are now Human verified.)
 - [ ] Review the map window, the freshness thresholds and the wind-direction assumption.
 - [ ] Decide how to host: background refresh needs a host that runs Next.js, and on serverless hosts a persistent cache, or every page refresh will contact every source.
 - [ ] Merge order with Experiment 002. Both branches may change `src/content/experiments.ts`, `experiments/README.md`, `docs/ROADMAP.md`, `docs/DATA_SOURCES.md`, `src/content/claims.ts`, `src/content/sources.ts` and `README.md`. Resolve conflicts by keeping both experiments' changes.
@@ -261,7 +265,7 @@ See also [`docs/LIVE_EVIDENCE.md`](../docs/LIVE_EVIDENCE.md#15-limitations).
 
 ## Human corrections
 
-None yet. Human review has not happened.
+None. The maintainer reviewed the evidence on `/live` and `/evidence` on 15 October 2026 and requested no corrections. They supplied the "Human reviewed · Open for contribution" notice, now shown on `/live`, on `/evidence`, in the README and in CONTRIBUTING.md.
 
 ## Open questions
 
@@ -292,8 +296,8 @@ A HUMAN DECISION. The AI's suggestions, in order: (1) human review of this branc
 
 ## Status
 
-**AI GENERATED / SOURCE ATTACHED until human review.**
+**AI GENERATED / SOURCE ATTACHED · HUMAN REVIEWED (evidence on `/live` and `/evidence`, 15 October 2026) · Open for contribution.**
 
 ---
 
-<sub>AI involvement: this record is **AI GENERATED** by Claude Code during Experiment 003. **UNVERIFIED**: no human has reviewed it.</sub>
+<sub>AI involvement: this record is **AI GENERATED** by Claude Code during Experiment 003. It is the AI's account: the maintainer reviewed the evidence it describes on 15 October 2026, but not this record itself.</sub>

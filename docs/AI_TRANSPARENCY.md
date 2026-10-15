@@ -87,7 +87,7 @@ So a piece of work can carry two labels, one from each group: for example, **AI 
 | Labels | Meaning | Example |
 | --- | --- | --- |
 | AI GENERATED + UNVERIFIED | AI produced it. No human has checked it yet. | All Experiment 001 output, at the time of writing. |
-| AI GENERATED + HUMAN VERIFIED | AI produced it. A named person has checked it. | A candidate source list after a maintainer has opened and checked each link. (Nothing has reached this state yet.) |
+| AI GENERATED + HUMAN VERIFIED | AI produced it. A named person has checked it. | A candidate source list after a maintainer has opened and checked each link. (First reached on 15 October 2026, when the maintainer reviewed the evidence on `/live` and `/evidence` in Experiment 003.) |
 | AI ASSISTED + UNVERIFIED | A person wrote it with AI help. Its claims have not been checked yet. | A human-written summary waiting for its sources to be checked. |
 | HUMAN DECISION | A person chose this, and owns it. | The project's mission. |
 

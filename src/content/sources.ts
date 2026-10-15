@@ -10,8 +10,10 @@
  * on it. See docs/DATA_SOURCES.md for caveats.
  *
  * Experiment 003 (live evidence) opened some of these sources and integrated
- * two of them on its branch, marked "integrated-pending-evaluation": their
- * data is shown on /live. The full register for /live is data/live-sources.json.
+ * two of them: their data is shown on /live. They were first marked
+ * "integrated-pending-evaluation", and became "integrated" after the project's
+ * maintainer reviewed the evidence on /live on 15 October 2026 (see
+ * src/content/review.ts). The full register for /live is data/live-sources.json.
  *
  * Inclusion is not an endorsement.
  */
@@ -37,13 +39,13 @@ export type SourceKind =
   | "Research discovery";
 
 /**
- * "integrated-pending-evaluation" is an interim state added in Experiment 003.
- * The founder's brief authorised integrating no-credential public sources on
- * the experiment branch, but the project's rules (docs/DATA_SOURCES.md) say a
- * source must be Evaluated by a named human before it is integrated. Sources
- * in this state are integrated on the branch, were evaluated by AI agents
- * only, and must be evaluated by a human (or removed) before the branch is
- * merged. Whether to keep this state is a human decision.
+ * "integrated-pending-evaluation" is an interim state added in Experiment 003
+ * for a source integrated on an experiment branch and evaluated by AI agents
+ * only. The project's rules (docs/DATA_SOURCES.md) say a source must be
+ * Evaluated by a named human before it is integrated, so a source in this
+ * state must be evaluated by a human, or removed, before its branch is
+ * merged. No source is in this state now: Experiment 003's two moved to
+ * "integrated" after the maintainer's review on 15 October 2026.
  */
 export type SourceStatus = "candidate" | "evaluated" | "integrated" | "integrated-pending-evaluation";
 
@@ -106,7 +108,7 @@ export const candidateSources: readonly CandidateSource[] = [
     kind: "Satellite fire observations",
     url: "https://firms.modaps.eosdis.nasa.gov/",
     note: "Near-real-time active fire detections from satellite instruments. Shown on /live (Experiment 003) from NASA’s openly downloadable regional files; the API needs a free key, which is optional and never stored in the repository.",
-    status: "integrated-pending-evaluation",
+    status: "integrated",
   },
   {
     name: "NASA Worldview",
@@ -217,7 +219,7 @@ export const candidateSources: readonly CandidateSource[] = [
     kind: "Air quality",
     url: "https://data.gov.sg/datasets/d_fe37906a0182569d891506e815e819b7/view",
     note: "Real-time API. Shown on /live (Experiment 003) without a key; data.gov.sg recommends a key for production use.",
-    status: "integrated-pending-evaluation",
+    status: "integrated",
   },
   {
     name: "Meteorological Service Singapore",

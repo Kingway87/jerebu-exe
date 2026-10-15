@@ -4,7 +4,7 @@
 
 An open-source experiment using AI agents and public data to investigate recurring transboundary haze in Southeast Asia.
 
-> **Status (15 October 2026):** V0, bootstrapped by an AI coding agent in [Experiment 001](experiments/001-autonomous-bootstrap.md). Awaiting human review. Not deployed. On the branch `experiment/003-live-evidence`, [Experiment 003](experiments/003-live-evidence.md) adds a `/live` page of current official observations; it is not merged and awaits human review.
+> **Status (15 October 2026):** V0, bootstrapped by an AI coding agent in [Experiment 001](experiments/001-autonomous-bootstrap.md). Awaiting human review. Not deployed. On the branch `experiment/003-live-evidence`, [Experiment 003](experiments/003-live-evidence.md) adds a `/live` page of current official observations; the project’s maintainer reviewed its evidence on 15 October 2026. It is not merged.
 
 [Methodology](docs/METHODOLOGY.md) · [Data sources](docs/DATA_SOURCES.md) · [Live evidence](docs/LIVE_EVIDENCE.md) · [AI transparency](docs/AI_TRANSPARENCY.md) · [Roadmap](docs/ROADMAP.md) · [Experiments](experiments/README.md) · [Contributing](CONTRIBUTING.md)
 
@@ -46,11 +46,31 @@ At the time of writing (15 October 2026):
 | V0 build | Bootstrapped by Claude Code, an AI coding agent made by Anthropic, in Experiment 001, from a written brief by the human founder |
 | Human review | Pending in the records. Experiment 001's pull request (#1) was merged into `main` as `5d12fad` on 15 October 2026; whether that merge followed a full human review is for the founder to record |
 | Deployment | **Not deployed.** There is no production URL |
-| Data | On `main`: none. On the Experiment 003 branch: `/live` reads seven official feeds (NASA FIRMS; NEA and MSS via data.gov.sg; MET Malaysia via data.gov.my) on the server, with no credentials, and shows each with its source and age. The 17 sources investigated are in [`data/live-sources.json`](data/live-sources.json). AI agents checked them; no human has evaluated any source yet. 27 candidate sources are listed on `/evidence` (from [`src/content/sources.ts`](src/content/sources.ts)), a curated subset of the 45 recorded with caveats in [`docs/DATA_SOURCES.md`](docs/DATA_SOURCES.md) |
+| Data | On `main`: none. On the Experiment 003 branch: `/live` reads seven official feeds (NASA FIRMS; NEA and MSS via data.gov.sg; MET Malaysia via data.gov.my) on the server, with no credentials, and shows each with its source and age. The 17 sources investigated are in [`data/live-sources.json`](data/live-sources.json). AI agents checked them, and the project’s maintainer reviewed the evidence on `/live` and `/evidence` on 15 October 2026. 27 candidate sources are listed on `/evidence` (from [`src/content/sources.ts`](src/content/sources.ts)), a curated subset of the 45 recorded with caveats in [`docs/DATA_SOURCES.md`](docs/DATA_SOURCES.md) |
 | Experiment 002 | Running independently on its own branch, according to the founder's brief for Experiment 003. Its record and log status will come from that branch, so the log on this branch still lists it as Planned |
-| Experiment 003 | AI build complete on `experiment/003-live-evidence`; human review pending; not merged |
+| Experiment 003 | AI build complete on `experiment/003-live-evidence`; evidence reviewed by the maintainer on 15 October 2026; not merged |
 | Experiments 004–007 | Planned. Not started |
 | Cost of Experiment 001 | To be recorded after session |
+
+## Review status
+
+> **Human reviewed · Open for contribution**
+>
+> The evidence currently presented here has been reviewed by the project’s human maintainer against JEREBU.EXE’s evidence rules.
+>
+> Review does not mean final or unquestionable.
+>
+> JEREBU.EXE is an open-source public-interest project. Evidence can change, sources can improve, and interpretations can be challenged.
+>
+> If you find a better primary source, missing context, conflicting evidence, an error, or a claim that needs stronger qualification, please contribute.
+>
+> [Open an issue](https://github.com/Kingway87/jerebu-exe/issues), [submit a pull request](https://github.com/Kingway87/jerebu-exe/pulls), or [propose a correction](docs/CORRECTIONS.md).
+>
+> The goal is not to prove a predetermined narrative.
+>
+> The goal is to make the evidence easier for everyone to inspect.
+
+The notice is the maintainer’s own wording (HUMAN DECISION). It covers the evidence presented on `/live` and `/evidence`, which the project’s maintainer (Kingway87) reviewed on 15 October 2026, at commit `56d74b1` of the branch `experiment/003-live-evidence`. The live page’s readings update automatically, so readings published after that date were not part of the review. What the review covered is recorded in [`src/content/review.ts`](src/content/review.ts), in the claims register and in the source registry.
 
 ## Tech stack
 

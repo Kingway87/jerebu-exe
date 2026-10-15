@@ -8,6 +8,7 @@ import { ExternalLink } from "@/components/external-link";
 import { Inequality } from "@/components/inequality";
 import { NotYetBuilt } from "@/components/not-yet-built";
 import { PipelineDiagram } from "@/components/pipeline-diagram";
+import { ReviewNotice } from "@/components/review-notice";
 import { SectionHeader } from "@/components/section-header";
 import { siteClaims } from "@/content/claims";
 import {
@@ -98,7 +99,7 @@ const sourceListNotes = [
   },
   {
     lead: "Some now feed /live.",
-    text: "Experiment 003 shows data from two of these entries on the live evidence page, and readings from two more agencies listed here (MSS and MET Malaysia) through government open-data portals. They are marked below, and still await a human evaluation. The register for that page is data/live-sources.json.",
+    text: "Experiment 003 shows data from two of these entries on the live evidence page, and readings from two more agencies listed here (MSS and MET Malaysia) through government open-data portals. They are marked below. The project’s maintainer reviewed them on 15 October 2026. The register for that page is data/live-sources.json.",
   },
 ];
 
@@ -142,7 +143,7 @@ export default function EvidencePage() {
           <dl className="mt-12 grid gap-6 border-t border-ink-line pt-6 sm:grid-cols-3">
             <div>
               <dt className="label-mono text-ink-muted">Status</dt>
-              <dd className="mt-1">Draft, awaiting human review</dd>
+              <dd className="mt-1">Human reviewed on 15 October 2026; open for contribution</dd>
             </div>
             <div>
               <dt className="label-mono text-ink-muted">Principles set by</dt>
@@ -174,6 +175,13 @@ export default function EvidencePage() {
           </nav>
         </Container>
       </section>
+
+      {/* ─────────────────────────── HUMAN REVIEW ─────────────────────────── */}
+      <div className="border-b border-line py-10 sm:py-12">
+        <Container>
+          <ReviewNotice />
+        </Container>
+      </div>
 
       {/* ─────────────────────── §01 EVIDENCE LADDER ───────────────────── */}
       <section aria-labelledby="ladder" className="py-20 sm:py-28">
@@ -426,7 +434,7 @@ export default function EvidencePage() {
               These panels mark where experiments may show data. Each stays empty until its data
               has been collected, checked against sources and reviewed by a human. There are no
               sample charts or placeholder numbers, so nothing here can be mistaken for real data.
-              The one built in Experiment 003 is the exception while its branch awaits that review.
+              The one built in Experiment 003 had that review on 15 October 2026.
             </p>
           </SectionHeader>
 

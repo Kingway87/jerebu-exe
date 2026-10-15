@@ -249,7 +249,7 @@ Other rules:
 - **Unsupportable claims are removed.** A claim that cannot be supported should be reworded or removed, not left in place indefinitely as Unverified.
 - **Status is not a label.** Verification status says how far a claim has been checked. It does not replace the claim label (section 3).
 
-**Current state.** On the Experiment 003 branch, 10 of the 18 entries in the register are Cited and 8 are Unverified; none is Human verified. Each Cited entry records its citations: title, publisher, URL, date published, date accessed, the words relied on, who read it, an archived copy where one was read, and whether it may be linked. All were read by AI agents. The register does not yet have fields for a human reviewer's name and date.
+**Current state.** On the Experiment 003 branch, 10 of the 18 entries in the register are Human verified and 8 are Unverified. The 10 were cited by AI agents in Experiment 003 and reviewed by the project's maintainer on 15 October 2026. Each records its citations (title, publisher, URL, date published, date accessed, the words relied on, who read it, an archived copy where one was read, and whether it may be linked) and its human verification (who, when, and what the review covered).
 
 ## 10. Corrections
 

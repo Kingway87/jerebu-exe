@@ -1,7 +1,7 @@
 # Live evidence
 
-> **Status: Experiment 003, AI generated, awaiting human review.**
-> Written by an AI agent (Claude Code) on 15 October 2026, during [Experiment 003](../experiments/003-live-evidence.md), on the branch `experiment/003-live-evidence`. AI involvement: **AI GENERATED + UNVERIFIED** (see [AI_TRANSPARENCY.md](AI_TRANSPARENCY.md)). AI agents checked every fact about a source below against the official pages on 14–15 October 2026, with two exceptions: NASA's earthdata.nasa.gov pages refused automated requests, so their wording was read from Internet Archive copies dated 27 August to 12 October 2026; and NEA's air pollution FAQ and haze infographic were read once, by one agent, and not re-checked. No human has checked any of it. Nothing here is merged or deployed.
+> **Status: Experiment 003, AI generated. Human reviewed · Open for contribution.**
+> Written by an AI agent (Claude Code) on 15 October 2026, during [Experiment 003](../experiments/003-live-evidence.md), on the branch `experiment/003-live-evidence`. AI involvement: **AI GENERATED + UNVERIFIED** (see [AI_TRANSPARENCY.md](AI_TRANSPARENCY.md)). AI agents checked every fact about a source below against the official pages on 14–15 October 2026, with two exceptions: NASA's earthdata.nasa.gov pages refused automated requests, so their wording was read from Internet Archive copies dated 27 August to 12 October 2026; and NEA's air pollution FAQ and haze infographic were read once, by one agent, and not re-checked. The project's maintainer (Kingway87) reviewed the evidence presented on `/live` and `/evidence` on 15 October 2026, at commit `56d74b1`; the individual checks were not itemised (see [`src/content/review.ts`](../src/content/review.ts)). Nothing here is merged or deployed.
 
 This document describes the live evidence page, `/live`: what it shows, where its data comes from, how the data is fetched, checked and labelled, what happens when a source fails, and what the page cannot say.
 
@@ -45,6 +45,8 @@ It is an evidence viewer. It is not a "who caused the haze?" machine.
 | 07 | What this does not mean | Why a detection cannot identify a cause, an owner or a responsible party, and the chain of separate steps from hotspot to legal responsibility. | Project method |
 | 08 | Sources | For each source the page uses: status, credential, update frequency, licence, what it can and cannot show, limitations, attribution and how it was checked. For each of the 8 sources investigated but not used: status, institution and the reason it is not used. Rate limits and the full records are in the registry file. | [`data/live-sources.json`](../data/live-sources.json) |
 | 09 | How this page works | The pipeline, the freshness thresholds (rendered from the registry), and what the page does not do. | Project code |
+
+Below the header, the maintainer's "Human reviewed · Open for contribution" notice says that the page's evidence was reviewed, by whom and when, and invites corrections. Because the readings update automatically, it says that readings published after the review date were not part of the review.
 
 The header states the page's three rules:
 
@@ -117,7 +119,7 @@ Every step is ordinary, deterministic code. No AI model fetches, checks, convert
 
 ## 4. Sources
 
-The registry, [`data/live-sources.json`](../data/live-sources.json), is the canonical record. Each entry has the institution, official and documentation URLs, access method, endpoints, authentication, rate limits, update frequency and observed latency, licence and attribution, freshness policy, fields, what the source can and cannot show, limitations, for unused sources the reason, and a verification block with quotes from the official pages (and the archive copy, where one was read) and a list of what is still unverified. `humanVerified` is `false` for every entry. Status values follow the brief: AVAILABLE, PARTIALLY AVAILABLE, MANUAL SOURCE, REQUIRES ACCESS and NOT YET VERIFIED.
+The registry, [`data/live-sources.json`](../data/live-sources.json), is the canonical record. Each entry has the institution, official and documentation URLs, access method, endpoints, authentication, rate limits, update frequency and observed latency, licence and attribution, freshness policy, fields, what the source can and cannot show, limitations, for unused sources the reason, and a verification block with quotes from the official pages (and the archive copy, where one was read) and a list of what is still unverified. `humanVerified` is `true` for every entry, recording the maintainer's review of 15 October 2026 in `humanVerification`: who, when, and what the review covered. Status values follow the brief: AVAILABLE, PARTIALLY AVAILABLE, MANUAL SOURCE, REQUIRES ACCESS and NOT YET VERIFIED.
 
 ### Integrated (data shown on `/live`)
 
@@ -170,7 +172,7 @@ What the experiment learned about how far each integrated source can be relied o
 
 [DATA_SOURCES.md](DATA_SOURCES.md#rules-for-future-integrations) sets 16 rules for integrating a source. This branch:
 
-- **Departs from rule 1 (Evaluated first).** No human evaluated the sources before integration; AI agents did. The two integrated sources listed on `/evidence` carry the interim status "integrated, pending evaluation". A human must decide.
+- **Departed from rule 1 (Evaluated first) until the review.** No human evaluated the sources before they were integrated; AI agents did. The two integrated sources listed on `/evidence` carried the interim status "integrated, pending evaluation" until the project's maintainer reviewed the evidence on 15 October 2026; they are now "integrated".
 - **Partly meets rule 8 (provenance with every record).** Each retrieval records the registry id, the URL requested (with any key replaced), the retrieval time in UTC, the server's own date and the validation notes, and the licence is in the registry. But observations carry registry ids, not the ids in DATA_SOURCES.md (five of the feeds have no entry there); no raw response is kept; FIRMS is kept only as a summary; and processing steps are documented in the code and this document, not stored with each record.
 - **Meets rules 2–7 and 9–16** as described in the sections above: terms and licences followed for the sources used, and NEA and ASMC named rather than linked pending a decision (2); one request per source per refresh, within the published limits for one copy of the site (3; see [§8](#8-caching-and-refresh) for hosting); the static architecture kept (4); keys only in server-side environment variables, never committed, never sent to browsers (5–7); provenance and the real-time nature of values shown on the page (9); ageing data labelled delayed or stale, never shown as current (10); Malaysia's and Singapore's indices not compared (11); the agencies behind the two government portals credited (12); no hotspot presented as a fire, and no attribution (13–14); no personal data (15); AI involvement recorded (16).
 
@@ -337,7 +339,7 @@ The map in §02 is a static SVG drawn on the server: no map library, no tile ser
 
 - **AI built this.** Claude Code (an AI coding agent) researched the sources, designed and wrote the code, the tests and this document, from the founder's brief. AI research agents opened the official pages; separate AI sceptic agents re-checked their findings and corrected several; AI review agents then reviewed the finished branch. The [experiment record](../experiments/003-live-evidence.md) lists the main corrections; the agents' full reports are not in the repository.
 - **No AI at run time.** No AI model is called when the site is built or served. Every value on the page is fetched, validated, normalised and summarised by deterministic code, whose rules an AI wrote and a human has yet to review.
-- **Not yet checked by a human.** Every source fact in the registry was gathered by AI agents. Until a human verifies them, the integrated sources carry the status "integrated, pending evaluation" on `/evidence`, and the page header says the experiment awaits human review.
+- **Reviewed by a human.** Every source fact in the registry was gathered by AI agents. The project's maintainer then reviewed the evidence presented on `/live` and `/evidence` on 15 October 2026, and the pages carry the maintainer's "Human reviewed · Open for contribution" notice. A review covers only the version reviewed: readings published later, and any substantive change to the evidence since, are not covered until they are reviewed again.
 
 ## 13. Testing
 
@@ -360,7 +362,7 @@ npm run check        # lint, typecheck, tests, build
 
 **When a source changes its format.** Responses that no longer match, including FIRMS files whose rows can no longer be read, fail validation, and the page shows that source as unavailable with the reason. Run `npm run live:check` to see the failure, capture a new fixture, and update the normaliser.
 
-**Before a production deployment** (a human decision, not taken in this experiment): obtain a data.gov.sg API key and set `DATA_GOV_SG_API_KEY` (and plan for its renewal); decide whether to request a FIRMS MAP_KEY; choose hosting that runs Next.js with a persistent cache (see [§8](#8-caching-and-refresh)); decide the linking questions for NEA and ASMC; and check the registry's sources against the official pages.
+**Before a production deployment** (a human decision, not taken in this experiment): obtain a data.gov.sg API key and set `DATA_GOV_SG_API_KEY` (and plan for its renewal); decide whether to request a FIRMS MAP_KEY; choose hosting that runs Next.js with a persistent cache (see [§8](#8-caching-and-refresh)); and decide the linking questions for NEA and ASMC.
 
 ## 15. Limitations
 
@@ -379,7 +381,7 @@ npm run check        # lint, typecheck, tests, build
 
 In rough order of value (for human decision):
 
-1. **Human verification** of the registry entries and of the "integrated, pending evaluation" status (see the experiment record's review list).
+1. **Keep the review current.** Re-review after any substantive change to the evidence, and record what was checked item by item, so that the next review can be compared with this one.
 2. **Malaysia's Air Pollutant Index.** Ask DOE whether a documented feed or dataset of current readings exists, or can be provided, and on what terms.
 3. **ASMC.** Ask ASMC (via NEA) about linking and reuse, and about the WIS 2.0 portal's status and licence. MSS also publishes some WIS 2.0 datasets as WMO "core" data, which WMO describes as free and unrestricted, such as surface and upper-air observations; they were not tested.
 4. **History.** Keep a dated record of snapshots so that trends can be shown with a stated baseline (needs storage and a documented design).
@@ -390,4 +392,4 @@ Nothing here should become attribution. See [METHODOLOGY.md](METHODOLOGY.md).
 
 ---
 
-<sub>AI involvement: this document is **AI GENERATED** by Claude Code during Experiment 003. **UNVERIFIED**: no human has yet checked it against the code or the sources.</sub>
+<sub>AI involvement: this document is **AI GENERATED** by Claude Code during Experiment 003. The maintainer's review of 15 October 2026 covered the evidence on `/live` and `/evidence`; this document itself has not been reviewed against the code.</sub>

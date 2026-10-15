@@ -6,6 +6,7 @@ Everyone who takes part agrees to follow the [Code of Conduct](CODE_OF_CONDUCT.m
 
 ## Contents
 
+- [Review status](#review-status)
 - [Before you start](#before-you-start)
 - [Ways to contribute](#ways-to-contribute)
 - [Ground rules for data and claims](#ground-rules-for-data-and-claims)
@@ -17,6 +18,26 @@ Everyone who takes part agrees to follow the [Code of Conduct](CODE_OF_CONDUCT.m
 - [Accessibility](#accessibility)
 - [Writing style](#writing-style)
 - [Licence of contributions](#licence-of-contributions)
+
+## Review status
+
+> **Human reviewed · Open for contribution**
+>
+> The evidence currently presented here has been reviewed by the project’s human maintainer against JEREBU.EXE’s evidence rules.
+>
+> Review does not mean final or unquestionable.
+>
+> JEREBU.EXE is an open-source public-interest project. Evidence can change, sources can improve, and interpretations can be challenged.
+>
+> If you find a better primary source, missing context, conflicting evidence, an error, or a claim that needs stronger qualification, please contribute.
+>
+> [Open an issue](https://github.com/Kingway87/jerebu-exe/issues), [submit a pull request](https://github.com/Kingway87/jerebu-exe/pulls), or [propose a correction](docs/CORRECTIONS.md).
+>
+> The goal is not to prove a predetermined narrative.
+>
+> The goal is to make the evidence easier for everyone to inspect.
+
+The notice is the maintainer’s own wording (HUMAN DECISION). It covers the evidence presented on `/live` and `/evidence`, which the project’s maintainer (Kingway87) reviewed on 15 October 2026, at commit `56d74b1` of the branch `experiment/003-live-evidence`. The live page’s readings update automatically, so readings published after that date were not part of the review. What the review covered is recorded in [`src/content/review.ts`](src/content/review.ts), in the claims register and in the source registry. How corrections are recorded is set out in [`docs/CORRECTIONS.md`](docs/CORRECTIONS.md).
 
 ## Before you start
 
