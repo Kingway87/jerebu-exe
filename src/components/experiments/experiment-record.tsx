@@ -106,7 +106,7 @@ export function ExperimentRecord({ experiment }: { experiment: Experiment }) {
                     className="hidden min-w-4 flex-1 border-b border-dotted border-subtle md:block"
                   />
                   <span className="sr-only">: </span>
-                  <span className="min-w-0 font-semibold uppercase">{phase.state}</span>
+                  <span className="min-w-0 font-semibold uppercase md:text-right">{phase.state}</span>
                 </li>
               ))}
             </ul>

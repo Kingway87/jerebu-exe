@@ -26,5 +26,6 @@ Tools / agents used, and what a human checked:
 
 - [ ] `npm run lint`
 - [ ] `npm run typecheck`
+- [ ] `npm test`
 - [ ] `npm run build`
 - [ ] No secrets, API keys or personal data are included

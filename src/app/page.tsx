@@ -283,8 +283,12 @@ export default function Home() {
             <div className="lg:col-span-4">
               <h3 className="text-2xl font-bold tracking-tight">Sources to investigate</h3>
               <p className="mt-3 leading-relaxed text-muted">
-                Kinds of public evidence future experiments may use. None are connected yet, and
-                no live data is shown on this site.
+                Kinds of public evidence experiments may use. Three now feed the{" "}
+                <Link href="/live" className="text-ink underline underline-offset-4 hover:text-signal-ink">
+                  live evidence page
+                </Link>
+                , which shows official observations with their sources and limits. The rest are not
+                connected yet.
               </p>
               <p className="mt-6">
                 <Link href="/evidence" className="font-mono text-sm font-semibold tracking-[0.08em] uppercase underline underline-offset-4 hover:text-signal-ink">
@@ -296,7 +300,7 @@ export default function Home() {
               {sourceCategories.map((category) => (
                 <li key={category.id} className="flex flex-col gap-1 bg-paper px-5 py-4">
                   <span className="font-semibold">{category.name}</span>
-                  <span className="label-mono text-subtle">Not connected</span>
+                  <span className="label-mono text-subtle">{category.liveOn ?? "Not connected"}</span>
                 </li>
               ))}
             </ul>

@@ -1,0 +1,8 @@
+{
+  "url": "https://firms.modaps.eosdis.nasa.gov/data/active_fire/noaa-20-viirs-c2/csv/J1_VIIRS_C2_SouthEast_Asia_24h.csv",
+  "retrievedAt": "2026-10-14T18:13:43Z",
+  "httpStatus": 200,
+  "lastModified": "Wed, 14 Oct 2026 17:43:04 GMT",
+  "fullFileRows": 23043,
+  "selection": "The header row, the first 5 data rows (all outside the map window), then, in file order, the first 5 rows inside the map window (95–119.5°E, 6.5°S–7.5°N) with confidence 'low', 'nominal' and 'high' each. Rows are unmodified and kept in file order."
+}

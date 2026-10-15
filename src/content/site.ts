@@ -23,6 +23,7 @@ export interface NavItem {
 
 export const mainNav: readonly NavItem[] = [
   { href: "/timeline", label: "Timeline" },
+  { href: "/live", label: "Live" },
   { href: "/evidence", label: "Evidence" },
   { href: "/experiments", label: "Experiments" },
   { href: "/about", label: "About" },

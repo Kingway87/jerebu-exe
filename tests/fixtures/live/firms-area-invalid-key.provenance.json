@@ -1,0 +1,7 @@
+{
+  "url": "https://firms.modaps.eosdis.nasa.gov/api/area/csv/INVALID_TEST_KEY/…",
+  "retrievedAt": "2026-10-14T18:02:33Z",
+  "httpStatus": 400,
+  "contentType": "text/plain;charset=UTF-8",
+  "selection": "The complete response body to an area API request made with a deliberately invalid key (INVALID_TEST_KEY) by an Experiment 003 research agent."
+}

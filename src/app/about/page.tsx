@@ -110,13 +110,18 @@ export default function AboutPage() {
               An experiment, not an authority.
             </p>
             <p className="mt-3 leading-relaxed text-ink-muted">
-              There is no live data on this site, and no finding about who caused any haze. What
+              There are no findings yet, and in particular none about who caused any haze. What
               exists so far is a question, a method, a public record of how the project is being
-              built, and a first{" "}
+              built, a first{" "}
               <Link href="/timeline" className="text-paper underline underline-offset-4 hover:text-signal">
                 haze history
               </Link>
-              , compiled by AI from public sources and not yet verified by a human.
+              , compiled by AI from public sources and not yet verified by a human, and, since
+              Experiment 003, a{" "}
+              <Link href="/live" className="text-paper underline underline-offset-4 hover:text-signal">
+                live evidence page
+              </Link>{" "}
+              that shows official observations as published, without drawing conclusions from them.
             </p>
           </div>
 
@@ -132,7 +137,8 @@ export default function AboutPage() {
             <div>
               <dt className="label-mono text-ink-muted">Page written by</dt>
               <dd className="mt-1">
-                AI (Claude Code), Experiment 001; updated in Experiment 002 (not yet reviewed)
+                AI (Claude Code), Experiment 001; updated in Experiments 002 and 003 (not yet
+                reviewed)
               </dd>
             </div>
           </dl>
@@ -183,9 +189,9 @@ export default function AboutPage() {
           </p>
           <p>
             It is at a very early stage. So far there is a website, a method, a public log of how
-            the project is being built, and a haze history timeline that an AI agent compiled from
-            public sources and that no human has verified yet. There is no live data, and no
-            finding about who is responsible for any haze.
+            the project is being built, a haze history timeline that an AI agent compiled from
+            public sources and that no human has verified yet, and a page of current official
+            observations. There are no findings, and none about who is responsible for any haze.
           </p>
         </Prose>
       </AboutSection>
@@ -467,7 +473,7 @@ export default function AboutPage() {
               </strong>{" "}
               <span className="text-muted">
                 Claude Code is an AI coding agent made by Anthropic. It is the tool used in
-                Experiments 001 and 002.
+                Experiments 001, 002 and 003.
               </span>
             </li>
             <li>

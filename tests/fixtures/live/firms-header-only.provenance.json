@@ -1,0 +1,4 @@
+{
+  "derivedFrom": "firms-noaa20-sea-24h-subset.csv",
+  "selection": "The header row only. Represents a valid FIRMS response with no detections, to test that zero detections is reported as zero detections, not as an unavailable source."
+}

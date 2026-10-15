@@ -1,0 +1,1442 @@
+{
+  "$schema": "./live-sources.schema.json",
+  "schemaVersion": 1,
+  "registryUpdated": "2026-10-15",
+  "about": "Sources investigated for the live evidence page (/live) in Experiment 003. Every entry was checked by AI agents opening official pages and, where possible, making a small number of requests, on 15 October 2026, Malaysia and Singapore time (14 October UTC). Where an official page refused automated requests (NASA's earthdata.nasa.gov), its wording was read from an Internet Archive copy, given as archivedCopy. The project’s maintainer reviewed the evidence presented on /live, including every entry here, on 15 October 2026 (verification.humanVerification records the review). Quotes in verification.evidence are copied from the pages named (or their archived copies). See docs/LIVE_EVIDENCE.md and docs/DATA_SOURCES.md.",
+  "sources": [
+    {
+      "id": "nasa-firms",
+      "name": "NASA FIRMS active fire detections (VIIRS 375 m, NOAA-20 and NOAA-21)",
+      "institution": "NASA, Fire Information for Resource Management System (FIRMS), part of LANCE",
+      "jurisdiction": "global",
+      "category": "satellite-fire-observations",
+      "recordType": "observation",
+      "officialUrl": "https://firms.modaps.eosdis.nasa.gov/",
+      "documentationUrls": [
+        "https://firms.modaps.eosdis.nasa.gov/active_fire/",
+        "https://firms.modaps.eosdis.nasa.gov/api/area/",
+        "https://firms.modaps.eosdis.nasa.gov/api/map_key/",
+        "https://www.earthdata.nasa.gov/data/tools/firms/faq",
+        "https://www.earthdata.nasa.gov/data/tools/firms/active-fire-data-attributes-modis-viirs",
+        "https://www.earthdata.nasa.gov/data/tools/firms"
+      ],
+      "accessMethod": "file-download",
+      "dataFormat": "CSV",
+      "endpoints": [
+        {
+          "url": "https://firms.modaps.eosdis.nasa.gov/data/active_fire/noaa-20-viirs-c2/csv/J1_VIIRS_C2_SouthEast_Asia_24h.csv",
+          "description": "Default (no key): NASA's openly downloadable “South East Asia, last 24 hours” VIIRS file for NOAA-20. About 2 MB on 15 October 2026."
+        },
+        {
+          "url": "https://firms.modaps.eosdis.nasa.gov/data/active_fire/noaa-21-viirs-c2/csv/J2_VIIRS_C2_SouthEast_Asia_24h.csv",
+          "description": "Default (no key): the same file for NOAA-21."
+        },
+        {
+          "url": "https://firms.modaps.eosdis.nasa.gov/api/area/csv/{MAP_KEY}/VIIRS_NOAA20_NRT/95,-6.5,119.5,7.5/2",
+          "description": "With a MAP_KEY: the documented area API, for the map window and the last two UTC days; the site keeps the 24 hours before retrieval. The same request is made for VIIRS_NOAA21_NRT."
+        }
+      ],
+      "authenticationRequired": false,
+      "authentication": {
+        "type": "api-key-optional",
+        "envVar": "NASA_FIRMS_MAP_KEY",
+        "howToObtain": "https://firms.modaps.eosdis.nasa.gov/api/map_key/",
+        "notes": "Not needed: the regional files are openly downloadable. A free MAP_KEY, requested by a person with an email address, switches the site to the documented area API. It is read only on the server and never stored in the repository."
+      },
+      "rateLimits": "Area API: “MAP_KEY limit is 5000 transactions / 10-minute interval.” No limit is stated for the regional files.",
+      "updateFrequency": "FIRMS FAQ: the CSV files for the last 24 hours, 48 hours and 7 days “are updated every 60 minutes”.",
+      "latency": "FIRMS FAQ: “FIRMS makes the NRT data available within 3 hours of a satellite observation (on a best-effort basis)”.",
+      "historicalAvailability": "These files hold only recent detections. FIRMS's archive tools reach back further (NOAA-20 from 1 April 2018 and NOAA-21 from 17 January 2024, per the Active Fire Data page; the FAQ gives 1 January 2020 for NOAA-20). Near-real-time records are later replaced by standard-processing records (after about 2–3 months, possibly up to 5).",
+      "status": "AVAILABLE",
+      "integration": "integrated",
+      "licence": {
+        "name": "No licence named for these products; NASA asks redistributors to cite FIRMS and to link its data use guidance and disclaimer",
+        "url": "https://www.earthdata.nasa.gov/data/tools/firms"
+      },
+      "attribution": "We acknowledge the use of data and/or imagery from NASA's Fire Information for Resource Management System (FIRMS) (https://earthdata.nasa.gov/firms), part of NASA's Land, Atmosphere Near real-time Capability for Earth observations (LANCE) (https://earthdata.nasa.gov/lance) and NASA's Earth Science Data and Information System (ESDIS). Data: VIIRS 375 m near-real-time active fire detections from NOAA-20 (doi:10.5067/FIRMS/VIIRS/VJ114IMGT_NRT.002) and NOAA-21.",
+      "freshness": {
+        "basis": "observedAt",
+        "recentMaxMinutes": 960,
+        "staleAfterMinutes": 1800,
+        "rationale": "Measured from the newest detection in NASA's files. FIRMS says polar-orbiting sensors such as VIIRS typically view the same area twice daily, with full global coverage every 12 hours. It aims to publish near-real-time detections within 3 hours of an overpass, on a best-effort basis (a gap of about 4 hours was observed), and rewrites the files about hourly. So the newest detection can be up to about 16 hours old even when the feed is current. Beyond 30 hours, at least one full overpass cycle has been missed."
+      },
+      "fields": [
+        {
+          "name": "latitude, longitude",
+          "meaning": "Centre of the satellite pixel in which the algorithm flagged one or more fires or other thermal anomalies; not necessarily the location of the fire itself.",
+          "unit": "decimal degrees"
+        },
+        {
+          "name": "acq_date, acq_time",
+          "meaning": "Date and time of the satellite overpass (acq_time as HHMM).",
+          "unit": "UTC"
+        },
+        {
+          "name": "confidence",
+          "meaning": "Detection confidence class: low, nominal or high. FIRMS advises using it with caution.",
+          "unit": "class"
+        },
+        {
+          "name": "frp",
+          "meaning": "Pixel-integrated fire radiative power.",
+          "unit": "MW"
+        },
+        {
+          "name": "bright_ti4, bright_ti5",
+          "meaning": "Brightness temperature of the pixel in two VIIRS channels.",
+          "unit": "K"
+        },
+        {
+          "name": "satellite, version, daynight",
+          "meaning": "Satellite (N20 or N21), product version (e.g. 2.0NRT), and day or night overpass."
+        }
+      ],
+      "canShow": [
+        "Where and when the VIIRS instruments on NOAA-20 and NOAA-21 detected thermal anomalies — usually fires — in the map window, with NASA's confidence class.",
+        "How many detections there were, and where they cluster, in NASA's latest 24-hour files."
+      ],
+      "cannotShow": [
+        "That any detection is a vegetation fire: “Different types of thermal anomalies are not currently attributed in the NRT MODIS or VIIRS data”; gas flares, volcanoes and industrial heat can also be detected.",
+        "Exactly where a fire is, or how big: FIRMS says “We are not able to determine the exact location or size of the fire”.",
+        "Fires the satellites missed: between overpasses, under cloud, heavy smoke or tree canopy, or too small or cool to detect. The files contain no information on cloud cover or missing data.",
+        "How many fires there were: one fire can produce many detections.",
+        "Who started a fire, why, who owns or manages the land, or whether any law was broken.",
+        "Whether smoke from a detected fire reached Malaysia, Singapore or anywhere else."
+      ],
+      "limitations": [
+        "Each detection is the centre of a pixel about 375 m across (larger towards the edge of a scan); the fire may be anywhere in it. FIRMS adds that near-real-time position errors are usually under 100 m but can be several kilometres.",
+        "NASA labels these files “24h”, but they are not a strict rolling 24 hours: they can include detections more than a day old. The page shows the actual range of acquisition times.",
+        "Suomi NPP is not used: NOAA and NASA announced that delivery of its data ends on 2 November 2026 at 13:00 UTC (a date NASA says is subject to change; older FIRMS text says 1 November).",
+        "Detections include persistent heat sources such as gas flares and industrial plants. FIRMS marks experimental “static thermal anomaly” areas on its Fire Map, but that layer is “not available for distribution”, so this site does not filter them out.",
+        "The files' Last-Modified time shows when NASA's server last rewrote a file. That happens about hourly, often with unchanged content, so it is not the time of the newest detection.",
+        "FIRMS lists days with missing satellite data on a separate page, and records instrument problems on its outage page (for example, a NOAA-21 anomaly in July 2026). This site does not check either automatically: a gap in NASA's data shows here only as ageing data.",
+        "NASA's disclaimer: the designations in the data “do not imply the expression of any opinion whatsoever … concerning the delimitation of its frontiers or boundaries”.",
+        "NASA's earthdata.nasa.gov pages (FAQ, attribute table) refused automated requests from the research network on 15 October 2026; their wording was read from Internet Archive copies dated 27 August to 12 October 2026.",
+        "The regional files are a download convenience; FIRMS documents the area API, which needs a MAP_KEY, for programmatic queries. FIRMS's own outage notice points users to these regional files.",
+        "No licence is named for these products. NASA's data use guidance says data from NASA-led missions are licensed as CC0 unless marked otherwise, and that non-NASA data follow the arrangements of the sponsoring organisation; it does not say which applies to VIIRS detections from NOAA's satellites. NASA's product records list no use constraints. NASA material must not be used to suggest NASA's endorsement."
+      ],
+      "verification": {
+        "checkedOn": "2026-10-15",
+        "checkedBy": "AI agents (Claude Code), Experiment 003: a researcher and a separate sceptic",
+        "method": "Read the FIRMS API, active-fire, map-key and outage pages and NOAA's Suomi NPP notice live; read NASA's FIRMS FAQ and attribute table from Internet Archive copies (earthdata.nasa.gov refused automated requests); downloaded the regional files; made one area-API request with a deliberately invalid key to record the error response.",
+        "humanVerified": true,
+        "humanVerification": {
+          "by": "Kingway87 (project maintainer)",
+          "on": "2026-10-15",
+          "notes": "Part of the maintainer’s review of the evidence presented on /live and /evidence against JEREBU.EXE’s evidence rules (branch experiment/003-live-evidence, commit 56d74b1), which includes this entry as /live presents it. Stated by the maintainer on 15 October 2026; the individual checks were not itemised. Recorded by Claude Code at the maintainer’s instruction."
+        },
+        "evidence": [
+          {
+            "claim": "What a detection represents",
+            "url": "https://www.earthdata.nasa.gov/data/tools/firms/faq",
+            "quote": "Each hotspot/active fire detection represents the center of a pixel flagged as containing one or more fires or other thermal anomalies (such as volcanoes). For MODIS the pixel is approximately 1 km and for VIIRS the pixel is approximately 375 m. The “location” is the center point of the pixel (not necessarily the coordinates of the actual fire).",
+            "archivedCopy": "https://web.archive.org/web/20261007083740/https://www.earthdata.nasa.gov/data/tools/firms/faq"
+          },
+          {
+            "claim": "Why fires are missed",
+            "url": "https://www.earthdata.nasa.gov/data/tools/firms/faq",
+            "quote": "The fire may have started and ended between satellite observations; cloud cover, heavy smoke, or tree canopy may completely obscure a fire; occasionally the instruments are inoperable and can observe nothing during these times … the fire may have been too small or too cool to be detected.",
+            "archivedCopy": "https://web.archive.org/web/20261007083740/https://www.earthdata.nasa.gov/data/tools/firms/faq"
+          },
+          {
+            "claim": "Latency and file updates",
+            "url": "https://www.earthdata.nasa.gov/data/tools/firms/faq",
+            "quote": "FIRMS makes the NRT data available within 3 hours of a satellite observation (on a best-effort basis); … the SHP, KML and CSV files (available for the last 24 hours, 48 hours, and 7 days) are updated every 60 minutes.",
+            "archivedCopy": "https://web.archive.org/web/20261007083740/https://www.earthdata.nasa.gov/data/tools/firms/faq"
+          },
+          {
+            "claim": "Use and citation",
+            "url": "https://www.earthdata.nasa.gov/data/tools/firms/faq",
+            "quote": "NASA promotes full and open sharing of data and and we encourage publication of imagery from FIRMS; when doing so for image captions, please cite it as \"NASA FIRMS\"",
+            "archivedCopy": "https://web.archive.org/web/20261007083740/https://www.earthdata.nasa.gov/data/tools/firms/faq"
+          },
+          {
+            "claim": "Area API key limit",
+            "url": "https://firms.modaps.eosdis.nasa.gov/api/map_key/",
+            "quote": "MAP_KEY limit is 5000 transactions / 10-minute interval."
+          },
+          {
+            "claim": "Suomi NPP end of delivery",
+            "url": "https://www.nesdis.noaa.gov/news/cessation-of-suomi-national-polar-orbiting-partnership-s-npp-data-users-onafter-november-2-2026",
+            "quote": "VIIRS - data will no longer be available after November 2, 2026, at 13:00 UTC (8:00 AM EST)"
+          },
+          {
+            "claim": "Location and size cannot be determined",
+            "url": "https://www.earthdata.nasa.gov/data/tools/firms/faq",
+            "quote": "We are not able to determine the exact location or size of the fire; what we do know is that at least one fire is located within the flagged pixel.",
+            "archivedCopy": "https://web.archive.org/web/20261007083740/https://www.earthdata.nasa.gov/data/tools/firms/faq"
+          },
+          {
+            "claim": "Anomaly types not attributed in NRT data",
+            "url": "https://www.earthdata.nasa.gov/data/tools/firms/faq",
+            "quote": "Different types of thermal anomalies are not currently attributed in the NRT MODIS or VIIRS data.",
+            "archivedCopy": "https://web.archive.org/web/20261007083740/https://www.earthdata.nasa.gov/data/tools/firms/faq"
+          },
+          {
+            "claim": "No opinion on borders",
+            "url": "https://firms.modaps.eosdis.nasa.gov/data/country/AttributesReadme.txt",
+            "quote": "The designations employed in the data do not imply the expression of any opinion whatsoever on the part of ESDIS concerning the legal or development status of any country, territory, city or area or of its authorities, or concerning the delimitation of its frontiers or boundaries."
+          },
+          {
+            "claim": "Redistribution request",
+            "url": "https://firms.modaps.eosdis.nasa.gov/data/country/AttributesReadme.txt",
+            "quote": "If you provide the LANCE / FIRMS data to a third party, we request you follow the guidelines in the citation and replicate or provide a link to the disclaimer."
+          },
+          {
+            "claim": "Regional files recommended by FIRMS",
+            "url": "https://firms.modaps.eosdis.nasa.gov/notifications/firms/outages.html",
+            "quote": "To obtain these data please use FIRMS active fire data. Data can be downloaded by region for the last 24h, 48h or 7 days in SHP, KML or CSV formats."
+          },
+          {
+            "claim": "Wording requested when FIRMS data are provided to third parties",
+            "url": "https://www.earthdata.nasa.gov/data/tools/firms",
+            "quote": "We acknowledge the use of data and/or imagery from NASA's Fire Information for Resource Management System (FIRMS) (https://earthdata.nasa.gov/firms), part of NASA's Land, Atmosphere Near real-time Capability for Earth observations (LANCE) (https://earthdata.nasa.gov/lance) and NASA's Earth Science Data and Information System (ESDIS).",
+            "archivedCopy": "https://web.archive.org/web/20261012072328/https://www.earthdata.nasa.gov/data/tools/firms"
+          },
+          {
+            "claim": "NASA data-use guidance",
+            "url": "https://www.earthdata.nasa.gov/engage/open-data-services-software-policies/data-use-guidance",
+            "quote": "Unless the content is marked with a use restriction or license, data provided from a NASA-led mission are licensed as Creative Commons Zero (CC0).",
+            "archivedCopy": "https://web.archive.org/web/20261012074745/https://www.earthdata.nasa.gov/engage/open-data-services-software-policies/data-use-guidance"
+          },
+          {
+            "claim": "How often an area is viewed",
+            "url": "https://www.earthdata.nasa.gov/data/tools/firms/faq",
+            "quote": "polar-orbiting sensors, such as MODIS and VIIRS, typically view the same area of Earth’s surface twice daily",
+            "archivedCopy": "https://web.archive.org/web/20261007083740/https://www.earthdata.nasa.gov/data/tools/firms/faq"
+          }
+        ],
+        "unverified": [
+          "Whether NASA intends the regional files for regular automated downloads (no statement either way was found; FIRMS's robots.txt allows them with a 1-second crawl delay, which this site respects).",
+          "The exact time window of the “24h” files.",
+          "A DOI for the NOAA-21 FIRMS product (none was found).",
+          "Whether NASA's CC0 statement covers VIIRS detections from NOAA-20 and NOAA-21.",
+          "When the satellites cross the equator: FIRMS's FAQ gives two inconsistent descriptions."
+        ]
+      }
+    },
+    {
+      "id": "datagovsg-psi",
+      "name": "Pollutant Standards Index (PSI)",
+      "institution": "National Environment Agency (NEA), Singapore",
+      "publisher": "data.gov.sg (Open Government Products, Government of Singapore)",
+      "jurisdiction": "singapore",
+      "category": "air-quality",
+      "recordType": "observation",
+      "officialUrl": "https://data.gov.sg/datasets/d_fe37906a0182569d891506e815e819b7/view",
+      "documentationUrls": [
+        "https://data.gov.sg/datasets/d_fe37906a0182569d891506e815e819b7/view",
+        "https://guide.data.gov.sg/developer-guide/api-overview/api-rate-limits",
+        "https://guide.data.gov.sg/developer-guide/api-overview/how-to-use-your-api-key",
+        "https://data.gov.sg/open-data-licence",
+        "https://data.gov.sg/privacy-and-terms"
+      ],
+      "accessMethod": "rest-api",
+      "dataFormat": "JSON",
+      "endpoints": [
+        {
+          "url": "https://api-open.data.gov.sg/v2/real-time/api/psi",
+          "description": "Latest hourly reading: 24-hour PSI and pollutant sub-indices for five regions (north, south, east, west, central). Optional query parameter date (Singapore time)."
+        }
+      ],
+      "authenticationRequired": false,
+      "authentication": {
+        "type": "api-key-optional",
+        "envVar": "DATA_GOV_SG_API_KEY",
+        "howToObtain": "https://guide.data.gov.sg/developer-guide/api-overview/how-to-request-an-api-key",
+        "notes": "No key needed. data.gov.sg describes keyless access as for testing and recommends a key for production use; a key raises the rate limit. This site sends one only if DATA_GOV_SG_API_KEY is set on the server."
+      },
+      "rateLimits": "v2 real-time APIs: 6 calls per 10 seconds without a key, 12 with a development key, 30 with a production key; exceeding the limit returns HTTP 429 (data.gov.sg rate-limit page). data.gov.sg announced that enforcement would begin on 31 December 2025 and says it is still fine-tuning the limits; no AI check provoked or observed a 429. OGP's update for the first quarter of 2026 says the rate limits were “rolled out incrementally”.",
+      "updateFrequency": "Hourly readings, timestamped on the hour (observed). The dataset page says “Updated every 15 minutes”; data.gov.sg describes such cadences as a schedule, not a live signal.",
+      "latency": "Observed by AI agents: most readings appeared 45–46 minutes after their hour on 14 October 2026, but lags of about 15 and about 61 minutes were also seen, and the 00:00–02:00 readings that night arrived 98–216 minutes late. updatedTimestamp appears to record when data.gov.sg ingested a reading, not when NEA published it.",
+      "historicalAvailability": "The date parameter returns past days, but AI agents found the history incomplete: no data for 2016 and 2019 dates tested, and only 00:00–07:00 for 2021 and 2023 dates. Use NEA's historical datasets on data.gov.sg for history.",
+      "status": "AVAILABLE",
+      "integration": "integrated",
+      "licence": {
+        "name": "Singapore Open Data Licence version 1.0",
+        "url": "https://data.gov.sg/open-data-licence"
+      },
+      "attribution": "Contains information from Pollutant Standards Index (PSI) accessed on [date] from data.gov.sg, which is made available under the terms of the Singapore Open Data Licence version 1.0 (https://data.gov.sg/open-data-licence). The page shows this notice, following the licence's example notice, with the date of retrieval and a link to the licence.",
+      "freshness": {
+        "basis": "observedAt",
+        "recentMaxMinutes": 150,
+        "staleAfterMinutes": 360,
+        "rationale": "Readings are hourly. On the days checked, most appeared on data.gov.sg about 15–61 minutes after their hour, so the newest reading is normally up to about 2 hours old; on 14 October 2026 the 00:00–02:00 readings appeared 98–216 minutes late, which this rule shows as delayed. After 6 hours, at least four hourly readings have been missed."
+      },
+      "fields": [
+        {
+          "name": "readings.psi_twenty_four_hourly",
+          "meaning": "24-hour PSI for each region. NEA: the PSI is the highest of the pollutant sub-indices.",
+          "unit": "index (no unit)"
+        },
+        {
+          "name": "readings.pm25_sub_index, pm10_sub_index, o3_sub_index, co_sub_index, so2_sub_index",
+          "meaning": "Pollutant sub-indices from which the PSI is computed.",
+          "unit": "index (no unit)"
+        },
+        {
+          "name": "items[].timestamp",
+          "meaning": "The hour the reading is for, ISO 8601 with +08:00 offset."
+        },
+        {
+          "name": "items[].updatedTimestamp",
+          "meaning": "When data.gov.sg last updated the reading."
+        },
+        {
+          "name": "regionMetadata[].labelLocation",
+          "meaning": "Where the source places each region's label; not a station position."
+        }
+      ],
+      "canShow": [
+        "The current 24-hour PSI that NEA reports for each of Singapore's five regions, and the hour it is for.",
+        "Which pollutant's sub-index equals the PSI, using NEA's rule that the PSI is the highest sub-index.",
+        "NEA's descriptor band for each reading."
+      ],
+      "cannotShow": [
+        "Where the pollution came from, or what caused it.",
+        "Conditions at any single station, or anywhere outside Singapore.",
+        "Quality-controlled values: data.gov.sg makes no statement about quality control of real-time values, and its API terms provide the APIs “as is”.",
+        "An official national PSI: current responses give regional values only (for some older dates the API also returns a “national” series, whose values on 1 January 2021 did not match its own sub-indices)."
+      ],
+      "limitations": [
+        "The documented units are inconsistent: the endpoint says readings are “PSI Value” while each key's description says micrograms per cubic metre. This site uses only the index values and shows no concentrations from this endpoint.",
+        "data.gov.sg provides the APIs “as is” and may suspend access for any reason (API Terms of Service).",
+        "Readings can arrive hours late: in the early hours of 14 October 2026 (Singapore time), the 00:00–02:00 readings appeared 98–216 minutes after their hour.",
+        "How each region's value is derived from station data is not documented in the pages read."
+      ],
+      "verification": {
+        "checkedOn": "2026-10-15",
+        "checkedBy": "AI agents (Claude Code), Experiment 003: a researcher and a separate sceptic",
+        "method": "Opened the data.gov.sg developer guide, rate-limit page, dataset page, dataset metadata API, Open Data Licence and API Terms of Service; requested the endpoint without a key and compared the response with the published OpenAPI specification.",
+        "humanVerified": true,
+        "humanVerification": {
+          "by": "Kingway87 (project maintainer)",
+          "on": "2026-10-15",
+          "notes": "Part of the maintainer’s review of the evidence presented on /live and /evidence against JEREBU.EXE’s evidence rules (branch experiment/003-live-evidence, commit 56d74b1), which includes this entry as /live presents it. Stated by the maintainer on 15 October 2026; the individual checks were not itemised. Recorded by Claude Code at the maintainer’s instruction."
+        },
+        "evidence": [
+          {
+            "claim": "Rate-limit mechanics",
+            "url": "https://guide.data.gov.sg/developer-guide/api-overview/api-rate-limits",
+            "quote": "The rate limits are reset every 10 seconds - the following rate limits represent the number of API calls that can be made every 10 seconds. If the rate limits are exceeded, you will receive a `429` status error (Too many requests)"
+          },
+          {
+            "claim": "Keys are optional but recommended for production",
+            "url": "https://guide.data.gov.sg/developer-guide/api-overview",
+            "quote": "All Data.gov.sg APIs are public and can be accessed without an API key for testing purposes. However, if you are using the APIs and datasets for production workflows, we strongly recommend you to use an API key."
+          },
+          {
+            "claim": "Licence attribution (example notice)",
+            "url": "https://data.gov.sg/open-data-licence",
+            "quote": "You must include in your products, applications or websites that Use the datasets, a conspicuous notice acknowledging the source of the datasets and including a link to the most recent version of this Licence."
+          },
+          {
+            "claim": "No warranty",
+            "url": "https://data.gov.sg/privacy-and-terms",
+            "quote": "The APIs are provided on an “as is” and “as available” basis."
+          }
+        ],
+        "unverified": [
+          "Whether real-time values are later revised (an NEA page saying so could not be opened: haze.gov.sg disallows automated access).",
+          "Whether the timestamp marks the start or the end of the averaging hour."
+        ]
+      }
+    },
+    {
+      "id": "datagovsg-pm25",
+      "name": "PM2.5 (1-hour, by region)",
+      "institution": "National Environment Agency (NEA), Singapore",
+      "publisher": "data.gov.sg (Open Government Products, Government of Singapore)",
+      "jurisdiction": "singapore",
+      "category": "air-quality",
+      "recordType": "observation",
+      "officialUrl": "https://data.gov.sg/datasets/d_e1058d6974c877257e32048ab128ad83/view",
+      "documentationUrls": [
+        "https://guide.data.gov.sg/developer-guide/real-time-apis",
+        "https://guide.data.gov.sg/developer-guide/api-overview/api-rate-limits",
+        "https://data.gov.sg/open-data-licence"
+      ],
+      "accessMethod": "rest-api",
+      "dataFormat": "JSON",
+      "endpoints": [
+        {
+          "url": "https://api-open.data.gov.sg/v2/real-time/api/pm25",
+          "description": "Latest hourly 1-hour PM2.5 concentration for five regions."
+        }
+      ],
+      "authenticationRequired": false,
+      "authentication": {
+        "type": "api-key-optional",
+        "envVar": "DATA_GOV_SG_API_KEY",
+        "howToObtain": "https://guide.data.gov.sg/developer-guide/api-overview/how-to-request-an-api-key",
+        "notes": "No key needed; same policy as the PSI API."
+      },
+      "rateLimits": "Same v2 real-time limits as the PSI API: 6, 12 or 30 calls per 10 seconds (no key, development key, production key).",
+      "updateFrequency": "Hourly, timestamped on the hour (observed). The developer guide says “Updated hourly from NEA”; the dataset page says “Updated every 15 minutes”.",
+      "latency": "Observed by AI agents: most readings appeared 45–46 minutes after their hour on 14 October 2026, but lags of about 15 and about 61 minutes were also seen, and the 00:00–02:00 readings that night arrived 98–216 minutes late. updatedTimestamp appears to record when data.gov.sg ingested a reading, not when NEA published it.",
+      "historicalAvailability": "The date parameter returns past days, but the history is incomplete: a 2023 date returned only 00:00–07:00. The 2016, 2019 and 2021 dates were tested on the PSI endpoint only. Use NEA's historical datasets on data.gov.sg for history.",
+      "status": "AVAILABLE",
+      "integration": "integrated",
+      "licence": {
+        "name": "Singapore Open Data Licence version 1.0",
+        "url": "https://data.gov.sg/open-data-licence"
+      },
+      "attribution": "Contains information from PM2.5 accessed on [date] from data.gov.sg, which is made available under the terms of the Singapore Open Data Licence version 1.0 (https://data.gov.sg/open-data-licence). The page shows this notice, following the licence's example notice, with the date of retrieval and a link to the licence.",
+      "freshness": {
+        "basis": "observedAt",
+        "recentMaxMinutes": 150,
+        "staleAfterMinutes": 360,
+        "rationale": "Readings are hourly. On the days checked, most appeared on data.gov.sg about 15–61 minutes after their hour, so the newest reading is normally up to about 2 hours old; on 14 October 2026 the 00:00–02:00 readings appeared 98–216 minutes late, which this rule shows as delayed. After 6 hours, at least four hourly readings have been missed."
+      },
+      "fields": [
+        {
+          "name": "readings.pm25_one_hourly",
+          "meaning": "1-hour average PM2.5 concentration for each region.",
+          "unit": "µg/m³"
+        }
+      ],
+      "canShow": [
+        "The 1-hour PM2.5 concentration NEA reports for each region, and the hour it is for.",
+        "NEA's 1-hour PM2.5 band for each reading."
+      ],
+      "cannotShow": [
+        "Where the particles came from.",
+        "A 1-hour PSI: NEA says a 1-hour PSI is not used.",
+        "Values comparable with other countries' indices or bands."
+      ],
+      "limitations": [
+        "NEA notes that 1-hour PM2.5 levels can be volatile and fluctuate over the day with the weather.",
+        "The developer guide's specification mentions a national value and a required key; the live API returns neither and works without a key.",
+        "data.gov.sg provides the API “as is”."
+      ],
+      "verification": {
+        "checkedOn": "2026-10-15",
+        "checkedBy": "AI agents (Claude Code), Experiment 003: a researcher and a separate sceptic",
+        "method": "Opened the developer guide, dataset page and dataset metadata API; requested the endpoint without a key.",
+        "humanVerified": true,
+        "humanVerification": {
+          "by": "Kingway87 (project maintainer)",
+          "on": "2026-10-15",
+          "notes": "Part of the maintainer’s review of the evidence presented on /live and /evidence against JEREBU.EXE’s evidence rules (branch experiment/003-live-evidence, commit 56d74b1), which includes this entry as /live presents it. Stated by the maintainer on 15 October 2026; the individual checks were not itemised. Recorded by Claude Code at the maintainer’s instruction."
+        },
+        "evidence": [
+          {
+            "claim": "Unit",
+            "url": "https://guide.data.gov.sg/developer-guide/real-time-apis",
+            "quote": "Unit of measure for readings is `µg/m3`."
+          },
+          {
+            "claim": "Dataset name and producer (page title)",
+            "url": "https://data.gov.sg/datasets/d_e1058d6974c877257e32048ab128ad83/view",
+            "quote": "PM2.5 (API) | NEA | data.gov.sg"
+          }
+        ],
+        "unverified": [
+          "Whether real-time values are later revised."
+        ]
+      }
+    },
+    {
+      "id": "datagovsg-wind-direction",
+      "name": "Wind Direction across Singapore",
+      "institution": "Meteorological Service Singapore (MSS), National Environment Agency",
+      "publisher": "data.gov.sg (Open Government Products, Government of Singapore)",
+      "jurisdiction": "singapore",
+      "category": "meteorology",
+      "recordType": "observation",
+      "officialUrl": "https://data.gov.sg/datasets/d_534cf203023b51f51f879145ccc56ff9/view",
+      "documentationUrls": [
+        "https://guide.data.gov.sg/developer-guide/real-time-apis",
+        "https://guide.data.gov.sg/developer-guide/api-overview/api-rate-limits",
+        "https://data.gov.sg/open-data-licence"
+      ],
+      "accessMethod": "rest-api",
+      "dataFormat": "JSON",
+      "endpoints": [
+        {
+          "url": "https://api-open.data.gov.sg/v2/real-time/api/wind-direction",
+          "description": "Latest wind direction reading for each weather station, in degrees, with station names and coordinates."
+        }
+      ],
+      "authenticationRequired": false,
+      "authentication": {
+        "type": "api-key-optional",
+        "envVar": "DATA_GOV_SG_API_KEY",
+        "howToObtain": "https://guide.data.gov.sg/developer-guide/api-overview/how-to-request-an-api-key",
+        "notes": "No key needed; same policy as the other data.gov.sg real-time APIs."
+      },
+      "rateLimits": "Same v2 real-time limits as the PSI API: 6, 12 or 30 calls per 10 seconds (no key, development key, production key).",
+      "updateFrequency": "Dataset description: “Minute-by-minute wind direction readings at weather station level, updated every five minutes.”",
+      "historicalAvailability": "Dataset coverage reported from 29 November 2016; the documentation says past days can be requested with the date parameter (not tested; the same parameter returned incomplete history for PSI).",
+      "status": "AVAILABLE",
+      "integration": "integrated",
+      "licence": {
+        "name": "Singapore Open Data Licence version 1.0",
+        "url": "https://data.gov.sg/open-data-licence"
+      },
+      "attribution": "Contains information from Wind Direction across Singapore accessed on [date] from data.gov.sg, which is made available under the terms of the Singapore Open Data Licence version 1.0 (https://data.gov.sg/open-data-licence). The page fills in the date of retrieval.",
+      "freshness": {
+        "basis": "observedAt",
+        "recentMaxMinutes": 30,
+        "staleAfterMinutes": 180,
+        "rationale": "The dataset is described as updated every five minutes, so more than 30 minutes without a new reading means several updates were missed. After 3 hours a reading no longer describes current conditions."
+      },
+      "fields": [
+        {
+          "name": "data.readings[].data[].value",
+          "meaning": "Mean wind direction over 10 minutes at the station, as published.",
+          "unit": "degrees"
+        },
+        {
+          "name": "data.stations[]",
+          "meaning": "Station id, name and location (latitude, longitude)."
+        },
+        {
+          "name": "data.readings[].timestamp",
+          "meaning": "Reading time, ISO 8601 with +08:00 offset."
+        }
+      ],
+      "canShow": [
+        "The wind direction measured at each named Singapore weather station at a stated time."
+      ],
+      "cannotShow": [
+        "Where smoke or haze came from: one station's wind at one moment is not a transport analysis.",
+        "Wind anywhere outside Singapore, or at altitude."
+      ],
+      "limitations": [
+        "Dataset description: “There could be instances when there are gaps in the data due to technical problems. The data is subject to correction subsequently if necessary.”",
+        "Dataset description: “The readings from the instruments could thus be influenced by local conditions.”",
+        "The documentation does not state whether the direction is where the wind blows from (the usual meteorological convention) or to; the page says it assumes the usual convention."
+      ],
+      "verification": {
+        "checkedOn": "2026-10-15",
+        "checkedBy": "AI agents (Claude Code), Experiment 003",
+        "method": "Read the dataset metadata through the documented data.gov.sg metadata API and the published OpenAPI specification; requested the endpoint without a key.",
+        "humanVerified": true,
+        "humanVerification": {
+          "by": "Kingway87 (project maintainer)",
+          "on": "2026-10-15",
+          "notes": "Part of the maintainer’s review of the evidence presented on /live and /evidence against JEREBU.EXE’s evidence rules (branch experiment/003-live-evidence, commit 56d74b1), which includes this entry as /live presents it. Stated by the maintainer on 15 October 2026; the individual checks were not itemised. Recorded by Claude Code at the maintainer’s instruction."
+        },
+        "evidence": [
+          {
+            "claim": "Averaging period",
+            "url": "https://data.gov.sg/datasets/d_534cf203023b51f51f879145ccc56ff9/view",
+            "quote": "The wind observations on this page refers to the mean wind over a period of 10 minutes. The data is available at 1-minute resolution."
+          },
+          {
+            "claim": "May be corrected later",
+            "url": "https://data.gov.sg/datasets/d_534cf203023b51f51f879145ccc56ff9/view",
+            "quote": "The data is subject to correction subsequently if necessary."
+          }
+        ],
+        "unverified": [
+          "The direction convention (from or towards)."
+        ]
+      }
+    },
+    {
+      "id": "datagovsg-wind-speed",
+      "name": "Wind Speed across Singapore",
+      "institution": "Meteorological Service Singapore (MSS), National Environment Agency",
+      "publisher": "data.gov.sg (Open Government Products, Government of Singapore)",
+      "jurisdiction": "singapore",
+      "category": "meteorology",
+      "recordType": "observation",
+      "officialUrl": "https://data.gov.sg/datasets/d_7677738484067741bf3b56ab5d69c7e9/view",
+      "documentationUrls": [
+        "https://guide.data.gov.sg/developer-guide/real-time-apis",
+        "https://data.gov.sg/open-data-licence"
+      ],
+      "accessMethod": "rest-api",
+      "dataFormat": "JSON",
+      "endpoints": [
+        {
+          "url": "https://api-open.data.gov.sg/v2/real-time/api/wind-speed",
+          "description": "Latest wind speed reading for each weather station, in knots."
+        }
+      ],
+      "authenticationRequired": false,
+      "authentication": {
+        "type": "api-key-optional",
+        "envVar": "DATA_GOV_SG_API_KEY",
+        "howToObtain": "https://guide.data.gov.sg/developer-guide/api-overview/how-to-request-an-api-key",
+        "notes": "No key needed; same policy as the other data.gov.sg real-time APIs."
+      },
+      "rateLimits": "Same v2 real-time limits: 6, 12 or 30 calls per 10 seconds (no key, development key, production key).",
+      "updateFrequency": "Dataset description: “Minute-by-minute wind speed readings at weather-station level, updated every five minutes.”",
+      "historicalAvailability": "Dataset coverage reported from 8 December 2016; the documentation says past days can be requested with the date parameter (not tested; the same parameter returned incomplete history for PSI).",
+      "status": "AVAILABLE",
+      "integration": "integrated",
+      "licence": {
+        "name": "Singapore Open Data Licence version 1.0",
+        "url": "https://data.gov.sg/open-data-licence"
+      },
+      "attribution": "Contains information from Wind Speed across Singapore accessed on [date] from data.gov.sg, which is made available under the terms of the Singapore Open Data Licence version 1.0 (https://data.gov.sg/open-data-licence). The page fills in the date of retrieval.",
+      "freshness": {
+        "basis": "observedAt",
+        "recentMaxMinutes": 30,
+        "staleAfterMinutes": 180,
+        "rationale": "Updated every five minutes, as for wind direction: more than 30 minutes without a new reading means several updates were missed."
+      },
+      "fields": [
+        {
+          "name": "data.readings[].data[].value",
+          "meaning": "Mean wind speed over 10 minutes at the station.",
+          "unit": "knots"
+        }
+      ],
+      "canShow": [
+        "The wind speed measured at each named Singapore weather station at a stated time."
+      ],
+      "cannotShow": [
+        "Where smoke or haze came from.",
+        "Wind anywhere outside Singapore, or at altitude."
+      ],
+      "limitations": [
+        "Dataset description: “The data is subject to correction subsequently if necessary.”",
+        "Dataset description: readings “could thus be influenced by local conditions”."
+      ],
+      "verification": {
+        "checkedOn": "2026-10-15",
+        "checkedBy": "AI agents (Claude Code), Experiment 003",
+        "method": "Read the dataset metadata and the published OpenAPI specification; requested the endpoint without a key.",
+        "humanVerified": true,
+        "humanVerification": {
+          "by": "Kingway87 (project maintainer)",
+          "on": "2026-10-15",
+          "notes": "Part of the maintainer’s review of the evidence presented on /live and /evidence against JEREBU.EXE’s evidence rules (branch experiment/003-live-evidence, commit 56d74b1), which includes this entry as /live presents it. Stated by the maintainer on 15 October 2026; the individual checks were not itemised. Recorded by Claude Code at the maintainer’s instruction."
+        },
+        "evidence": [
+          {
+            "claim": "Averaging period",
+            "url": "https://data.gov.sg/datasets/d_7677738484067741bf3b56ab5d69c7e9/view",
+            "quote": "The wind observations on this page refers to the mean wind over a period of 10 minutes. The data is available at 1-minute resolution."
+          }
+        ]
+      }
+    },
+    {
+      "id": "datagovsg-rainfall",
+      "name": "Rainfall across Singapore",
+      "institution": "Meteorological Service Singapore (MSS), National Environment Agency",
+      "publisher": "data.gov.sg (Open Government Products, Government of Singapore)",
+      "jurisdiction": "singapore",
+      "category": "meteorology",
+      "recordType": "observation",
+      "officialUrl": "https://data.gov.sg/datasets/d_6580738cdd7db79374ed3152159fbd69/view",
+      "documentationUrls": [
+        "https://guide.data.gov.sg/developer-guide/real-time-apis",
+        "https://data.gov.sg/open-data-licence"
+      ],
+      "accessMethod": "rest-api",
+      "dataFormat": "JSON",
+      "endpoints": [
+        {
+          "url": "https://api-open.data.gov.sg/v2/real-time/api/rainfall",
+          "description": "Latest 5-minute rainfall total for each rain gauge, in millimetres."
+        }
+      ],
+      "authenticationRequired": false,
+      "authentication": {
+        "type": "api-key-optional",
+        "envVar": "DATA_GOV_SG_API_KEY",
+        "howToObtain": "https://guide.data.gov.sg/developer-guide/api-overview/how-to-request-an-api-key",
+        "notes": "No key needed; same policy as the other data.gov.sg real-time APIs."
+      },
+      "rateLimits": "Same v2 real-time limits: 6, 12 or 30 calls per 10 seconds (no key, development key, production key).",
+      "updateFrequency": "Dataset description: “Precipitation readings at weather-station level, updated every five minutes.”",
+      "historicalAvailability": "Dataset coverage reported from 2 December 2016; the documentation says past days can be requested with the date parameter (not tested; the same parameter returned incomplete history for PSI).",
+      "status": "AVAILABLE",
+      "integration": "integrated",
+      "licence": {
+        "name": "Singapore Open Data Licence version 1.0",
+        "url": "https://data.gov.sg/open-data-licence"
+      },
+      "attribution": "Contains information from Rainfall across Singapore accessed on [date] from data.gov.sg, which is made available under the terms of the Singapore Open Data Licence version 1.0 (https://data.gov.sg/open-data-licence). The page fills in the date of retrieval.",
+      "freshness": {
+        "basis": "observedAt",
+        "recentMaxMinutes": 30,
+        "staleAfterMinutes": 180,
+        "rationale": "Updated every five minutes: more than 30 minutes without a new reading means several updates were missed."
+      },
+      "fields": [
+        {
+          "name": "data.readings[].data[].value",
+          "meaning": "Rainfall total over 5 minutes at the gauge (the response's readingType: “TB1 Rainfall 5 Minute Total F”).",
+          "unit": "mm"
+        }
+      ],
+      "canShow": [
+        "Whether each named rain gauge in Singapore recorded rain in a stated 5-minute period, and how much."
+      ],
+      "cannotShow": [
+        "Rain anywhere outside Singapore, or whether rain has cleared haze."
+      ],
+      "limitations": [
+        "Dataset description: “The data is subject to correction subsequently if necessary.”",
+        "A reported 0 mm is a measurement of no rain at that gauge; a gauge with no value is shown as having no reading, not as 0."
+      ],
+      "verification": {
+        "checkedOn": "2026-10-15",
+        "checkedBy": "AI agents (Claude Code), Experiment 003",
+        "method": "Read the dataset metadata and the published OpenAPI specification; requested the endpoint without a key.",
+        "humanVerified": true,
+        "humanVerification": {
+          "by": "Kingway87 (project maintainer)",
+          "on": "2026-10-15",
+          "notes": "Part of the maintainer’s review of the evidence presented on /live and /evidence against JEREBU.EXE’s evidence rules (branch experiment/003-live-evidence, commit 56d74b1), which includes this entry as /live presents it. Stated by the maintainer on 15 October 2026; the individual checks were not itemised. Recorded by Claude Code at the maintainer’s instruction."
+        },
+        "evidence": [
+          {
+            "claim": "Update frequency",
+            "url": "https://data.gov.sg/datasets/d_6580738cdd7db79374ed3152159fbd69/view",
+            "quote": "Precipitation readings at weather-station level, updated every five minutes."
+          }
+        ]
+      }
+    },
+    {
+      "id": "datagovmy-weather-forecast",
+      "name": "Weather forecast (data.gov.my Weather API)",
+      "institution": "Malaysian Meteorological Department (MET Malaysia)",
+      "publisher": "data.gov.my (Government of Malaysia open data portal)",
+      "jurisdiction": "malaysia",
+      "category": "meteorology",
+      "recordType": "forecast",
+      "officialUrl": "https://developer.data.gov.my/realtime-api/weather",
+      "documentationUrls": [
+        "https://developer.data.gov.my/realtime-api/weather",
+        "https://developer.data.gov.my/request-query",
+        "https://developer.data.gov.my/rate-limit",
+        "https://developer.data.gov.my/faq"
+      ],
+      "accessMethod": "rest-api",
+      "dataFormat": "JSON",
+      "endpoints": [
+        {
+          "url": "https://api.data.gov.my/weather/forecast/?contains=St@location__location_id&date_start={DATE}@date&date_end={DATE}@date",
+          "description": "MET Malaysia's general forecast for one day ({DATE}, Malaysia time) for each state and federal territory: morning, afternoon and night, in Malay."
+        }
+      ],
+      "authenticationRequired": false,
+      "authentication": {
+        "type": "none",
+        "notes": "No token: “The Open API does not require an API token.”"
+      },
+      "rateLimits": "4 requests per minute for the Weather API; HTTP 429 when exceeded (developer.data.gov.my). This site makes one request per refresh.",
+      "updateFrequency": "Documentation: “The 7-day general forecast data is updated daily.”",
+      "status": "AVAILABLE",
+      "integration": "integrated",
+      "licence": {
+        "name": "Creative Commons Attribution 4.0 International (CC BY 4.0)",
+        "url": "https://creativecommons.org/licenses/by/4.0/"
+      },
+      "attribution": "Forecast: Malaysian Meteorological Department (MET Malaysia), via the data.gov.my Weather API, licensed under CC BY 4.0. Shown as published, in Malay, with the English descriptions from the API documentation where it lists them.",
+      "freshness": {
+        "basis": "retrievedAt",
+        "recentMaxMinutes": 360,
+        "staleAfterMinutes": 1440,
+        "rationale": "A forecast carries no issue time, only the day it is for, and MET Malaysia updates it daily. Age is therefore measured from retrieval: after 6 hours a newer forecast may exist. Separately, once the day it forecasts has ended (midnight, Malaysia time), the page marks it stale whatever its age; the 24-hour limit is a backstop."
+      },
+      "fields": [
+        {
+          "name": "location.location_id, location.location_name",
+          "meaning": "Location; ids starting “St” are states and federal territories."
+        },
+        {
+          "name": "date",
+          "meaning": "The day the forecast is for."
+        },
+        {
+          "name": "morning_forecast, afternoon_forecast, night_forecast, summary_forecast",
+          "meaning": "Forecast wording in Malay. The documentation lists the possible values with English descriptions, for example “Berjerebu”: “Hazy.”"
+        }
+      ],
+      "canShow": [
+        "What MET Malaysia forecasts for each state and federal territory today, including whether it uses the term for haze."
+      ],
+      "cannotShow": [
+        "Observed haze or air quality: a forecast is a prediction, not a measurement.",
+        "Where any haze comes from, or who caused any fire.",
+        "That the air is clear where the forecast does not mention haze."
+      ],
+      "limitations": [
+        "Forecasts, not observations.",
+        "A forecast that does not use “Jerebu” or “Berjerebu” is not a forecast of clear air. Each period has a single description, and the day's summary can leave out haze that a period forecast mentions: in the forecast for 15 October 2026, the period forecasts for seven of the 16 states and federal territories (five states and two federal territories) used “Jerebu” while every summary named thunderstorms. A search for the documented term “Berjerebu” alone would have found nothing that day.",
+        "Values are published in Malay only. On 15 October 2026 the live data used “Jerebu”, and phrases such as “di kebanyakan tempat”, which the documentation's list of values does not include; such values are shown without a translation.",
+        "data.gov.my states no criteria MET Malaysia uses to forecast haze."
+      ],
+      "verification": {
+        "checkedOn": "2026-10-15",
+        "checkedBy": "AI agents (Claude Code), Experiment 003",
+        "method": "Read the data.gov.my developer documentation (weather, query, rate limit, FAQ) and requested the endpoint.",
+        "humanVerified": true,
+        "humanVerification": {
+          "by": "Kingway87 (project maintainer)",
+          "on": "2026-10-15",
+          "notes": "Part of the maintainer’s review of the evidence presented on /live and /evidence against JEREBU.EXE’s evidence rules (branch experiment/003-live-evidence, commit 56d74b1), which includes this entry as /live presents it. Stated by the maintainer on 15 October 2026; the individual checks were not itemised. Recorded by Claude Code at the maintainer’s instruction."
+        },
+        "evidence": [
+          {
+            "claim": "No token",
+            "url": "https://developer.data.gov.my/quickstart",
+            "quote": "The Open API does not require an API token."
+          },
+          {
+            "claim": "Documented meaning of Berjerebu",
+            "url": "https://developer.data.gov.my/realtime-api/weather",
+            "quote": "Berjerebu | Hazy."
+          },
+          {
+            "claim": "Update frequency",
+            "url": "https://developer.data.gov.my/realtime-api/weather",
+            "quote": "The 7-day general forecast data is updated daily."
+          }
+        ],
+        "unverified": [
+          "The criteria MET Malaysia uses for a haze forecast."
+        ]
+      }
+    },
+    {
+      "id": "natural-earth",
+      "name": "Natural Earth 1:10m land polygons and land boundary lines",
+      "institution": "Natural Earth (public-domain map data; primary authors Tom Patterson and Nathaniel Vaughn Kelso)",
+      "jurisdiction": "global",
+      "category": "basemap",
+      "recordType": "reference",
+      "officialUrl": "https://www.naturalearthdata.com/",
+      "documentationUrls": [
+        "https://www.naturalearthdata.com/about/terms-of-use/",
+        "https://github.com/nvkelso/natural-earth-vector"
+      ],
+      "accessMethod": "file-download",
+      "dataFormat": "GeoJSON",
+      "endpoints": [
+        {
+          "url": "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_10m_land.geojson",
+          "description": "Land polygons, version 5.1.2. Downloaded once by scripts/build-basemap.mjs, not by the site."
+        },
+        {
+          "url": "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_10m_admin_0_boundary_lines_land.geojson",
+          "description": "Land boundary lines, version 5.1.2. Downloaded once by scripts/build-basemap.mjs."
+        }
+      ],
+      "authenticationRequired": false,
+      "authentication": {
+        "type": "none",
+        "notes": "None."
+      },
+      "updateFrequency": "Versioned releases; this site uses release v5.1.2 (13 May 2022).",
+      "status": "AVAILABLE",
+      "integration": "bundled",
+      "licence": {
+        "name": "Public domain",
+        "url": "https://www.naturalearthdata.com/about/terms-of-use/"
+      },
+      "attribution": "Made with Natural Earth. Credit is not required by Natural Earth's terms; this site gives it anyway.",
+      "freshness": null,
+      "canShow": [
+        "Coastlines and land boundaries, generalised for maps at regional scale, for orientation."
+      ],
+      "cannotShow": [
+        "The legal status of any boundary: Natural Earth draws boundaries as they are in practice (de facto).",
+        "Land ownership, concessions or land use."
+      ],
+      "limitations": [
+        "Generalised data: shapes are simplified further for this map (0.02°, about 2 km).",
+        "Boundaries follow Natural Earth's de facto policy and are not legal determinations."
+      ],
+      "verification": {
+        "checkedOn": "2026-10-15",
+        "checkedBy": "AI agents (Claude Code), Experiment 003",
+        "method": "Read Natural Earth's terms of use and the repository's release tags; downloaded the pinned files and processed them with a committed script.",
+        "humanVerified": true,
+        "humanVerification": {
+          "by": "Kingway87 (project maintainer)",
+          "on": "2026-10-15",
+          "notes": "Part of the maintainer’s review of the evidence presented on /live and /evidence against JEREBU.EXE’s evidence rules (branch experiment/003-live-evidence, commit 56d74b1), which includes this entry as /live presents it. Stated by the maintainer on 15 October 2026; the individual checks were not itemised. Recorded by Claude Code at the maintainer’s instruction."
+        },
+        "evidence": [
+          {
+            "claim": "Public domain",
+            "url": "https://www.naturalearthdata.com/about/terms-of-use/",
+            "quote": "All versions of Natural Earth raster + vector map data found on this website are in the public domain."
+          },
+          {
+            "claim": "No credit required",
+            "url": "https://www.naturalearthdata.com/about/terms-of-use/",
+            "quote": "No permission is needed to use Natural Earth. Crediting the authors is unnecessary."
+          }
+        ]
+      }
+    },
+    {
+      "id": "doe-apims",
+      "name": "Air Pollutant Index Management System (APIMS)",
+      "institution": "Department of Environment Malaysia (Jabatan Alam Sekitar, DOE)",
+      "jurisdiction": "malaysia",
+      "category": "air-quality",
+      "recordType": "observation",
+      "officialUrl": "https://eqms.doe.gov.my/APIMS/main",
+      "documentationUrls": [
+        "https://eqms.doe.gov.my/Documents/APIMS/API_Calculation.pdf"
+      ],
+      "accessMethod": "web-page",
+      "dataFormat": "Web page (JavaScript application) and the MyJAS EQMS mobile app",
+      "authenticationRequired": false,
+      "authentication": {
+        "type": "none",
+        "notes": "Public web page for people to read. No documented data feed, so no credential applies."
+      },
+      "updateFrequency": "Hourly. A DOE media statement (25 July 2025) describes the latest readings as hourly; the page's table is labelled “API Table [Hourly]”.",
+      "historicalAvailability": "The page shows the last 24 hours. Longer histories are available only on application to DOE (environmental data request portal), under DOE's conditions.",
+      "status": "MANUAL SOURCE",
+      "integration": "link-only",
+      "licence": {
+        "name": "Unclear. The page states no licence and its footers assert copyright, but DOE's open-data page lists the Air Pollutant Index as a DOE open dataset under the Malaysian Government Open Data Terms of Use 1.0 (2015)."
+      },
+      "attribution": "Department of Environment Malaysia (Jabatan Alam Sekitar), Air Pollutant Index Management System (APIMS), https://eqms.doe.gov.my/APIMS/main.",
+      "freshness": null,
+      "canShow": [
+        "Malaysia's official hourly Air Pollutant Index, by station, for people visiting the DOE page or app."
+      ],
+      "cannotShow": [
+        "Anything on this site: the readings are not copied here.",
+        "Where pollution came from, or what caused it.",
+        "Values comparable with Singapore's PSI: the indices differ."
+      ],
+      "limitations": [
+        "No documented public data feed or downloadable dataset of current readings was found. DOE's open-data page lists the index among its open datasets, but its link leads to the APIMS page. The page loads readings from internal addresses that are not documented for public use, so this site does not read them.",
+        "DOE's only documented programming interface found (api.doe.gov.my) is for industrial emissions submissions; it has no ambient air-quality data.",
+        "The method document is a slide deck with some internal inconsistencies in its formulas; its tables were used for the page's summary.",
+        "Whether hourly values are provisional or validated is not documented."
+      ],
+      "notUsedBecause": "No documented public feed or downloadable dataset of current readings was found, and the reuse terms are unclear, so the page links to DOE's own page instead.",
+      "verification": {
+        "checkedOn": "2026-10-15",
+        "checkedBy": "AI agents (Claude Code), Experiment 003: a researcher and a separate sceptic",
+        "method": "Opened the APIMS page and its scripts, DOE's open-data and disclaimer pages and DOE media statements, and read the full method document (PDF). Looked for any documented interface, licence or robots policy.",
+        "humanVerified": true,
+        "humanVerification": {
+          "by": "Kingway87 (project maintainer)",
+          "on": "2026-10-15",
+          "notes": "Part of the maintainer’s review of the evidence presented on /live and /evidence against JEREBU.EXE’s evidence rules (branch experiment/003-live-evidence, commit 56d74b1), which includes this entry as /live presents it. Stated by the maintainer on 15 October 2026; the individual checks were not itemised. Recorded by Claude Code at the maintainer’s instruction."
+        },
+        "evidence": [
+          {
+            "claim": "The index is the highest pollutant sub-index",
+            "url": "https://eqms.doe.gov.my/Documents/APIMS/API_Calculation.pdf",
+            "quote": "API = MAX (SI SO2 , SI PM10, SI PM2.5, SI O3 (8h), SI O3 (1h), SI NO2, SI CO)"
+          },
+          {
+            "claim": "Band names and thresholds",
+            "url": "https://eqms.doe.gov.my/Documents/APIMS/API_Calculation.pdf",
+            "quote": "Penunjuk Status Kualiti Udara = IFS(API<51, “Baik/Good”, API<101, “Sederhana/Moderate”, API<201, “Tidak Sihat/Unhealthy”, API<301, “Sangat Tidak/Very Unhealty”, API<501, “Merbahaya/Hazardous”)"
+          }
+        ],
+        "unverified": [
+          "The exact minute each hourly value is published.",
+          "Which terms govern reuse of APIMS readings; DOE's written confirmation would settle it."
+        ]
+      }
+    },
+    {
+      "id": "datagovmy-air-pollution",
+      "name": "Monthly Air Pollution (data.gov.my)",
+      "institution": "Department of Environment Malaysia and Department of Statistics Malaysia",
+      "publisher": "data.gov.my (Government of Malaysia open data portal)",
+      "jurisdiction": "malaysia",
+      "category": "air-quality",
+      "recordType": "observation",
+      "officialUrl": "https://data.gov.my/data-catalogue/air_pollution",
+      "documentationUrls": [
+        "https://developer.data.gov.my/static-api/data-catalogue",
+        "https://developer.data.gov.my/rate-limit"
+      ],
+      "accessMethod": "rest-api",
+      "dataFormat": "JSON (Open API), CSV and Parquet",
+      "endpoints": [
+        {
+          "url": "https://api.data.gov.my/data-catalogue?id=air_pollution",
+          "description": "Monthly national average concentration of six pollutants. Also downloadable as https://storage.data.gov.my/environment/air_pollution.csv."
+        }
+      ],
+      "authenticationRequired": false,
+      "authentication": {
+        "type": "none",
+        "notes": "data.gov.my's Open API needs no token."
+      },
+      "rateLimits": "4 requests per minute per API group; excess requests get HTTP 429 (developer.data.gov.my).",
+      "updateFrequency": "Monthly, according to the catalogue. On 15 October 2026 the data ran to December 2024 (data as of 31 December 2024).",
+      "historicalAvailability": "January 2017 to December 2024.",
+      "status": "PARTIALLY AVAILABLE",
+      "integration": "reference-only",
+      "licence": {
+        "name": "Creative Commons Attribution 4.0 International (CC BY 4.0)",
+        "url": "https://creativecommons.org/licenses/by/4.0/"
+      },
+      "attribution": "Source: Department of Environment Malaysia and Department of Statistics Malaysia, “Monthly Air Pollution” (air_pollution), data.gov.my, CC BY 4.0.",
+      "freshness": null,
+      "canShow": [
+        "Long-term monthly national pollutant concentrations, 2017 to 2024, as historical context."
+      ],
+      "cannotShow": [
+        "Current, hourly, daily, state or station-level air quality.",
+        "Air Pollutant Index values: the dataset holds concentrations."
+      ],
+      "limitations": [
+        "Not live: the latest month was December 2024 when checked.",
+        "Gaps found by AI agents: PM2.5 is missing for all of 2017, every pollutant is missing for May and June 2017, and carbon monoxide is missing for all of 2024. The catalogue's own note mentions only some of these.",
+        "How the national monthly value is computed from station data is not documented."
+      ],
+      "notUsedBecause": "Monthly national averages, which ended in December 2024 when checked: not current conditions.",
+      "verification": {
+        "checkedOn": "2026-10-15",
+        "checkedBy": "AI agents (Claude Code), Experiment 003",
+        "method": "Read the developer documentation and dataset page; queried the Open API for the latest rows.",
+        "humanVerified": true,
+        "humanVerification": {
+          "by": "Kingway87 (project maintainer)",
+          "on": "2026-10-15",
+          "notes": "Part of the maintainer’s review of the evidence presented on /live and /evidence against JEREBU.EXE’s evidence rules (branch experiment/003-live-evidence, commit 56d74b1), which includes this entry as /live presents it. Stated by the maintainer on 15 October 2026; the individual checks were not itemised. Recorded by Claude Code at the maintainer’s instruction."
+        },
+        "evidence": [
+          {
+            "claim": "Licence",
+            "url": "https://data.gov.my/data-catalogue/air_pollution",
+            "quote": "This data is made open under the Creative Commons Attribution 4.0 International License (CC BY 4.0)."
+          }
+        ]
+      }
+    },
+    {
+      "id": "archive-datagovmy-api-legacy",
+      "name": "Air Pollutant Index datasets on the legacy open-data portal (archive.data.gov.my)",
+      "institution": "Department of Environment Malaysia",
+      "publisher": "archive.data.gov.my (legacy Government of Malaysia open data portal)",
+      "jurisdiction": "malaysia",
+      "category": "air-quality",
+      "recordType": "observation",
+      "officialUrl": "https://archive.data.gov.my",
+      "documentationUrls": [],
+      "accessMethod": "file-download",
+      "authenticationRequired": false,
+      "authentication": {
+        "type": "none",
+        "notes": "Public downloads, if they work (they did not when checked)."
+      },
+      "updateFrequency": "Historical: catalogue entries describe hourly Air Pollutant Index readings by state, 2014–2020.",
+      "status": "NOT YET VERIFIED",
+      "integration": "reference-only",
+      "licence": {
+        "name": "Creative Commons Attribution (as shown in the catalogue; version not verified)"
+      },
+      "attribution": "Department of Environment Malaysia, via archive.data.gov.my.",
+      "freshness": null,
+      "canShow": [
+        "Possibly, historical hourly Air Pollutant Index readings by state for 2014–2020, useful for a haze history (Experiment 002)."
+      ],
+      "cannotShow": [
+        "Current conditions.",
+        "Anything at all until the files can be downloaded and checked."
+      ],
+      "limitations": [
+        "Found by an AI sceptic agent through the “Legacy Site” link on data.gov.my: 18 Department of Environment Air Pollutant Index datasets. All 3 download attempts on 15 October 2026 returned HTTP 502, so contents, units and availability are unverified."
+      ],
+      "notUsedBecause": "Historical datasets (2014–2020), and every download attempt failed.",
+      "verification": {
+        "checkedOn": "2026-10-15",
+        "checkedBy": "AI sceptic agent (Claude Code), Experiment 003",
+        "method": "Searched the legacy catalogue; tried three downloads.",
+        "humanVerified": true,
+        "humanVerification": {
+          "by": "Kingway87 (project maintainer)",
+          "on": "2026-10-15",
+          "notes": "Part of the maintainer’s review of the evidence presented on /live and /evidence against JEREBU.EXE’s evidence rules (branch experiment/003-live-evidence, commit 56d74b1), which includes this entry as /live presents it. Stated by the maintainer on 15 October 2026; the individual checks were not itemised. Recorded by Claude Code at the maintainer’s instruction."
+        },
+        "evidence": [
+          {
+            "claim": "Catalogue search result",
+            "url": "https://archive.data.gov.my",
+            "quote": "22 set data dijumpai untuk \"indeks pencemar udara\""
+          }
+        ],
+        "unverified": [
+          "Everything about the files themselves."
+        ]
+      }
+    },
+    {
+      "id": "nea-haze-website",
+      "name": "NEA haze website (haze.gov.sg)",
+      "institution": "National Environment Agency (NEA), Singapore",
+      "jurisdiction": "singapore",
+      "category": "air-quality",
+      "recordType": "assessment",
+      "officialUrl": "https://www.haze.gov.sg/",
+      "documentationUrls": [],
+      "accessMethod": "web-page",
+      "authenticationRequired": false,
+      "authentication": {
+        "type": "none",
+        "notes": "Public website for people to read. Its robots.txt disallows automated access."
+      },
+      "updateFrequency": "Not verified: the site's robots.txt disallows automated access, so no page was opened.",
+      "status": "MANUAL SOURCE",
+      "integration": "reference-only",
+      "licence": {
+        "name": "NEA Terms of Use (not an open-data licence)"
+      },
+      "attribution": "National Environment Agency, Singapore.",
+      "freshness": null,
+      "canShow": [
+        "NEA's own readings, forecasts and health advisories during haze, for people reading the site."
+      ],
+      "cannotShow": [
+        "Anything on this site: it is named here, not copied or linked."
+      ],
+      "limitations": [
+        "Named, not linked: NEA's Terms of Use are inconsistent on linking. Clause 4.3 allows hyperlinking for “personal, internal, non-commercial or informational purposes”, while clause 12 requires notice to NEA before linking to the home page and permission before linking to internal pages. Clause 6 forbids automated copying. Whether and how to link is a human decision."
+      ],
+      "notUsedBecause": "Its robots.txt disallows automated access and NEA's terms set conditions on linking; the same NEA readings are used here through data.gov.sg.",
+      "verification": {
+        "checkedOn": "2026-10-15",
+        "checkedBy": "AI agents (Claude Code), Experiment 003",
+        "method": "Read haze.gov.sg's robots.txt and NEA's Terms of Use; no haze.gov.sg page was opened.",
+        "humanVerified": true,
+        "humanVerification": {
+          "by": "Kingway87 (project maintainer)",
+          "on": "2026-10-15",
+          "notes": "Part of the maintainer’s review of the evidence presented on /live and /evidence against JEREBU.EXE’s evidence rules (branch experiment/003-live-evidence, commit 56d74b1), which includes this entry as /live presents it. Stated by the maintainer on 15 October 2026; the individual checks were not itemised. Recorded by Claude Code at the maintainer’s instruction."
+        },
+        "evidence": [
+          {
+            "claim": "Automated access disallowed",
+            "url": "https://www.haze.gov.sg/robots.txt",
+            "quote": "# disallow all other bots User-agent: * Disallow: /"
+          },
+          {
+            "claim": "Clause 4.3 permits limited use (it conflicts with clause 12 on linking)",
+            "url": "https://www.nea.gov.sg/corporate-functions/terms-of-use",
+            "quote": "You may use, hyperlink, copy and distribute the Contents solely for personal, internal, non-commercial or informational purposes only."
+          }
+        ],
+        "unverified": [
+          "Everything the site itself says, including whether real-time readings are later verified and corrected."
+        ]
+      },
+      "linkable": false
+    },
+    {
+      "id": "asmc",
+      "name": "ASEAN Specialised Meteorological Centre (ASMC)",
+      "institution": "ASEAN Specialised Meteorological Centre, hosted by the Meteorological Service Singapore (NEA)",
+      "jurisdiction": "regional",
+      "category": "regional-haze",
+      "recordType": "assessment",
+      "officialUrl": "https://asmc.asean.org/home/",
+      "documentationUrls": [],
+      "accessMethod": "web-page",
+      "authenticationRequired": false,
+      "authentication": {
+        "type": "none",
+        "notes": "Public website for people to read."
+      },
+      "updateFrequency": "Not used by this site; see the research notes in docs/DATA_SOURCES.md.",
+      "status": "MANUAL SOURCE",
+      "integration": "reference-only",
+      "licence": {
+        "name": "ASMC Terms of Use (not an open-data licence; internally inconsistent on reuse and linking)",
+        "url": "https://asmc.asean.org/terms-of-use/"
+      },
+      "attribution": "ASEAN Specialised Meteorological Centre.",
+      "freshness": null,
+      "canShow": [
+        "ASMC's regional haze situation, hotspot information and alert levels, for people reading its website."
+      ],
+      "cannotShow": [
+        "Anything on this site: ASMC is named here, not copied or linked."
+      ],
+      "limitations": [
+        "ASMC publishes the official regional haze picture for ASEAN: regional haze maps, hotspot information and alert levels.",
+        "Its terms of use are internally inconsistent. Clause 4.3 allows use, hyperlinking, copying and distribution “solely for personal, internal, non-commercial or informational purposes”, but clause 8.1 requires written notice to NEA before linking to the home page and permission from MSS before linking to internal pages, and clause 6.2 forbids any automatic device or manual process that monitors or copies pages without NEA's written permission. Until a human reads the terms or asks ASMC, this site names ASMC without linking to it or copying from it.",
+        "ASMC's alert advisories contain ASMC's own region-level analysis of where smoke drifted from. Quoted with attribution, dated and labelled as ASMC's analysis, such statements could give useful context; they must never be extended to any company, person or government. Not done on this site: it is a human decision under the terms above.",
+        "ASMC's older AVHRR hotspot-count page says its counts from 2016 onward are based on the NOAA-19 satellite, but NOAA decommissioned NOAA-19 on 13 August 2025 and ended delivery of all POES data (NOAA-15, -18 and -19) on 16 June 2025. That page is not a current series."
+      ],
+      "notUsedBecause": "Its terms forbid automated or manual monitoring or copying without NEA's written permission and set conditions on linking, and no working, licensed data feed was found.",
+      "verification": {
+        "checkedOn": "2026-10-15",
+        "checkedBy": "AI agents (Claude Code), Experiment 003",
+        "method": "Read ASMC's terms of use and public pages; a separate AI sceptic re-read the terms and NOAA's satellite notices.",
+        "humanVerified": true,
+        "humanVerification": {
+          "by": "Kingway87 (project maintainer)",
+          "on": "2026-10-15",
+          "notes": "Part of the maintainer’s review of the evidence presented on /live and /evidence against JEREBU.EXE’s evidence rules (branch experiment/003-live-evidence, commit 56d74b1), which includes this entry as /live presents it. Stated by the maintainer on 15 October 2026; the individual checks were not itemised. Recorded by Claude Code at the maintainer’s instruction."
+        },
+        "evidence": [
+          {
+            "claim": "Clause 4.3 permits limited use (it conflicts with clause 8.1 on linking)",
+            "url": "https://asmc.asean.org/terms-of-use/",
+            "quote": "You may use, hyperlink, copy and distribute the Contents solely for personal, internal, non-commercial or informational purposes only."
+          },
+          {
+            "claim": "Linking rules",
+            "url": "https://asmc.asean.org/terms-of-use/",
+            "quote": "Linking to the Homepage: You may link to the Homepage of this Site, upon notifying NEA in writing. Hyperlinking to an internal page of this Site: You must make a specific request for, and secure permission from MSS prior to hyperlinking to, or framing, this Site or any of the Contents, or engaging in similar activities."
+          },
+          {
+            "claim": "No automated copying",
+            "url": "https://asmc.asean.org/terms-of-use/",
+            "quote": "use any robot, spider, other automatic device, or manual process to monitor or copy any pages within this website or the Contents without NEA’s prior written permission"
+          },
+          {
+            "claim": "NOAA-19 decommissioned",
+            "url": "https://www.nesdis.noaa.gov/news/suspension-of-poes-data-users-after-june-16-2025-and-decommissioning",
+            "quote": "NOAA-15 was decommissioned on August 19, 2025 at 20:37 UTC and NOAA-19 was decommissioned on August 13, 2025 at 16:55 UTC."
+          }
+        ],
+        "unverified": [
+          "Whether a non-commercial civic site falls under clause 4.3: this needs a legal reading or ASMC's own answer."
+        ]
+      },
+      "linkable": false
+    },
+    {
+      "id": "asmc-wis2",
+      "name": "ASMC WIS 2.0 data portal (pilot)",
+      "institution": "ASEAN Specialised Meteorological Centre, hosted by the Meteorological Service Singapore (NEA)",
+      "jurisdiction": "regional",
+      "category": "regional-haze",
+      "recordType": "observation",
+      "officialUrl": "https://wis2.asmc.asean.org/",
+      "documentationUrls": [],
+      "accessMethod": "rest-api",
+      "linkable": false,
+      "authenticationRequired": false,
+      "authentication": {
+        "type": "none",
+        "notes": "The portal documents public access through WMO's WIS 2.0 message brokers (shared public credentials) and an HTTP data API. The brokers only send notifications: every download comes from ASMC's own API."
+      },
+      "updateFrequency": "Portal metadata: NOAA-20 hotspot reports twice daily (near-real-time and standard versions).",
+      "status": "NOT YET VERIFIED",
+      "integration": "reference-only",
+      "licence": {
+        "name": "Unresolved: WMO discovery metadata names the Singapore Open Data Licence, while the portal's terms of use restrict reuse and automated access"
+      },
+      "attribution": "ASEAN Specialised Meteorological Centre.",
+      "freshness": null,
+      "canShow": [
+        "If it works and its licence is settled: ASMC's NOAA-20 VIIRS hotspot reports and daily haze map, with documented production times. Its Suomi NPP reports are expected to end with Suomi NPP data delivery after 2 November 2026."
+      ],
+      "cannotShow": [
+        "That a hotspot is a fire, who caused it, or where smoke at a given place came from."
+      ],
+      "limitations": [
+        "The portal calls itself a pilot, and its API's own page describes it as a test gateway. Between 18:00 and 18:44 UTC on 14 October 2026, every request for hotspot items returned HTTP 502 and the collection listing HTTP 504, in two independent AI checks. No hotspot record was retrieved, so the format is unknown. Behaviour at other times was not tested.",
+        "Only the daily haze-map image worked: a PNG picture, not data, kept for about 36 hours, and modified outside the portal's documented production window.",
+        "Not an independent route through WMO: ASMC's datasets are WIS 2.0 “recommended” data, which WMO's Global Caches never cache, so if ASMC's API fails there is no copy to fall back on.",
+        "NOAA ends delivery of Suomi NPP data after 2 November 2026 at 13:00 UTC, so ASMC's Suomi NPP hotspot reports are expected to stop; the portal's pages did not mention this when read. NOAA-21 is not mentioned.",
+        "The licence is contradictory: WMO discovery metadata links the Singapore Open Data Licence, which covers datasets on data.gov.sg and linked agency websites, while the portal repeats ASMC's terms of use. Needs ASMC's written confirmation before any reuse. Named, not linked, for the same reason as ASMC's main site."
+      ],
+      "notUsedBecause": "A pilot: every request for hotspot data failed, only a daily image worked, and its licence is contradictory.",
+      "verification": {
+        "checkedOn": "2026-10-15",
+        "checkedBy": "AI agents (Claude Code), Experiment 003",
+        "method": "Read the portal pages, the WMO discovery metadata and the WMO WIS 2.0 Guide; made a small number of requests to the documented HTTP API (a researcher and a separate sceptic, about 15 requests in all).",
+        "humanVerified": true,
+        "humanVerification": {
+          "by": "Kingway87 (project maintainer)",
+          "on": "2026-10-15",
+          "notes": "Part of the maintainer’s review of the evidence presented on /live and /evidence against JEREBU.EXE’s evidence rules (branch experiment/003-live-evidence, commit 56d74b1), which includes this entry as /live presents it. Stated by the maintainer on 15 October 2026; the individual checks were not itemised. Recorded by Claude Code at the maintainer’s instruction."
+        },
+        "evidence": [
+          {
+            "claim": "Hotspot endpoint returned HTTP 502 when tested (15 October 2026)",
+            "url": "https://api.wis2.asmc.asean.org/collections/jp1_afedr_750m_nrt/items/JP1_AFEDR_750M_NRT",
+            "quote": "{\"message\": \"Internal server error\"}"
+          },
+          {
+            "claim": "No fallback through WMO Global Caches for “recommended” data",
+            "url": "https://wmo-im.github.io/wis2-guide/guide/wis2-guide-APPROVED.html",
+            "quote": "Recommended data are never cached by the Global Caches."
+          },
+          {
+            "claim": "Suomi NPP data end",
+            "url": "https://www.nesdis.noaa.gov/news/cessation-of-suomi-national-polar-orbiting-partnership-s-npp-data-users-onafter-november-2-2026",
+            "quote": "VIIRS - data will no longer be available after November 2, 2026, at 13:00 UTC (8:00 AM EST)"
+          }
+        ],
+        "unverified": [
+          "The format of the hotspot reports (the endpoints failed).",
+          "Which licence governs reuse."
+        ]
+      }
+    },
+    {
+      "id": "metmalaysia-api",
+      "name": "MET Malaysia Web Service API (api.met.gov.my)",
+      "institution": "Malaysian Meteorological Department (MET Malaysia)",
+      "jurisdiction": "malaysia",
+      "category": "meteorology",
+      "recordType": "forecast",
+      "officialUrl": "https://api.met.gov.my/",
+      "documentationUrls": [
+        "https://api.met.gov.my/"
+      ],
+      "accessMethod": "rest-api",
+      "authenticationRequired": true,
+      "authentication": {
+        "type": "account-required",
+        "notes": "An access token from a registration form. No account was created."
+      },
+      "rateLimits": "“You can make up to 1,000 requests a day with a burstable limit of 3 requests per minute.”",
+      "updateFrequency": "Not stated on the public page.",
+      "status": "REQUIRES ACCESS",
+      "integration": "reference-only",
+      "licence": {
+        "name": "Not viewed (behind registration)"
+      },
+      "attribution": "Malaysian Meteorological Department.",
+      "freshness": null,
+      "canShow": [
+        "General weather forecasts, with a token."
+      ],
+      "cannotShow": [
+        "Air quality, observed haze, or anything about fire causes."
+      ],
+      "limitations": [
+        "Not needed: data.gov.my carries MET Malaysia forecasts without a token."
+      ],
+      "notUsedBecause": "It needs a registration token; MET Malaysia's forecasts are available without one through data.gov.my, which this page uses.",
+      "verification": {
+        "checkedOn": "2026-10-15",
+        "checkedBy": "AI agents (Claude Code), Experiment 003",
+        "method": "Read the public landing page.",
+        "humanVerified": true,
+        "humanVerification": {
+          "by": "Kingway87 (project maintainer)",
+          "on": "2026-10-15",
+          "notes": "Part of the maintainer’s review of the evidence presented on /live and /evidence against JEREBU.EXE’s evidence rules (branch experiment/003-live-evidence, commit 56d74b1), which includes this entry as /live presents it. Stated by the maintainer on 15 October 2026; the individual checks were not itemised. Recorded by Claude Code at the maintainer’s instruction."
+        },
+        "evidence": [
+          {
+            "claim": "Rate limit",
+            "url": "https://api.met.gov.my/",
+            "quote": "You can make up to 1,000 requests a day with a burstable limit of 3 requests per minute."
+          }
+        ]
+      }
+    },
+    {
+      "id": "bmkg-open-data",
+      "name": "BMKG open data (Data Terbuka)",
+      "institution": "Badan Meteorologi, Klimatologi, dan Geofisika (BMKG), Indonesia",
+      "jurisdiction": "indonesia",
+      "category": "meteorology",
+      "recordType": "forecast",
+      "officialUrl": "https://data.bmkg.go.id/",
+      "documentationUrls": [
+        "https://data.bmkg.go.id/",
+        "https://data.bmkg.go.id/prakiraan-cuaca/"
+      ],
+      "accessMethod": "rest-api",
+      "authenticationRequired": false,
+      "authentication": {
+        "type": "none",
+        "notes": "No key."
+      },
+      "rateLimits": "“Batas akses: 60 permintaan per menit per IP” (60 requests per minute per IP address), stated for the weather forecast data on the forecast page.",
+      "updateFrequency": "“Pemutakhiran data: 2 kali sehari” (updated twice a day), stated for the weather forecast data on the forecast page.",
+      "status": "AVAILABLE",
+      "integration": "reference-only",
+      "licence": {
+        "name": "No named licence found; BMKG must be credited as the source"
+      },
+      "attribution": "BMKG (Badan Meteorologi, Klimatologi, dan Geofisika).",
+      "freshness": null,
+      "canShow": [
+        "BMKG weather forecasts for Indonesian villages (context only; not used on this page)."
+      ],
+      "cannotShow": [
+        "Hotspots, fires, haze observations or responsibility."
+      ],
+      "limitations": [
+        "Listed for context: Indonesia is outside the page's first scope, but a transboundary question cannot be understood from one side of a border."
+      ],
+      "notUsedBecause": "Forecasts for Indonesia, outside the page's first scope of Malaysia and Singapore; listed for context.",
+      "verification": {
+        "checkedOn": "2026-10-15",
+        "checkedBy": "AI agents (Claude Code), Experiment 003",
+        "method": "Read the open-data pages and made one request to the forecast API.",
+        "humanVerified": true,
+        "humanVerification": {
+          "by": "Kingway87 (project maintainer)",
+          "on": "2026-10-15",
+          "notes": "Part of the maintainer’s review of the evidence presented on /live and /evidence against JEREBU.EXE’s evidence rules (branch experiment/003-live-evidence, commit 56d74b1), which includes this entry as /live presents it. Stated by the maintainer on 15 October 2026; the individual checks were not itemised. Recorded by Claude Code at the maintainer’s instruction."
+        },
+        "evidence": [
+          {
+            "claim": "Attribution required",
+            "url": "https://data.bmkg.go.id/prakiraan-cuaca/",
+            "quote": "Perhatian! Wajib untuk mencantumkan BMKG (Badan Meteorologi, Klimatologi, dan Geofisika) sebagai sumber data dan menampilkannya pada aplikasi/sistem Anda."
+          }
+        ]
+      }
+    },
+    {
+      "id": "sipongi",
+      "name": "SiPongi+ forest and land fire monitoring",
+      "institution": "Ministry of Forestry (Kementerian Kehutanan), Indonesia",
+      "jurisdiction": "indonesia",
+      "category": "satellite-fire-observations",
+      "recordType": "observation",
+      "officialUrl": "https://sipongi.gakkum.kehutanan.go.id/",
+      "documentationUrls": [],
+      "accessMethod": "web-page",
+      "authenticationRequired": false,
+      "authentication": {
+        "type": "none",
+        "notes": "Public web application."
+      },
+      "updateFrequency": "Not stated; the site's disclaimer says information may not be updated in real time.",
+      "status": "MANUAL SOURCE",
+      "integration": "reference-only",
+      "licence": {
+        "name": "No open licence; a disclaimer restricts copying, while the data page requires the citation “SIPONGI KEMENHUT”"
+      },
+      "attribution": "SIPONGI KEMENHUT.",
+      "freshness": null,
+      "canShow": [
+        "Indonesia's official hotspot listings, for people reading the site (context only)."
+      ],
+      "cannotShow": [
+        "That a hotspot is a fire; responsibility, land ownership or concessions; smoke transport to Malaysia or Singapore."
+      ],
+      "limitations": [
+        "No documented data feed; its terms pull in different directions and would need a legal reading before any reuse."
+      ],
+      "notUsedBecause": "No documented data feed, and its terms restrict copying.",
+      "verification": {
+        "checkedOn": "2026-10-15",
+        "checkedBy": "AI agents (Claude Code), Experiment 003",
+        "method": "Read the public pages and disclaimer.",
+        "humanVerified": true,
+        "humanVerification": {
+          "by": "Kingway87 (project maintainer)",
+          "on": "2026-10-15",
+          "notes": "Part of the maintainer’s review of the evidence presented on /live and /evidence against JEREBU.EXE’s evidence rules (branch experiment/003-live-evidence, commit 56d74b1), which includes this entry as /live presents it. Stated by the maintainer on 15 October 2026; the individual checks were not itemised. Recorded by Claude Code at the maintainer’s instruction."
+        },
+        "evidence": [
+          {
+            "claim": "Required citation",
+            "url": "https://sipongi.gakkum.kehutanan.go.id/sebaran-titik-panas",
+            "quote": "Setiap penggunaan data yang bersumber dari website ini, wajib mencantumkan sumber: SIPONGI KEMENHUT."
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -10,7 +10,7 @@ permissions:
 
 jobs:
   check:
-    name: Lint, typecheck and build
+    name: Lint, typecheck, test and build
     runs-on: ubuntu-latest
     timeout-minutes: 15
     env:
@@ -26,4 +26,10 @@ jobs:
       - run: npm ci
       - run: npm run lint
       - run: npm run typecheck
+      - run: npm test
+      # The build fetches each integrated live source once (Experiment 003):
+      # NASA FIRMS's two open "South East Asia" VIIRS files (no MAP_KEY is set
+      # in CI, so the keyless path is used), five data.gov.sg real-time APIs
+      # (without a key) and one data.gov.my forecast request. A source that
+      # fails or times out renders "unavailable" rather than failing the build.
       - run: npm run build

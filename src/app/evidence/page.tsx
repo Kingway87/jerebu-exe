@@ -8,6 +8,7 @@ import { ExternalLink } from "@/components/external-link";
 import { Inequality } from "@/components/inequality";
 import { NotYetBuilt } from "@/components/not-yet-built";
 import { PipelineDiagram } from "@/components/pipeline-diagram";
+import { ReviewNotice } from "@/components/review-notice";
 import { SectionHeader } from "@/components/section-header";
 import { siteClaims } from "@/content/claims";
 import {
@@ -97,8 +98,12 @@ const sourceListNotes = [
     text: "Inclusion does not mean a source is reliable, suitable or recommended. None has been evaluated for reliability, licensing or fitness for purpose.",
   },
   {
-    lead: "No data feed.",
-    text: "No page fetches data from these sources, and none is integrated into this site. The haze history timeline quotes documents and data published by several of them, and shows figures the AI agent computed from NEA's PSI data on data.gov.sg and Malaysia's monthly air pollution data on data.gov.my, each with its source. That is not an evaluation or integration of any source.",
+    lead: "Some now feed /live.",
+    text: "Experiment 003 shows data from two of these entries on the live evidence page, and readings from two more agencies listed here (MSS and MET Malaysia) through government open-data portals. They are marked below. The project’s maintainer reviewed them on 15 October 2026. The register for that page is data/live-sources.json.",
+  },
+  {
+    lead: "Quoted on the timeline.",
+    text: "The haze history timeline (Experiment 002) quotes documents and data published by several of these sources, and shows figures the AI agent computed from NEA's PSI data on data.gov.sg and Malaysia's monthly air pollution data on data.gov.my, each with its source. That is not an evaluation or integration of any source, and no human has checked it yet.",
   },
 ];
 
@@ -129,25 +134,32 @@ export default function EvidencePage() {
               This page describes method.
             </p>
             <p className="mt-3 leading-relaxed text-ink-muted">
-              Apart from the{" "}
-              <a href="#claims-register" className="text-paper underline underline-offset-4 hover:text-signal">
-                claims register
-              </a>
-              , which shows sourced statements from the haze history as evidence for some of the
-              site&rsquo;s claims, this page shows no environmental data (no air-quality readings,
-              hotspot detections or maps), and nothing else on it is evidence about any event,
-              organisation or government. The{" "}
+              The only current environmental data on this site is on the{" "}
+              <Link href="/live" className="text-paper underline underline-offset-4 hover:text-signal">
+                live evidence page
+              </Link>
+              , which shows official observations as published, with their sources and limits.
+              Nothing on this page, or that one, is a finding about any event, organisation or
+              government. The{" "}
               <Link href="/timeline" className="text-paper underline underline-offset-4 hover:text-signal">
                 haze history timeline
               </Link>{" "}
-              is where this method is first applied to real sources.
+              applies this method to past events: an AI research agent compiled it from published
+              sources, and no human has verified it yet. The{" "}
+              <a href="#claims-register" className="text-paper underline underline-offset-4 hover:text-signal">
+                claims register
+              </a>{" "}
+              below shows some of its sourced statements as evidence for the site&rsquo;s own claims.
             </p>
           </div>
 
           <dl className="mt-12 grid gap-6 border-t border-ink-line pt-6 sm:grid-cols-3">
             <div>
               <dt className="label-mono text-ink-muted">Status</dt>
-              <dd className="mt-1">Draft, awaiting human review</dd>
+              <dd className="mt-1">
+                Human reviewed on 15 October 2026, except Experiment 002&rsquo;s additions (not yet
+                reviewed); open for contribution
+              </dd>
             </div>
             <div>
               <dt className="label-mono text-ink-muted">Principles set by</dt>
@@ -156,7 +168,8 @@ export default function EvidencePage() {
             <div>
               <dt className="label-mono text-ink-muted">Page written by</dt>
               <dd className="mt-1">
-                AI (Claude Code), Experiment 001; updated in Experiment 002 (not yet reviewed)
+                AI (Claude Code), Experiment 001; updated in Experiment 003 (human reviewed) and
+                Experiment 002 (not yet reviewed)
               </dd>
             </div>
           </dl>
@@ -181,6 +194,13 @@ export default function EvidencePage() {
           </nav>
         </Container>
       </section>
+
+      {/* ─────────────────────────── HUMAN REVIEW ─────────────────────────── */}
+      <div className="border-b border-line py-10 sm:py-12">
+        <Container>
+          <ReviewNotice notCovered="Experiment 002’s additions, made after the reviewed version: the haze history statements shown as evidence in the claims register, the timeline panel and the notes about the timeline. No human has reviewed them yet." />
+        </Container>
+      </div>
 
       {/* ─────────────────────── §01 EVIDENCE LADDER ───────────────────── */}
       <section aria-labelledby="ladder" className="py-20 sm:py-28">
@@ -361,8 +381,9 @@ export default function EvidencePage() {
             title="Where evidence could come from."
           >
             <p>
-              Future experiments may draw on several kinds of public evidence. None is connected
-              yet. Below are the kinds, then a first list of specific candidate sources.
+              Experiments may draw on several kinds of public evidence. Three kinds now feed the
+              live evidence page; the rest are not connected yet. Below are the kinds, then a first
+              list of specific candidate sources.
             </p>
           </SectionHeader>
 
@@ -374,7 +395,7 @@ export default function EvidencePage() {
                 <span className="mt-1 text-sm leading-relaxed text-muted">
                   {category.description}
                 </span>
-                <span className="label-mono mt-auto pt-4 text-subtle">Not connected</span>
+                <span className="label-mono mt-auto pt-4 text-subtle">{category.liveOn ?? "Not connected"}</span>
               </li>
             ))}
           </ul>
@@ -411,7 +432,7 @@ export default function EvidencePage() {
           </div>
 
           <p className="label-mono mt-16 text-muted">
-            {candidateSources.length} candidate sources · grouped by jurisdiction
+            {candidateSources.length} sources · grouped by jurisdiction
           </p>
           <div className="mt-6">
             <CandidateSourceList />
@@ -426,13 +447,14 @@ export default function EvidencePage() {
             index="06"
             eyebrow="Data panels"
             id="data-panels"
-            title="Empty on purpose, with one exception."
+            title="Empty on purpose until reviewed, with one exception."
           >
             <p>
               These panels mark where experiments show, or may one day show, data. Each stays
               empty until its data has been collected, checked against sources and reviewed by a
               human. There are no sample charts or placeholder numbers, so nothing here can be
-              mistaken for real data.
+              mistaken for real data. The one built in Experiment 003 had that review on 15
+              October 2026.
             </p>
             <p className="mt-4">
               The haze history timeline from Experiment 002 is the one exception. It is shown as a
@@ -482,16 +504,28 @@ export default function EvidencePage() {
                 </Link>
               </p>
             </section>
-            <NotYetBuilt title="Satellite fire observations" plannedFor="Experiment 003">
-              <p>
-                In future, this may show satellite fire detections (hotspots) with their source,
-                time, detection method and known limits, presented as observations only and
-                never as evidence of who is responsible.
+            <section
+              aria-label="Satellite fire observations (built in Experiment 003)"
+              className="border-2 border-ink bg-paper p-6 sm:p-8"
+            >
+              <p className="label-mono flex flex-wrap items-center gap-x-3 gap-y-1 text-muted">
+                <span className="bg-ink px-2 py-0.5 text-paper">Built, awaiting review</span>
+                <span>Experiment 003</span>
               </p>
-              <p className="mt-3">
-                Nothing is shown because no data has been collected or reviewed.
-              </p>
-            </NotYetBuilt>
+              <h3 className="mt-4 text-xl font-semibold tracking-tight">Satellite fire observations</h3>
+              <div className="mt-3 max-w-2xl leading-relaxed text-muted">
+                <p>
+                  Now on the live evidence page: NASA FIRMS satellite detections, counted and mapped,
+                  with their source, time and known limits, presented as observations only and never
+                  as evidence of who is responsible.
+                </p>
+                <p className="mt-3">
+                  <Link href="/live#fires" className="font-semibold text-ink underline underline-offset-4 hover:text-signal-ink">
+                    See satellite fire observations
+                  </Link>
+                </p>
+              </div>
+            </section>
             <NotYetBuilt title="Legal landscape" plannedFor="Experiment 004">
               <p>
                 In future, this may set out laws, regional agreements, agencies and published
@@ -519,8 +553,9 @@ export default function EvidencePage() {
           >
             <p>
               A conceptual sketch for future experiments, not a description of anything that
-              exists. None of these stages is implemented, and the design will change as
-              experiments test it. In this sketch, AI assists with analysis but does not decide:
+              exists. It is not implemented as a whole: Experiment 003&rsquo;s /live page uses a
+              narrow, separate path for current observations, with no evidence store and no AI
+              stage. The design will change as experiments test it. In this sketch, AI assists with analysis but does not decide:
               every claim is traced to a source, and a human reviews it before anything is
               published.
             </p>

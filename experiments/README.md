@@ -50,14 +50,14 @@ To propose a new experiment, or to challenge an existing one, see [Proposing an 
 | ID | Name | Status | Record |
 | --- | --- | --- | --- |
 | 001 | AUTONOMOUS PROJECT BOOTSTRAP | In progress — AI build complete; merged into `main` through pull request #1; no human review recorded | [001-autonomous-bootstrap.md](001-autonomous-bootstrap.md) |
-| 002 | HAZE HISTORY | In progress — AI research, build, AI review and fixes complete on branch `experiment/002-haze-history`; human review pending; not merged | [002-haze-history.md](002-haze-history.md) |
-| 003 | SATELLITE EVIDENCE | Planned | No record yet |
+| 002 | HAZE HISTORY | In progress — AI research, build, AI review and fixes complete; human review pending; pull request #3 | [002-haze-history.md](002-haze-history.md) |
+| 003 | LIVE EVIDENCE | In progress — AI build complete; evidence reviewed by the maintainer on 15 October 2026; pull request #2 | [003-live-evidence.md](003-live-evidence.md) |
 | 004 | LEGAL LANDSCAPE | Planned | No record yet |
 | 005 | EVIDENCE AGENT | Planned | No record yet |
 | 006 | COMMUNITY ACTION | Planned | No record yet |
 | 007 | AUTOMATED PUBLIC MONITORING | Planned | No record yet |
 
-Experiment 001 is not deployed. Human review is required before production deployment.
+Experiments 001, 002 and 003 are not deployed. Human review is required before production deployment. Experiment 003 was defined by a later brief from the founder, which replaced the earlier planned question for 003 ("Satellite evidence") with the question in its record.
 
 ### Experiment 002 question
 
@@ -67,9 +67,8 @@ The founder's Experiment 002 brief set the question (HUMAN DECISION). It replace
 
 ### Planned questions
 
-None of these experiments has started, and nothing has been produced for them. The names of 003 to 006 come from the founder's first brief. Experiment 007 comes from that brief's list of future architecture. The questions below were drafted by AI during Experiment 001 and are awaiting human review. Their order, scope and wording may change.
+None of these experiments had started when this list was written, and it describes no results. The names of 004 to 006 come from the founder's brief for Experiment 001, which also named 002 and 003; both have since started, 003 under a new name and question (see the index). Experiment 007 comes from the brief's list of future architecture. The questions below were drafted by AI during Experiment 001 and are awaiting human review. Their order, scope and wording may change.
 
-- **003 Satellite evidence.** Can public satellite fire observations be presented so that non-specialists understand what a hotspot does — and does not — show?
 - **004 Legal landscape.** Which laws, agreements and policies are relevant to transboundary haze in Malaysia and Singapore, according to primary sources?
 - **005 Evidence agent.** Can an AI research agent find and cite public evidence reliably enough to assist — not replace — human reviewers?
 - **006 Community action.** Which legitimate, lawful forms of civic participation can the project support without collecting sensitive personal data?
@@ -169,4 +168,4 @@ Fill in every field. If a field does not apply, say why. If something is not kno
 
 ---
 
-<sub>AI involvement: this document is AI GENERATED + UNVERIFIED. It was written by Claude Code during Experiment 001 and updated during Experiment 002. Pull request #1 merged the Experiment 001 version into `main`; no human review of it has been recorded. The Experiment 002 changes have not yet been reviewed by a human.</sub>
+<sub>AI involvement: this document is AI GENERATED + UNVERIFIED. It was written by Claude Code during Experiment 001 and updated during Experiments 002 and 003. Pull request #1 merged the Experiment 001 version into `main`; no human review of it has been recorded. The Experiment 002 and 003 changes have not yet been reviewed by a human.</sub>
