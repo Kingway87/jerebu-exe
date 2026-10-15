@@ -1,5 +1,8 @@
 import type { ReactNode } from "react";
+import Link from "next/link";
+import { ClaimList } from "@/components/timeline/claim-list";
 import { claimStatusLabel, siteClaims, type ClaimStatus, type SiteClaim } from "@/content/claims";
+import { formatDate, getClaim } from "@/content/haze-history";
 
 const statusOrder: readonly ClaimStatus[] = ["unverified", "cited", "human-verified"];
 
@@ -77,7 +80,39 @@ export function ClaimsRegister() {
                 <dt className="label-mono text-muted">Note</dt>
                 <dd className="mt-2 leading-relaxed text-muted">{entry.note}</dd>
               </div>
+              {entry.verifiedBy ? (
+                <div>
+                  <dt className="label-mono text-muted">Verified by</dt>
+                  <dd className="mt-2 leading-relaxed">
+                    {entry.verifiedBy.name}, {formatDate(entry.verifiedBy.date)}
+                  </dd>
+                </div>
+              ) : null}
             </dl>
+            {entry.evidence?.length ? (
+              <details className="group/evidence md:col-span-12">
+                <summary className="label-mono inline-flex min-h-11 cursor-pointer list-none items-center gap-2 text-muted underline-offset-4 hover:text-ink hover:underline [&::-webkit-details-marker]:hidden">
+                  <span aria-hidden="true" className="font-mono group-open/evidence:hidden">
+                    +
+                  </span>
+                  <span aria-hidden="true" className="hidden font-mono group-open/evidence:inline">
+                    −
+                  </span>
+                  Evidence: {entry.evidence.length} sourced statement
+                  {entry.evidence.length === 1 ? "" : "s"} from the haze history
+                </summary>
+                <div className="mt-4 border-l-2 border-ink pl-5">
+                  <ClaimList claims={entry.evidence.map(getClaim)} />
+                  <p className="mt-5 text-sm leading-relaxed text-muted">
+                    From the{" "}
+                    <Link href="/timeline" className="text-ink underline underline-offset-4 hover:text-signal-ink">
+                      haze history timeline
+                    </Link>
+                    , compiled by AI in Experiment 002 and not yet verified by a human.
+                  </p>
+                </div>
+              </details>
+            ) : null}
           </li>
         ))}
       </ul>

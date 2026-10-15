@@ -9,8 +9,11 @@
  * fitness for purpose, and none is integrated. A human must open and check
  * each link before relying on it. See docs/DATA_SOURCES.md for caveats.
  *
- * Inclusion is not an endorsement, and no data from any source is displayed
- * on this site.
+ * Inclusion is not an endorsement, and no data feed from any source is
+ * displayed on this site. (The /timeline page quotes figures from published
+ * documents, each with its source, from the static file data/haze-events.json
+ * compiled in Experiment 002. None of these candidates was evaluated or
+ * integrated for that.)
  */
 
 export type Jurisdiction = "regional" | "global" | "malaysia" | "singapore" | "indonesia";
@@ -75,7 +78,7 @@ export const candidateSources: readonly CandidateSource[] = [
     jurisdiction: "regional",
     kind: "Legislation",
     url: "https://agreement.asean.org/media/download/20220330063051.pdf",
-    note: "A PDF that search results identify as the agreement text; not yet opened, read or analysed — a lead for Experiment 004.",
+    note: "A PDF that search results identify as the agreement text. Experiment 002 quoted passages from it for milestones on the timeline; it has not been analysed — a lead for Experiment 004.",
     status: "candidate",
   },
 
@@ -149,7 +152,7 @@ export const candidateSources: readonly CandidateSource[] = [
     jurisdiction: "malaysia",
     kind: "Air quality",
     url: "https://data.gov.my/data-catalogue/air_pollution",
-    note: "Monthly aggregated dataset. How current it is could not be confirmed.",
+    note: "Monthly aggregated dataset. How current it is could not be confirmed. Not integrated; the timeline cites some of its monthly values as sources.",
     status: "candidate",
   },
   {
@@ -194,7 +197,7 @@ export const candidateSources: readonly CandidateSource[] = [
     jurisdiction: "singapore",
     kind: "Air quality",
     url: "https://data.gov.sg/datasets/d_fe37906a0182569d891506e815e819b7/view",
-    note: "Real-time API; an API key is recommended for production use. Not used in V0.",
+    note: "Real-time API; an API key is recommended for production use. Not integrated; the timeline cites individual responses from api.data.gov.sg/v1/environment/psi as sources.",
     status: "candidate",
   },
   {

@@ -110,8 +110,13 @@ export default function AboutPage() {
               An experiment, not an authority.
             </p>
             <p className="mt-3 leading-relaxed text-ink-muted">
-              There is no data on this site and there are no findings yet. What exists so far is a
-              question, a method, and a public record of how the project is being built.
+              There is no live data on this site, and no finding about who caused any haze. What
+              exists so far is a question, a method, a public record of how the project is being
+              built, and a first{" "}
+              <Link href="/timeline" className="text-paper underline underline-offset-4 hover:text-signal">
+                haze history
+              </Link>
+              , compiled by AI from public sources and not yet verified by a human.
             </p>
           </div>
 
@@ -126,7 +131,9 @@ export default function AboutPage() {
             </div>
             <div>
               <dt className="label-mono text-ink-muted">Page written by</dt>
-              <dd className="mt-1">AI (Claude Code), Experiment 001</dd>
+              <dd className="mt-1">
+                AI (Claude Code), Experiment 001; updated in Experiment 002 (not yet reviewed)
+              </dd>
             </div>
           </dl>
 
@@ -175,8 +182,10 @@ export default function AboutPage() {
             about what is still unknown.
           </p>
           <p>
-            It is at a very early stage. So far there is a website, a method and a public log of
-            how the project is being built. There is no data, and there are no findings.
+            It is at a very early stage. So far there is a website, a method, a public log of how
+            the project is being built, and a haze history timeline that an AI agent compiled from
+            public sources and that no human has verified yet. There is no live data, and no
+            finding about who is responsible for any haze.
           </p>
         </Prose>
       </AboutSection>
@@ -411,6 +420,18 @@ export default function AboutPage() {
           The AI did not conceive the project, choose its name or set its mission. It worked from
           a brief written by the project&rsquo;s human founder.
         </p>
+        <p className="mt-4 max-w-[65ch] leading-relaxed text-muted">
+          The same holds for Experiment 002. The founder wrote its brief and its research
+          question. An AI agent did the research, built the haze history dataset and the{" "}
+          <Link href="/timeline" className="text-ink underline underline-offset-4 hover:text-signal-ink">
+            timeline
+          </Link>
+          , and checked its own work. No human has reviewed that work yet:{" "}
+          <Link href="/experiments#exp-002" className="text-ink underline underline-offset-4 hover:text-signal-ink">
+            read the Experiment 002 record
+          </Link>
+          .
+        </p>
 
         <h3 className="mt-14 text-2xl font-bold tracking-tight">Five labels for AI involvement</h3>
         <p className="mt-3 max-w-[65ch] text-lg leading-relaxed text-graphite">
@@ -446,7 +467,7 @@ export default function AboutPage() {
               </strong>{" "}
               <span className="text-muted">
                 Claude Code is an AI coding agent made by Anthropic. It is the tool used in
-                Experiment 001.
+                Experiments 001 and 002.
               </span>
             </li>
             <li>

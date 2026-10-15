@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { Container } from "@/components/container";
 import { CandidateSourceList } from "@/components/evidence/candidate-source-list";
 import { ClaimsRegister } from "@/components/evidence/claims-register";
@@ -81,7 +82,7 @@ const sourceListNotes = [
   },
   {
     lead: "Not opened.",
-    text: "The agents could not open any of the pages. Each address is one that appeared in search results.",
+    text: "During Experiment 001 the agents could not open any of the pages. Each address is one that appeared in search results. Experiment 002 later read some of them, or other pages on the same sites, as sources for the timeline.",
   },
   {
     lead: "Spot-checked by a sceptic.",
@@ -96,8 +97,8 @@ const sourceListNotes = [
     text: "Inclusion does not mean a source is reliable, suitable or recommended. None has been evaluated for reliability, licensing or fitness for purpose.",
   },
   {
-    lead: "No data shown.",
-    text: "Nothing from these sources is integrated into, or displayed on, this site.",
+    lead: "No data feed.",
+    text: "No page fetches data from these sources, and none is integrated into this site. The haze history timeline quotes documents and data published by several of them, and shows figures the AI agent computed from NEA's PSI data on data.gov.sg and Malaysia's monthly air pollution data on data.gov.my, each with its source. That is not an evaluation or integration of any source.",
   },
 ];
 
@@ -125,12 +126,21 @@ export default function EvidencePage() {
 
           <div className="mt-10 max-w-3xl border-l-2 border-signal pl-5">
             <p className="font-serif text-2xl leading-snug sm:text-3xl">
-              This page describes method, not findings.
+              This page describes method.
             </p>
             <p className="mt-3 leading-relaxed text-ink-muted">
-              No environmental data is shown anywhere on this site: no air-quality readings, no
-              hotspot detections, no maps. Nothing here is evidence about any event,
-              organisation or government.
+              Apart from the{" "}
+              <a href="#claims-register" className="text-paper underline underline-offset-4 hover:text-signal">
+                claims register
+              </a>
+              , which shows sourced statements from the haze history as evidence for some of the
+              site&rsquo;s claims, this page shows no environmental data (no air-quality readings,
+              hotspot detections or maps), and nothing else on it is evidence about any event,
+              organisation or government. The{" "}
+              <Link href="/timeline" className="text-paper underline underline-offset-4 hover:text-signal">
+                haze history timeline
+              </Link>{" "}
+              is where this method is first applied to real sources.
             </p>
           </div>
 
@@ -145,7 +155,9 @@ export default function EvidencePage() {
             </div>
             <div>
               <dt className="label-mono text-ink-muted">Page written by</dt>
-              <dd className="mt-1">AI (Claude Code), Experiment 001</dd>
+              <dd className="mt-1">
+                AI (Claude Code), Experiment 001; updated in Experiment 002 (not yet reviewed)
+              </dd>
             </div>
           </dl>
 
@@ -414,26 +426,62 @@ export default function EvidencePage() {
             index="06"
             eyebrow="Data panels"
             id="data-panels"
-            title="Empty on purpose."
+            title="Empty on purpose, with one exception."
           >
             <p>
-              These panels mark where future experiments may show data. Each stays empty until
-              its data has been collected, checked against sources and reviewed by a human. There
-              are no sample charts or placeholder numbers, so nothing here can be mistaken for
-              real data.
+              These panels mark where experiments show, or may one day show, data. Each stays
+              empty until its data has been collected, checked against sources and reviewed by a
+              human. There are no sample charts or placeholder numbers, so nothing here can be
+              mistaken for real data.
+            </p>
+            <p className="mt-4">
+              The haze history timeline from Experiment 002 is the one exception. It is shown as a
+              draft for checking, compiled by an AI research agent with sources attached, and no
+              human has verified it yet. Whether it may be published before every entry is human
+              verified is an open decision for humans, listed in{" "}
+              <ExternalLink
+                href={`${repoFile("docs/ROADMAP.md")}#open-decisions-for-humans`}
+                className="font-semibold underline underline-offset-4 hover:text-signal-ink"
+              >
+                docs/ROADMAP.md
+              </ExternalLink>
+              .
             </p>
           </SectionHeader>
 
           <div className="grid gap-6 lg:grid-cols-3">
-            <NotYetBuilt title="Haze history timeline" plannedFor="Experiment 002">
-              <p>
-                In future, this may show a timeline of past haze episodes, each entry linked to
-                its sources, with gaps and disagreements between sources left visible.
+            <section
+              aria-labelledby="panel-timeline"
+              className="flex flex-col border-2 border-ink bg-paper p-6 sm:p-8"
+            >
+              <p className="label-mono flex flex-wrap items-center gap-x-3 gap-y-1 text-muted">
+                <span className="bg-signal px-2 py-0.5 text-ink">Built · not yet verified</span>
+                <span>Experiment 002</span>
               </p>
-              <p className="mt-3">
-                Nothing is shown because no historical records have been collected or reviewed.
+              <h3 id="panel-timeline" className="mt-4 text-xl font-semibold tracking-tight">
+                Haze history timeline
+              </h3>
+              <div className="mt-3 max-w-2xl leading-relaxed text-muted">
+                <p>
+                  Major transboundary haze episodes affecting Malaysia, Singapore or both since
+                  1997, with legal, policy and other milestones. Each labelled statement links to
+                  the passage in the source it rests on, and gaps and disagreements between
+                  sources are left visible.
+                </p>
+                <p className="mt-3">
+                  Compiled by an AI research agent, with sources attached. Not yet checked by a
+                  human.
+                </p>
+              </div>
+              <p className="mt-auto pt-6">
+                <Link
+                  href="/timeline"
+                  className="font-mono text-sm font-semibold tracking-[0.08em] uppercase underline underline-offset-4 hover:text-signal-ink"
+                >
+                  Open the timeline <span aria-hidden="true">→</span>
+                </Link>
               </p>
-            </NotYetBuilt>
+            </section>
             <NotYetBuilt title="Satellite fire observations" plannedFor="Experiment 003">
               <p>
                 In future, this may show satellite fire detections (hotspots) with their source,
@@ -451,8 +499,9 @@ export default function EvidencePage() {
                 texts and cited.
               </p>
               <p className="mt-3">
-                Nothing is shown because no legal research has been collected or reviewed. This
-                site makes no claims about what any law says.
+                Nothing is shown because no legal research has been collected or reviewed. The
+                timeline lists dated legal and policy milestones, quoted from their sources. They
+                are historical markers, not legal analysis, and no lawyer has reviewed them.
               </p>
             </NotYetBuilt>
           </div>
