@@ -108,7 +108,8 @@ export default function Home() {
                 </ButtonLink>
               </div>
             </div>
-            <aside
+            <div
+              role="note"
               aria-label="Definition"
               className="self-end border-l-2 border-signal pl-5 lg:col-span-4 lg:col-start-9"
             >
@@ -117,7 +118,7 @@ export default function Home() {
                 <span className="text-ink-muted italic">(Malay, noun)</span>
               </p>
               <p className="mt-1 font-serif text-xl text-ink-muted">haze.</p>
-            </aside>
+            </div>
           </div>
         </Container>
       </section>
@@ -160,6 +161,14 @@ export default function Home() {
             and where smoke travels depends on weather. Working out causes is what the evidence
             work is for.
           </p>
+          <p className="mt-6">
+            <Link href="/timeline" className="font-mono text-sm font-semibold tracking-[0.08em] uppercase underline underline-offset-4 hover:text-signal-ink">
+              Read the draft haze history, 1997–2026 <span aria-hidden="true">→</span>
+            </Link>
+          </p>
+          <p className="mt-2 max-w-3xl text-sm leading-relaxed text-muted">
+            Compiled by an AI research agent, with sources attached. Not yet checked by a human.
+          </p>
         </Container>
       </section>
 
@@ -200,7 +209,12 @@ export default function Home() {
               countries with their own laws, regulators, courts and policy processes. The project
               starts with these two. Mapping their legal landscapes from primary sources is a
               later experiment — until then, this site makes no claims about what either legal
-              system does or does not allow.
+              system does or does not allow. The timeline&rsquo;s{" "}
+              <Link href="/timeline/milestones" className="text-ink underline underline-offset-4 hover:text-signal-ink">
+                milestone pages
+              </Link>{" "}
+              list dated legal and policy milestones, quoted from their sources, without legal
+              analysis.
             </p>
           </SectionHeader>
 
@@ -234,7 +248,7 @@ export default function Home() {
             ))}
           </div>
 
-          <aside aria-labelledby="indonesia-note" className="mt-6 bg-paper-2 p-6 sm:p-8">
+          <div role="note" aria-labelledby="indonesia-note" className="mt-6 bg-paper-2 p-6 sm:p-8">
             <h3 id="indonesia-note" className="text-xl font-bold tracking-tight">
               This is not Malaysia and Singapore versus Indonesia.
             </h3>
@@ -243,7 +257,7 @@ export default function Home() {
               is transboundary haze accountability — how evidence, law and public attention work
               across borders — not a contest between countries or their people.
             </p>
-          </aside>
+          </div>
         </Container>
       </section>
 
@@ -269,8 +283,12 @@ export default function Home() {
             <div className="lg:col-span-4">
               <h3 className="text-2xl font-bold tracking-tight">Sources to investigate</h3>
               <p className="mt-3 leading-relaxed text-muted">
-                Kinds of public evidence future experiments may use. None are connected yet, and
-                no data is shown on this site.
+                Kinds of public evidence experiments may use. Three now feed the{" "}
+                <Link href="/live" className="text-ink underline underline-offset-4 hover:text-signal-ink">
+                  live evidence page
+                </Link>
+                , which shows official observations with their sources and limits. The rest are not
+                connected yet.
               </p>
               <p className="mt-6">
                 <Link href="/evidence" className="font-mono text-sm font-semibold tracking-[0.08em] uppercase underline underline-offset-4 hover:text-signal-ink">
@@ -282,7 +300,7 @@ export default function Home() {
               {sourceCategories.map((category) => (
                 <li key={category.id} className="flex flex-col gap-1 bg-paper px-5 py-4">
                   <span className="font-semibold">{category.name}</span>
-                  <span className="label-mono text-subtle">Not connected</span>
+                  <span className="label-mono text-subtle">{category.liveOn ?? "Not connected"}</span>
                 </li>
               ))}
             </ul>

@@ -137,7 +137,7 @@ export default function ExperimentsPage() {
             </p>
             <p className="mt-4">
               The names come from the founder&rsquo;s brief. The questions were drafted by AI
-              during Experiment 001 and, like the rest of this site, are awaiting human review.
+              during Experiment 001 and are awaiting human review.
             </p>
           </SectionHeader>
           <div className="divide-y divide-dashed divide-subtle border-2 border-dashed border-subtle bg-paper-2">

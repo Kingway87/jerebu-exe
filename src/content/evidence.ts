@@ -116,6 +116,8 @@ export interface SourceCategory {
   id: string;
   name: string;
   description: string;
+  /** What the live evidence page (/live) shows from this kind of source, if anything. */
+  liveOn?: string;
 }
 
 /** Kinds of public evidence the project expects to investigate. */
@@ -124,16 +126,19 @@ export const sourceCategories: readonly SourceCategory[] = [
     id: "satellite-fire-observations",
     name: "Satellite fire observations",
     description: "Thermal anomalies detected from orbit.",
+    liveOn: "NASA FIRMS on /live",
   },
   {
     id: "air-quality",
     name: "Air-quality measurements",
     description: "Readings published by monitoring networks and agencies.",
+    liveOn: "Singapore on /live",
   },
   {
     id: "meteorology",
     name: "Meteorological information",
     description: "Wind, rainfall and seasonal conditions that move or clear smoke.",
+    liveOn: "Singapore’s stations and MET Malaysia’s forecast on /live",
   },
   {
     id: "historical-records",

@@ -14,7 +14,8 @@ export function SiteHeader() {
         <nav aria-label="Main" className="w-full sm:w-auto">
           <ul className="label-mono -mx-0.5 flex flex-wrap items-center gap-x-3 gap-y-1 sm:gap-x-7">
             <NavLinks items={mainNav} />
-            <li>
+            {/* On phones the footer carries the source-code link, so the row fits. */}
+            <li className="hidden sm:block">
               <a
                 href={site.repoUrl}
                 rel="noopener noreferrer"

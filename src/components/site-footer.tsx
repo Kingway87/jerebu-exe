@@ -25,7 +25,7 @@ export function SiteFooter() {
             medical or scientific advice.
           </p>
           <p className="mt-4 max-w-md text-sm leading-relaxed text-ink-muted">
-            This first version was built mainly by AI agents (Claude Code), from a brief written by the project’s founder. Use of Claude Code does not imply endorsement by
+            This version was built mainly by AI agents (Claude Code), from briefs written by the project’s founder. Use of Claude Code does not imply endorsement by
             Anthropic. AI-generated research must be independently verified before being treated
             as evidence.
           </p>

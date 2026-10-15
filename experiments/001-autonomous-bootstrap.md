@@ -7,13 +7,13 @@
 | --- | --- |
 | **ID** | 001 |
 | **Name** | AUTONOMOUS PROJECT BOOTSTRAP |
-| **Status** | **IN PROGRESS** — AI build phase complete; human review pending; not deployed |
+| **Status** | **IN PROGRESS** — AI build phase complete; merged into `main`; no human review recorded; not deployed |
 | **Date** | 2026-10-14 |
 | **AI** | Claude Code, an AI coding agent made by Anthropic, running as a cloud session (the brief calls this "Claude Code Cloud"). The model version is not recorded in this document. |
 | **Data used** | No environmental data. Candidate sources were located from web search results only (see [section 6](#data-used)) |
 | **Branch** | `claude/elegant-brown-k5c0dw` (see the note below) |
-| **Pull request** | [Kingway87/jerebu-exe#1](https://github.com/Kingway87/jerebu-exe/pull/1), against `main`, for human review. Not merged |
-| **Human review** | Required before production deployment. Not yet performed. |
+| **Pull request** | [Kingway87/jerebu-exe#1](https://github.com/Kingway87/jerebu-exe/pull/1), against `main`, for human review. Merged into `main` on 2026-10-15 (merge commit `5d12fad`) |
+| **Human review** | Required before production deployment. Not recorded: the pull request was merged, but no review has been written down. |
 | **Deployment** | None. Nothing has been deployed. |
 | **Cost** | To be recorded after session |
 
@@ -216,7 +216,7 @@ These choices were made by the AI, not by the founder. Each is open to human rev
 7. **Experiment 007 listed as planned.** Section 10 of the brief lists Experiments 002 to 006 as planned. Section 21 also lists 007, automated public monitoring, as future architecture. *Reason:* listing it keeps the public log consistent with the brief's roadmap. It is marked Planned and not started. A human may remove it.
 8. **Status wording: "In progress", not "Complete".** The public log shows three phases: AI build, Complete; Human review, Pending; Production deployment, Not deployed. *Reason:* the brief asked for the actual state. The site defines Complete as finished and reviewed by a human, and no human has reviewed the work yet.
 9. **External links open in the same tab,** with `rel="noopener noreferrer"`, a visible "↗" that is hidden from screen readers, and the screen-reader text "(external site)". *Reason:* this is predictable for keyboard and screen-reader users. Anyone can still choose to open a link in a new tab.
-10. **A claims register** ([`src/content/claims.ts`](../src/content/claims.ts), shown on `/evidence`). It lists the main factual statements the website itself makes about the world, each with a status. All eight are currently Unverified (descriptions of candidate sources are tracked separately, with their provenance, in [`docs/DATA_SOURCES.md`](../docs/DATA_SOURCES.md)). *Reason:* the project applies its own evidence rules to its own copy.
+10. **A claims register** ([`src/content/claims.ts`](../src/content/claims.ts), shown on `/evidence`). It lists the main factual statements the website itself makes about the world, each with a status. All eight are currently Unverified (at the time of writing; Experiment 002 later marked three of them Cited) (descriptions of candidate sources are tracked separately, with their provenance, in [`docs/DATA_SOURCES.md`](../docs/DATA_SOURCES.md)). *Reason:* the project applies its own evidence rules to its own copy.
 11. **A CI workflow** ([`.github/workflows/ci.yml`](../.github/workflows/ci.yml)): lint, typecheck and build on every pull request and every push to `main`, on Node 22, with telemetry turned off and a read-only token. *Reason:* a reviewer can see that the checks pass without running them.
 12. **A pull request template** ([`.github/pull_request_template.md`](../.github/pull_request_template.md)) with an AI involvement section and a claims-and-sources checklist. *Reason:* every future change, not only this one, should disclose AI use and pass the claim-safety checks.
 13. **Project rules in [`AGENTS.md`](../AGENTS.md).** The file keeps the Next.js agent rules block, which `next dev` writes and re-adds, and adds the project's claim-safety rules. *Reason:* AI coding agents that work in this repository in future read this file.
@@ -367,7 +367,7 @@ When the founder or another reviewer changes anything, record it here: what chan
 - **No human has reviewed anything yet.** Everything produced is AI GENERATED + UNVERIFIED.
 - **The copy and design are AI-generated.** The wording, tone, framing and visual design are the AI's interpretation of the brief. They may read differently to people in Malaysia, Singapore or Indonesia than intended.
 - **AI checked AI.** The sceptic agent and the review verifiers are AI agents of the same kind as the builders. They reduce errors, but they are not independent verification, and they may share blind spots.
-- **Links to files on `main` will return "not found" until the pull request is merged.** The site links to repository documents on the `main` branch, for example "Read the full record on GitHub". Until the merge, those files exist only on the working branch.
+- **Links to files on `main` will return "not found" until the pull request is merged.** The site links to repository documents on the `main` branch, for example "Read the full record on GitHub". Until the merge, those files exist only on the working branch. (The pull request was merged on 2026-10-15.)
 - **No production URL and no social preview image.** Nothing is deployed, and no deployment target has been chosen.
 - **English only.**
 - **No tests beyond static checks:** lint, typecheck, build and the QA scans in section 9. There are no unit tests, because there is no logic worth unit-testing yet. The site renders static content from typed modules.
@@ -490,8 +490,9 @@ The question was drafted by AI in [`src/content/experiments.ts`](../src/content/
 | 2026-10-14 | First draft, written while the build was in progress | Claude Code build agent (AI) |
 | 2026-10-14 | Review fixes to this record: data used (section 6), AI errors 8 to 10 (section 10), limitations and review checklist (sections 12 and 13); committed in `2c3e2cc` | Review-fix agent (AI) |
 | 2026-10-14 | Review results, round 2, final checks, final file list, open questions, agent work and review findings | Orchestrating agent (AI) |
+| 2026-10-15 | Status, pull request and human review rows, a dated note on the claims register and the limitation on links to `main` brought up to date after pull request #1 was merged; nothing else changed | Claude Code, during Experiment 002 (AI) |
 | Not yet | Human review | **Pending:** the founder |
 
 ---
 
-<sub>AI involvement: this record is AI GENERATED + UNVERIFIED. It was written by Claude Code during Experiment 001 and has not yet been reviewed by a human.</sub>
+<sub>AI involvement: this record is AI GENERATED + UNVERIFIED. It was written by Claude Code during Experiment 001, with status updates during Experiment 002, and has not yet been reviewed by a human.</sub>

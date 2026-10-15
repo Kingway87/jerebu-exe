@@ -22,7 +22,7 @@ An experiment is a bounded piece of work that asks one question, and writes down
 
 The experiments are how the project tests its broader question, from the founder's brief: *"Can one person working with AI agents and open public data build useful civic infrastructure around a decades-old environmental problem?"*
 
-**An experiment record is not a finding about haze.** So far, the records describe how the project itself is being built.
+**An experiment record is not a finding about haze.** The records describe how the project itself is being built. Experiment 002 also produced research about haze — a sourced haze history — but its record describes how that research was done; the research itself is in [`docs/research/HAZE_HISTORY.md`](../docs/research/HAZE_HISTORY.md) and [`data/haze-events.json`](../data/haze-events.json), and is not yet human verified.
 
 ## Rules for records
 
@@ -37,9 +37,9 @@ The experiments are how the project tests its broader question, from the founder
 
    An experiment is not Complete until a human has reviewed it.
 3. **Planned experiments state their question only.** They must never describe results, findings or progress that do not exist.
-4. **Label AI involvement** with the labels in [`docs/AI_TRANSPARENCY.md`](../docs/AI_TRANSPARENCY.md): HUMAN DECISION, AI ASSISTED, AI GENERATED, HUMAN VERIFIED, UNVERIFIED. A record drafted by an AI agent is that agent's own account until a human has reviewed it.
+4. **Label AI involvement** with the labels in [`docs/AI_TRANSPARENCY.md`](../docs/AI_TRANSPARENCY.md): HUMAN DECISION, AI ASSISTED, AI GENERATED, HUMAN VERIFIED, UNVERIFIED. Research content also carries a review stage (AI GENERATED, SOURCE ATTACHED, HUMAN CHECKED, HUMAN VERIFIED; see the same document). A record drafted by an AI agent is that agent's own account until a human has reviewed it.
 5. **Record mistakes; do not erase them.** Mistakes found during an experiment go in its record. Corrections to content that has already been published go in [`docs/CORRECTIONS.md`](../docs/CORRECTIONS.md).
-6. **Never estimate cost without a basis.** If reliable figures are not available, write "To be recorded after session" or "Not available".
+6. **Never estimate cost without a basis.** If reliable figures are not available, write "To be recorded after session", "Not available" or "Not directly measured".
 7. **Follow the evidence rules** in [`docs/METHODOLOGY.md`](../docs/METHODOLOGY.md). A record must not invent statistics, events, laws, cases, citations or URLs. If something is unknown, say it is unknown.
 8. **Keep the log in sync.** When a record changes status, update [`src/content/experiments.ts`](../src/content/experiments.ts) and the index below in the same pull request.
 
@@ -49,22 +49,26 @@ To propose a new experiment, or to challenge an existing one, see [Proposing an 
 
 | ID | Name | Status | Record |
 | --- | --- | --- | --- |
-| 001 | AUTONOMOUS PROJECT BOOTSTRAP | In progress — AI build complete, human review pending | [001-autonomous-bootstrap.md](001-autonomous-bootstrap.md) |
-| 002 | HAZE HISTORY | Planned | No record yet |
-| 003 | SATELLITE EVIDENCE | Planned | No record yet |
+| 001 | AUTONOMOUS PROJECT BOOTSTRAP | In progress — AI build complete; merged into `main` through pull request #1; no human review recorded | [001-autonomous-bootstrap.md](001-autonomous-bootstrap.md) |
+| 002 | HAZE HISTORY | In progress — AI research, build, AI review and fixes complete; human review pending; merged into `main` through pull request #3 | [002-haze-history.md](002-haze-history.md) |
+| 003 | LIVE EVIDENCE | In progress — AI build complete; evidence reviewed by the maintainer on 15 October 2026; merged into `main` with 002 through pull request #3 | [003-live-evidence.md](003-live-evidence.md) |
 | 004 | LEGAL LANDSCAPE | Planned | No record yet |
 | 005 | EVIDENCE AGENT | Planned | No record yet |
 | 006 | COMMUNITY ACTION | Planned | No record yet |
 | 007 | AUTOMATED PUBLIC MONITORING | Planned | No record yet |
 
-Experiment 001 is not deployed. Human review is required before production deployment.
+Experiments 001, 002 and 003 are not deployed. Human review is required before production deployment. Experiment 003 was defined by a later brief from the founder, which replaced the earlier planned question for 003 ("Satellite evidence") with the question in its record.
+
+### Experiment 002 question
+
+The founder's Experiment 002 brief set the question (HUMAN DECISION). It replaces the question drafted by AI during Experiment 001 ("Can a sourced, checkable timeline of past haze episodes affecting Malaysia and Singapore be assembled from public records?"):
+
+> Can an AI research agent reconstruct a source-verifiable history of major transboundary haze events affecting Malaysia and Singapore without fabricating facts, overstating evidence, or making unsupported attribution claims?
 
 ### Planned questions
 
-None of these experiments has started, and nothing has been produced for them. The names of 002 to 006 come from the founder's brief. Experiment 007 comes from the brief's list of future architecture. The questions below were drafted by AI during Experiment 001 and are awaiting human review. Their order, scope and wording may change.
+None of these experiments had started when this list was written, and it describes no results. The names of 004 to 006 come from the founder's brief for Experiment 001, which also named 002 and 003; both have since started, 003 under a new name and question (see the index). Experiment 007 comes from the brief's list of future architecture. The questions below were drafted by AI during Experiment 001 and are awaiting human review. Their order, scope and wording may change.
 
-- **002 Haze history.** Can a sourced, checkable timeline of past haze episodes affecting Malaysia and Singapore be assembled from public records?
-- **003 Satellite evidence.** Can public satellite fire observations be presented so that non-specialists understand what a hotspot does — and does not — show?
 - **004 Legal landscape.** Which laws, agreements and policies are relevant to transboundary haze in Malaysia and Singapore, according to primary sources?
 - **005 Evidence agent.** Can an AI research agent find and cite public evidence reliably enough to assist — not replace — human reviewers?
 - **006 Community action.** Which legitimate, lawful forms of civic participation can the project support without collecting sensitive personal data?
@@ -155,7 +159,7 @@ Fill in every field. If a field does not apply, say why. If something is not kno
 
 ## Cost
 
-<!-- Agent usage and money spent, only if reliable figures exist, with where they came from. Otherwise: "To be recorded after session" or "Not available". Never estimate without a basis. -->
+<!-- Agent usage and money spent, only if reliable figures exist, with where they came from. Otherwise: "To be recorded after session", "Not available" or "Not directly measured". Never estimate without a basis. -->
 
 ## Next experiment
 
@@ -164,4 +168,4 @@ Fill in every field. If a field does not apply, say why. If something is not kno
 
 ---
 
-<sub>AI involvement: this document is AI GENERATED + UNVERIFIED. It was written by Claude Code during Experiment 001 and has not yet been reviewed by a human.</sub>
+<sub>AI involvement: this document is AI GENERATED + UNVERIFIED. It was written by Claude Code during Experiment 001 and updated during Experiments 002 and 003. Pull request #1 merged the Experiment 001 version into `main`; no human review of it has been recorded. The Experiment 002 and 003 changes have not yet been reviewed by a human.</sub>

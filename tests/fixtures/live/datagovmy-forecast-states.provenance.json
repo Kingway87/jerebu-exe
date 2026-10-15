@@ -1,0 +1,7 @@
+{
+  "url": "https://api.data.gov.my/weather/forecast/?contains=St@location__location_id&date_start=2026-10-15@date&date_end=2026-10-15@date",
+  "retrievedAt": "2026-10-14T18:41:48Z",
+  "httpStatus": 200,
+  "selection": "The complete response: MET Malaysia's general forecast for 15 October 2026 for the 16 state-level locations (13 states and 3 federal territories).",
+  "retrievedAtSource": "File modification time of the saved response, written when the request completed."
+}

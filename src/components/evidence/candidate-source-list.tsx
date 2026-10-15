@@ -8,12 +8,13 @@ import {
 
 /**
  * Status wording, in parts. The first part names the status; the rest say
- * what it means. Every source in V0 is a candidate.
+ * what it means.
  */
 const statusParts: Record<SourceStatus, readonly string[]> = {
   candidate: ["Candidate", "not evaluated", "not integrated"],
   evaluated: ["Evaluated", "not integrated"],
   integrated: ["Integrated"],
+  "integrated-pending-evaluation": ["On /live", "human check pending"],
 };
 
 /** Parts joined by " · ". Wraps only between parts, keeping the dot at the line end. */
@@ -44,7 +45,8 @@ export function CandidateSourceList() {
         const shared = sources.every((source) => source.status === sources[0].status)
           ? sources[0].status
           : null;
-        const count = `${sources.length} ${sources.length === 1 ? "candidate" : "candidates"}`;
+        const noun = shared === "candidate" ? "candidate" : "source";
+        const count = `${sources.length} ${noun}${sources.length === 1 ? "" : "s"}`;
 
         return (
           <div key={jurisdiction}>
@@ -65,13 +67,23 @@ export function CandidateSourceList() {
                   <div className="md:col-span-5">
                     <p className="label-mono text-muted">{source.kind}</p>
                     <p className="mt-2 text-lg leading-snug font-semibold tracking-tight">
-                      <ExternalLink
-                        href={source.url}
-                        className="underline decoration-1 underline-offset-4 hover:decoration-2"
-                      >
-                        {source.name}
-                      </ExternalLink>
+                      {source.linkable === false ? (
+                        source.name
+                      ) : (
+                        <ExternalLink
+                          href={source.url}
+                          className="underline decoration-1 underline-offset-4 hover:decoration-2"
+                        >
+                          {source.name}
+                        </ExternalLink>
+                      )}
                     </p>
+                    {source.linkable === false ? (
+                      <p className="mt-1 text-sm leading-relaxed text-muted">
+                        <span className="[overflow-wrap:anywhere]">{source.url.replace(/^https:\/\//, "")}</span> · not
+                        linked: its terms of use set conditions on linking that a person has yet to review
+                      </p>
+                    ) : null}
                     <p className="mt-1 text-sm leading-relaxed text-muted">{source.operator}</p>
                   </div>
                   {source.note ? (

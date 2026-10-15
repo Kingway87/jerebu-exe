@@ -2,7 +2,7 @@
 
 > **Status: V0 draft policy, awaiting human review.**
 > Written by an AI agent (Claude Code) on 2026-10-14, during [Experiment 001](../experiments/001-autonomous-bootstrap.md). The five label names were suggested in the founder's task brief. Their definitions, and the rest of this policy, were written by the AI.
-> AI involvement: **AI GENERATED + UNVERIFIED**. No human has reviewed this document yet.
+> AI involvement: **AI GENERATED + UNVERIFIED**. No human has reviewed this document yet. During [Experiment 002](../experiments/002-haze-history.md) (2026-10-15), an AI agent added the [review stages for research content](#review-stages-for-research-content), whose names come from the founder's Experiment 002 brief, and [section 10](#10-experiment-002-at-a-glance). It also updated the claims register example under HUMAN DECISION, the cost wording in section 4 and the status notes in section 9.
 
 JEREBU.EXE asks a question about AI: can one person working with AI agents and open public data build useful civic infrastructure around a decades-old environmental problem? The answer depends on being honest about what the AI did. So AI transparency is part of the product, not a footnote.
 
@@ -28,7 +28,8 @@ This policy sets out how AI participation is labelled and recorded. Over time, a
 7. Privacy when using AI tools
 8. Endorsement and independence
 9. Experiment 001 at a glance
-10. Changing this policy
+10. Experiment 002 at a glance
+11. Changing this policy
 
 ---
 
@@ -54,7 +55,7 @@ So a piece of work can carry two labels, one from each group: for example, **AI 
 
 - **Meaning.** A choice made by a person, who owns it: the project's mission, scope, rules or priorities, or an approval such as merging a pull request or deploying the site.
 - **Examples.** The name JEREBU.EXE. The decision to start with Malaysia and Singapore. The eight data and claim safety rules.
-- **Notes.** This label applies to decisions, not to content. If an AI suggested the option that a person chose, record that as well. A decision is owned rather than verified, so this label usually stands alone. But if a decision rests on a factual premise, that premise is a claim, and it needs its own source and status. For example, the founder's premise that haze episodes have recurred over decades is listed as Unverified in the [claims register](../src/content/claims.ts).
+- **Notes.** This label applies to decisions, not to content. If an AI suggested the option that a person chose, record that as well. A decision is owned rather than verified, so this label usually stands alone. But if a decision rests on a factual premise, that premise is a claim, and it needs its own source and status. For example, the founder's premise that haze episodes have recurred over decades is itself a claim in the [claims register](../src/content/claims.ts). It was Unverified until Experiment 002, when an AI agent linked it to sourced claims in the haze history dataset and marked it Cited (the SOURCE ATTACHED stage). At the time of writing, no human has checked those sources.
 
 ### AI ASSISTED
 
@@ -87,7 +88,7 @@ So a piece of work can carry two labels, one from each group: for example, **AI 
 | Labels | Meaning | Example |
 | --- | --- | --- |
 | AI GENERATED + UNVERIFIED | AI produced it. No human has checked it yet. | All Experiment 001 output, at the time of writing. |
-| AI GENERATED + HUMAN VERIFIED | AI produced it. A named person has checked it. | A candidate source list after a maintainer has opened and checked each link. (Nothing has reached this state yet.) |
+| AI GENERATED + HUMAN VERIFIED | AI produced it. A named person has checked it. | A candidate source list after a maintainer has opened and checked each link. (First reached on 15 October 2026, when the maintainer reviewed the evidence on `/live` and `/evidence` in Experiment 003.) |
 | AI ASSISTED + UNVERIFIED | A person wrote it with AI help. Its claims have not been checked yet. | A human-written summary waiting for its sources to be checked. |
 | HUMAN DECISION | A person chose this, and owns it. | The project's mission. |
 
@@ -97,6 +98,26 @@ So a piece of work can carry two labels, one from each group: for example, **AI 
 - **Labels apply to a version.** Re-label after substantive edits.
 - **AI cross-checks are not human verification.** In Experiment 001, a second "sceptic" agent reviewed the output of the source-search agents and caught real errors. That was useful, but its work is still AI GENERATED + UNVERIFIED.
 - **Pull requests.** The [pull request template](../.github/pull_request_template.md) asks contributors whether no AI was used, or whether the change was AI assisted or AI generated. That records who produced the change. The change becomes HUMAN VERIFIED only when a named reviewer records what they actually checked.
+
+### Review stages for research content
+
+The founder's brief for [Experiment 002](../experiments/002-haze-history.md) set four stages for research content, such as the haze history dataset ([`data/haze-events.json`](../data/haze-events.json)) and the `/timeline` page built from it. The stage names are a HUMAN DECISION. The definitions below were drafted by AI and are AI GENERATED + UNVERIFIED.
+
+Each stage includes the ones before it.
+
+| Stage | Meaning | Who can record it |
+| --- | --- | --- |
+| **AI GENERATED** | An AI agent produced the content: it chose what to include, read the sources and wrote the text. | Applies to all AI output. |
+| **SOURCE ATTACHED** | Every factual statement links to at least one source that the agent opened during the work, with the exact passage it relied on. Where the source could be downloaded, a script matched each passage against the downloaded text. | An AI agent may record this, because anyone can check it mechanically. |
+| **HUMAN CHECKED** | A named person has read the entries and spot-checked their sources, and recorded what they checked and when. Not every claim has been confirmed. | Only a human. |
+| **HUMAN VERIFIED** | A named person has opened every cited source and confirmed that each claim says no more than its source, as worded. This is the HUMAN VERIFIED label defined above. | Only a human. |
+
+How the stages relate to the rest of this policy:
+
+- **Source attached is not verification.** An AI agent can attach a real source and still misread it, quote it out of context, or choose a weak one. Until a human verifies it, research content stays UNVERIFIED in the sense of this policy.
+- **The stages do not replace the labels.** The dataset is AI GENERATED (who produced it) and, at the time of writing, at the SOURCE ATTACHED stage (how far it has been checked).
+- **The claims register.** For a statement in [`src/content/claims.ts`](../src/content/claims.ts), SOURCE ATTACHED corresponds to "Cited" and HUMAN VERIFIED to "Human verified". HUMAN CHECKED has no register status of its own: a register claim stays "Cited" until it is verified.
+- **Recording a human stage.** In the dataset, each episode and milestone has a `review` field. Excluded periods have none yet: add one, or record checks of them in the pull request. A human who checks or verifies an entry records their name, the date and what they checked there, in a pull request. An AI agent must never fill in these fields.
 
 ## 3. AI output is not evidence
 
@@ -123,7 +144,7 @@ Each numbered experiment has a written record. It should include:
 | **Errors** | What the AI got wrong, including mistakes it caught in its own work. |
 | **Human corrections** | What humans changed after review. |
 | **Open questions** | What remains uncertain or unresolved. |
-| **Cost** | Agent usage and cost, if reliable figures are available. Never estimate without a basis. Otherwise write "To be recorded after session" or "Not available". |
+| **Cost** | Agent usage and cost, if reliable figures are available. Never estimate without a basis. Otherwise write "To be recorded after session", "Not available" or "Not directly measured". |
 
 ## 5. Where it is recorded
 
@@ -187,8 +208,26 @@ Experiment 001 (autonomous project bootstrap) asked how much of V0 an AI agent c
 | Record of AI mistakes | AI GENERATED + UNVERIFIED | Reported by the AI about its own work. No human has checked that it is complete. |
 | Cost of the session | Not recorded | To be recorded after session. Cost information was not available inside the session. |
 
-**Nothing produced in Experiment 001 is HUMAN VERIFIED yet.** Human review is required before production deployment, and had not taken place when this document was written. The full record is in [`experiments/001-autonomous-bootstrap.md`](../experiments/001-autonomous-bootstrap.md).
+**Nothing produced in Experiment 001 is HUMAN VERIFIED yet.** Human review is required before production deployment, and had not taken place when this section was written. Pull request #1 later merged the Experiment 001 work into `main` (2026-10-15); no human review of it has been recorded. The full record is in [`experiments/001-autonomous-bootstrap.md`](../experiments/001-autonomous-bootstrap.md).
 
-## 10. Changing this policy
+## 10. Experiment 002 at a glance
+
+Experiment 002 (haze history) asked whether an AI research agent could reconstruct a source-verifiable history of major transboundary haze events affecting Malaysia and Singapore without fabricating facts, overstating evidence or making unsupported attribution claims. This is how its artefacts are labelled at the time of writing. The full record is in [`experiments/002-haze-history.md`](../experiments/002-haze-history.md).
+
+| Artefact | Label | Notes |
+| --- | --- | --- |
+| Task brief for Experiment 002 | HUMAN DECISION | Written by the founder: the research question, the study period, the source hierarchy, the attribution rules, the health distinctions and the four review stages. |
+| Event-selection criteria and confidence method | AI GENERATED + UNVERIFIED | Written by the AI before it read any research result. Awaiting human approval. |
+| Haze history dataset ([`data/haze-events.json`](../data/haze-events.json)) | AI GENERATED, at the SOURCE ATTACHED stage | Every claim links to a source the AI opened, with the passage relied on. No human has checked it. |
+| The `/timeline` page | AI GENERATED + UNVERIFIED | Generated from the dataset, so it is at the same stage. |
+| Research notes ([`docs/research/HAZE_HISTORY.md`](research/HAZE_HISTORY.md)) | AI GENERATED + UNVERIFIED | Includes the claims a human should check first. |
+| Claims register entries marked "Cited" | AI GENERATED, at the SOURCE ATTACHED stage | Sources linked through the dataset. Not human verified. |
+| Changes to existing pages and documents | AI GENERATED + UNVERIFIED | Pending human review. |
+| Record of AI mistakes | AI GENERATED + UNVERIFIED | Reported by the AI about its own work and its sub-agents' work. No human has checked that it is complete. |
+| Cost of the session | Not directly measured | The session did not report a monetary cost. Token counts reported by the workflow tool are given in the record. |
+
+**Nothing produced in Experiment 002 is HUMAN CHECKED or HUMAN VERIFIED yet.** The branch has not been merged or deployed.
+
+## 11. Changing this policy
 
 Propose changes in an issue or a pull request. Changes to the labels or the principles are a HUMAN DECISION, and should be recorded as one in the pull request. Earlier versions remain in git history.

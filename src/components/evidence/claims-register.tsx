@@ -1,5 +1,15 @@
 import type { ReactNode } from "react";
-import { claimStatusLabel, siteClaims, type ClaimStatus, type SiteClaim } from "@/content/claims";
+import Link from "next/link";
+import { ExternalLink } from "@/components/external-link";
+import { ClaimList } from "@/components/timeline/claim-list";
+import {
+  claimStatusLabel,
+  siteClaims,
+  type Citation,
+  type ClaimStatus,
+  type SiteClaim,
+} from "@/content/claims";
+import { getClaim } from "@/content/haze-history";
 
 const statusOrder: readonly ClaimStatus[] = ["unverified", "cited", "human-verified"];
 
@@ -40,6 +50,47 @@ function claimText({ claim, term }: SiteClaim): ReactNode {
   );
 }
 
+/** One citation, following the citation standard in docs/METHODOLOGY.md. */
+function CitationEntry({ citation }: { citation: Citation }) {
+  return (
+    <li className="leading-relaxed">
+      <cite className="not-italic font-semibold text-ink">{citation.title}</cite>, {citation.publisher} (
+      {citation.published}).{" "}
+      {citation.linkable ? (
+        <ExternalLink href={citation.url} className="[overflow-wrap:anywhere] underline underline-offset-4 hover:text-signal-ink">
+          {citation.url.replace(/^https:\/\//, "")}
+        </ExternalLink>
+      ) : (
+        <>
+          <span className="[overflow-wrap:anywhere]">{citation.url.replace(/^https:\/\//, "")}</span>{" "}
+          <span className="text-muted">(not linked: the publisher&rsquo;s terms set conditions on linking that a person has yet to review)</span>
+        </>
+      )}
+      . Accessed {citation.accessed}
+      {citation.archivedCopy ? (
+        <>
+          {" "}
+          from the{" "}
+          <ExternalLink
+            href={citation.archivedCopy}
+            className="[overflow-wrap:anywhere] underline underline-offset-4 hover:text-signal-ink"
+          >
+            archived copy
+          </ExternalLink>
+          , because the live page refused automated requests
+        </>
+      ) : null}
+      . Read by {citation.readBy}.
+      {citation.quote ? (
+        <details className="mt-1">
+          <summary className="label-mono cursor-pointer text-muted hover:text-ink">Quoted text</summary>
+          <p className="mt-1 border-l-2 border-line pl-3 font-serif">&ldquo;{citation.quote}&rdquo;</p>
+        </details>
+      ) : null}
+    </li>
+  );
+}
+
 /** The site's own factual claims and how well each is currently supported. */
 export function ClaimsRegister() {
   return (
@@ -77,7 +128,54 @@ export function ClaimsRegister() {
                 <dt className="label-mono text-muted">Note</dt>
                 <dd className="mt-2 leading-relaxed text-muted">{entry.note}</dd>
               </div>
+              {entry.humanVerification ? (
+                <div>
+                  <dt className="label-mono text-muted">Human verification</dt>
+                  <dd className="mt-2 leading-relaxed text-muted">
+                    <span className="font-semibold text-ink">
+                      {entry.humanVerification.by}, {entry.humanVerification.on}.
+                    </span>{" "}
+                    {entry.humanVerification.notes}
+                  </dd>
+                </div>
+              ) : null}
+              {entry.citations && entry.citations.length > 0 ? (
+                <div>
+                  <dt className="label-mono text-muted">{entry.citations.length === 1 ? "Source" : "Sources"}</dt>
+                  <dd className="mt-2">
+                    <ul className="space-y-3 text-sm text-muted">
+                      {entry.citations.map((citation) => (
+                        <CitationEntry key={`${citation.url}-${citation.title}`} citation={citation} />
+                      ))}
+                    </ul>
+                  </dd>
+                </div>
+              ) : null}
             </dl>
+            {entry.evidence?.length ? (
+              <details className="group/evidence md:col-span-12">
+                <summary className="label-mono inline-flex min-h-11 cursor-pointer list-none items-center gap-2 text-muted underline-offset-4 hover:text-ink hover:underline [&::-webkit-details-marker]:hidden">
+                  <span aria-hidden="true" className="font-mono group-open/evidence:hidden">
+                    +
+                  </span>
+                  <span aria-hidden="true" className="hidden font-mono group-open/evidence:inline">
+                    −
+                  </span>
+                  Evidence: {entry.evidence.length} sourced statement
+                  {entry.evidence.length === 1 ? "" : "s"} from the haze history
+                </summary>
+                <div className="mt-4 border-l-2 border-ink pl-5">
+                  <ClaimList claims={entry.evidence.map(getClaim)} />
+                  <p className="mt-5 text-sm leading-relaxed text-muted">
+                    From the{" "}
+                    <Link href="/timeline" className="text-ink underline underline-offset-4 hover:text-signal-ink">
+                      haze history timeline
+                    </Link>
+                    , compiled by AI in Experiment 002 and not yet verified by a human.
+                  </p>
+                </div>
+              </details>
+            ) : null}
           </li>
         ))}
       </ul>
