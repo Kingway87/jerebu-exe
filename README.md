@@ -35,7 +35,7 @@ The long-term subject is transboundary haze accountability: how evidence, law an
 - **AI involvement is documented**, not hidden. See [AI transparency](#ai-transparency).
 - **Changes go through pull requests**, and a human reviews them before they are merged or deployed.
 
-A future evidence pipeline is sketched on `/evidence` (public data → ingestion → normalisation → evidence store → AI analysis → source verification → human review → public report). **It is not implemented as a whole.** On its branch, Experiment 003's `/live` uses a narrow, separate path (source → fetch → validate → normalise → cache → display), with no evidence store and no AI stage; see [`docs/ROADMAP.md`](docs/ROADMAP.md).
+A future evidence pipeline is sketched on `/evidence` (public data → ingestion → normalisation → evidence store → AI analysis → source verification → human review → public report). **It is not implemented as a whole.** Experiment 003's `/live` uses a narrow, separate path (source → fetch → validate → normalise → cache → display), with no evidence store and no AI stage; see [`docs/ROADMAP.md`](docs/ROADMAP.md).
 
 ## Status
 
@@ -48,8 +48,8 @@ At the time of writing (15 October 2026):
 | Deployment | **Not deployed.** There is no production URL |
 | Data | `/live` reads seven official feeds (NASA FIRMS; NEA and MSS via data.gov.sg; MET Malaysia via data.gov.my) on the server, with no credentials, and shows each with its source and age. The 17 sources investigated are in [`data/live-sources.json`](data/live-sources.json). AI agents checked them, and the project’s maintainer reviewed the evidence on `/live` and `/evidence` on 15 October 2026. 27 candidate sources are listed on `/evidence` (from [`src/content/sources.ts`](src/content/sources.ts)), a curated subset of the 45 recorded with caveats in [`docs/DATA_SOURCES.md`](docs/DATA_SOURCES.md) |
 | Haze history | Experiment 002: a dataset of haze episodes, legal and policy milestones, and periods considered but left out, in [`data/haze-events.json`](data/haze-events.json), shown on `/timeline`. Every claim carries its source and the exact passage relied on. Compiled by an AI agent from public documents; AI GENERATED + SOURCE ATTACHED, not human verified. It is a static file, not a live data feed |
-| Experiment 002 | In progress. AI research, build, AI review and fixes complete; human review pending (pull request #3) |
-| Experiment 003 | In progress. AI build complete; evidence reviewed by the maintainer on 15 October 2026 (pull request #2) |
+| Experiment 002 | In progress. AI research, build, AI review and fixes complete; human review pending; merged into `main` through pull request #3 |
+| Experiment 003 | In progress. AI build complete; evidence reviewed by the maintainer on 15 October 2026; merged into `main` with Experiment 002 through pull request #3 |
 | Experiments 004–007 | Planned. Not started |
 | Cost of Experiment 001 | To be recorded after session |
 | Cost of Experiment 002 | Not directly measured (see the [record](experiments/002-haze-history.md#cost)) |

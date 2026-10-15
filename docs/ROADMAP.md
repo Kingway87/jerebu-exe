@@ -58,7 +58,7 @@ The full record is in [`experiments/001-autonomous-bootstrap.md`](../experiments
 
 ### 003: Live evidence
 
-**Status:** In progress on the branch `experiment/003-live-evidence`. AI build complete; evidence reviewed by the project's maintainer on 15 October 2026; **not merged, not deployed**. Experiment 002 ran independently and was not required.
+**Status:** In progress. AI build complete; evidence reviewed by the project's maintainer on 15 October 2026; merged into `main` with Experiment 002 through pull request #3; **not deployed**. Experiment 002 ran independently and was not required.
 
 **Question:** Can JEREBU.EXE collect, normalise and present current public environmental observations relevant to transboundary haze affecting Malaysia and Singapore without confusing observation, interpretation, attribution or legal responsibility?
 
@@ -81,7 +81,7 @@ Details: [`LIVE_EVIDENCE.md`](LIVE_EVIDENCE.md) and the record, [`experiments/00
 
 ### 002: Haze history
 
-**Status:** In progress. AI research, build, AI review and fixes complete on the branch `experiment/002-haze-history`; awaiting human review; **not merged and not deployed**.
+**Status:** In progress. AI research, build, AI review and fixes complete; awaiting human review; merged into `main` with Experiment 003 through pull request #3, at the founder's instruction, before that review; **not deployed**.
 
 **Question (HUMAN DECISION, from the founder's Experiment 002 brief):** Can an AI research agent reconstruct a source-verifiable history of major transboundary haze events affecting Malaysia and Singapore without fabricating facts, overstating evidence, or making unsupported attribution claims?
 
@@ -97,7 +97,7 @@ It replaces the question drafted by AI during Experiment 001: "Can a sourced, ch
 
 **Still to happen (human):**
 
-- Review pull request #3, which the agent opened at the founder's request on 15 October 2026 (Experiment 003 has been merged into its branch).
+- Review the changes in pull request #3, which the agent opened at the founder's request on 15 October 2026 and which was merged at the founder's instruction before this review.
 - Check the priority claims listed in the research notes, then the rest.
 - Decide whether the timeline may be published before every entry is human verified. Before Experiment 002, this roadmap said a human must verify each entry before it is published. The founder's Experiment 002 brief sets the end state of the experiment as AI GENERATED + SOURCE ATTACHED, and the page labels every entry as not yet verified. Which rule applies to publication is a human decision.
 - Approve, change or reject the selection criteria and the confidence method, which the AI wrote.
@@ -227,9 +227,9 @@ PUBLIC DATA → INGESTION → NORMALISATION → EVIDENCE STORE → AI ANALYSIS �
 
 | Stage | Intended purpose | Status |
 | --- | --- | --- |
-| Public data | Official and open sources, evaluated first | Partly, on the Experiment 003 branch: seven official feeds on `/live`, evaluated by AI agents only |
-| Ingestion | Collected with provenance: source, URL, retrieval time, version, licence | Partly, on the Experiment 003 branch: each retrieval records source, URL, retrieval time, server date and validation results |
-| Normalisation | Comparable formats and units, without hiding differences between methods | Partly, on the Experiment 003 branch: one observation format; units kept as published, different indices not converted |
+| Public data | Official and open sources, evaluated first | Partly, in Experiment 003: seven official feeds on `/live`, evaluated by AI agents only |
+| Ingestion | Collected with provenance: source, URL, retrieval time, version, licence | Partly, in Experiment 003: each retrieval records source, URL, retrieval time, server date and validation results |
+| Normalisation | Comparable formats and units, without hiding differences between methods | Partly, in Experiment 003: one observation format; units kept as published, different indices not converted |
 | Evidence store | Versioned and citable, with raw data kept apart from processed data | Not implemented (Experiment 003 caches the latest snapshots only) |
 | AI analysis | Assists; does not decide | Not implemented |
 | Source verification | Every claim traced back to a source | Not implemented |
@@ -268,8 +268,8 @@ None of these would be added without a documented experiment, a stated need and 
 These decisions belong to the founder or future maintainers. They are listed so that they are not made by default, or by an AI.
 
 - **Review of Experiment 001.** Pull request #1 was merged without a recorded human review. Record whether and how it was reviewed, record any corrections, and decide when Experiment 001 is Complete.
-- **Review of Experiment 002.** Review the haze history in pull request #3; decide whether the timeline may be published before every entry is human verified, and whether to adopt the AI-written selection criteria and confidence method.
-- **Review of Experiment 003.** The maintainer reviewed the evidence on `/live` and `/evidence` on 15 October 2026. Still to decide, using the checklist in its record: merging pull request #2. On 15 October 2026 the founder decided the order: Experiment 003 first, then Experiment 002.
+- **Review of Experiment 002.** Review the haze history, merged into `main` through pull request #3 before this review; decide whether the timeline may be published before every entry is human verified, and whether to adopt the AI-written selection criteria and confidence method.
+- **Review of Experiment 003.** The maintainer reviewed the evidence on `/live` and `/evidence` on 15 October 2026. At the founder's instruction it was merged into `main` with Experiment 002 through pull request #3, which contains pull request #2's commits. The other unticked items in its record's checklist remain open.
 - **Referring to NEA and ASMC.** Their terms of use set conditions on linking and forbid automated copying, and are internally inconsistent. Whether to link to them, ask them, or only name them.
 - **Asking DOE and ASMC for data.** Whether to ask DOE Malaysia for a documented feed of current Air Pollutant Index readings, and ASMC about its regional data, and who asks.
 - **Live data hosting and keys.** `/live` refreshes its data only on a host that runs Next.js. Whether to use such a host, and whether to obtain a data.gov.sg API key (recommended for production) and a NASA FIRMS MAP_KEY (optional).

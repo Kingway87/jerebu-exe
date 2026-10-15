@@ -90,7 +90,7 @@ export const experiments: readonly Experiment[] = [
       { label: "AI research, build and review", state: "Complete" },
       { label: "Review stage", state: "AI generated · source attached" },
       { label: "Human review", state: "Pending" },
-      { label: "Merged / deployed", state: "No / no" },
+      { label: "Merged / deployed", state: "Yes, pull request #3 / no" },
     ],
     humanInput:
       "The research question, study period, scope, source hierarchy, attribution and health rules, review stages and list of things not to do, set out in the founder’s written brief for this experiment.",
@@ -124,7 +124,7 @@ export const experiments: readonly Experiment[] = [
     phases: [
       { label: "AI build", state: "Complete" },
       { label: "Human review", state: "Evidence reviewed, 15 Oct 2026" },
-      { label: "Merged", state: "No" },
+      { label: "Merged", state: "Yes, with 002 (pull request #3)" },
       { label: "Production deployment", state: "Not deployed" },
     ],
     humanInput:
@@ -149,7 +149,7 @@ export const experiments: readonly Experiment[] = [
       "A final AI review of the finished branch upheld 84 problems. Among them: the page could call unreadable or undated satellite files “no detections”, a slow NASA server could fail the build, a forecast for a day that had ended could be labelled current, and this record claimed checks that had not yet run. All were fixed before the final commit.",
     ],
     humanReview:
-      "The project’s maintainer (Kingway87) reviewed the evidence presented on /live and /evidence on 15 October 2026, against JEREBU.EXE’s evidence rules, and supplied the “Human reviewed · Open for contribution” notice now shown on those pages. Decisions on linking to NEA and ASMC, contacting DOE and ASMC, hosting and merging remain open.",
+      "The project’s maintainer (Kingway87) reviewed the evidence presented on /live and /evidence on 15 October 2026, against JEREBU.EXE’s evidence rules, and supplied the “Human reviewed · Open for contribution” notice now shown on those pages. It was merged into main with Experiment 002 at the founder’s instruction. Decisions on linking to NEA and ASMC, contacting DOE and ASMC, keys and hosting remain open.",
     cost: "To be recorded after session",
     record: "experiments/003-live-evidence.md",
   },

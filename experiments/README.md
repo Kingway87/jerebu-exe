@@ -50,8 +50,8 @@ To propose a new experiment, or to challenge an existing one, see [Proposing an 
 | ID | Name | Status | Record |
 | --- | --- | --- | --- |
 | 001 | AUTONOMOUS PROJECT BOOTSTRAP | In progress — AI build complete; merged into `main` through pull request #1; no human review recorded | [001-autonomous-bootstrap.md](001-autonomous-bootstrap.md) |
-| 002 | HAZE HISTORY | In progress — AI research, build, AI review and fixes complete; human review pending; pull request #3 | [002-haze-history.md](002-haze-history.md) |
-| 003 | LIVE EVIDENCE | In progress — AI build complete; evidence reviewed by the maintainer on 15 October 2026; pull request #2 | [003-live-evidence.md](003-live-evidence.md) |
+| 002 | HAZE HISTORY | In progress — AI research, build, AI review and fixes complete; human review pending; merged into `main` through pull request #3 | [002-haze-history.md](002-haze-history.md) |
+| 003 | LIVE EVIDENCE | In progress — AI build complete; evidence reviewed by the maintainer on 15 October 2026; merged into `main` with 002 through pull request #3 | [003-live-evidence.md](003-live-evidence.md) |
 | 004 | LEGAL LANDSCAPE | Planned | No record yet |
 | 005 | EVIDENCE AGENT | Planned | No record yet |
 | 006 | COMMUNITY ACTION | Planned | No record yet |

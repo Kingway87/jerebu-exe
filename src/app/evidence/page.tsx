@@ -509,7 +509,7 @@ export default function EvidencePage() {
               className="border-2 border-ink bg-paper p-6 sm:p-8"
             >
               <p className="label-mono flex flex-wrap items-center gap-x-3 gap-y-1 text-muted">
-                <span className="bg-ink px-2 py-0.5 text-paper">Built, awaiting review</span>
+                <span className="bg-ink px-2 py-0.5 text-paper">Built · human reviewed</span>
                 <span>Experiment 003</span>
               </p>
               <h3 className="mt-4 text-xl font-semibold tracking-tight">Satellite fire observations</h3>

@@ -129,7 +129,7 @@ Every source moves through three states, in order. No source may skip a state.
 
 **Interim status (Experiment 003).** *Integrated, pending evaluation*: integrated on an experiment branch and checked by AI agents, but not yet Evaluated by a human. Such a source must be evaluated, or removed, before the branch is merged. Whether to keep this state at all is a human decision. No entry is in this state now.
 
-**Current counts** (entries in this document): 43 Candidate · 0 Evaluated · 2 Integrated (on the Experiment 003 branch, after the maintainer's review on 15 October 2026) · 0 Integrated, pending evaluation. Experiment 003 also integrated five feeds that are not entries here (data.gov.sg PM2.5, wind direction, wind speed and rainfall, and the data.gov.my weather forecast); they are recorded in [`data/live-sources.json`](../data/live-sources.json).
+**Current counts** (entries in this document): 43 Candidate · 0 Evaluated · 2 Integrated (in Experiment 003, after the maintainer's review on 15 October 2026) · 0 Integrated, pending evaluation. Experiment 003 also integrated five feeds that are not entries here (data.gov.sg PM2.5, wind direction, wind speed and rainfall, and the data.gov.my weather forecast); they are recorded in [`data/live-sources.json`](../data/live-sources.json).
 
 ## Evaluation checklist: Candidate to Evaluated
 
@@ -840,7 +840,7 @@ Not found in Experiment 003, by agents that could open pages:
 
 ## Rules for future integrations
 
-These rules apply whenever an experiment integrates a source. They extend the eight data and claim safety rules in [`METHODOLOGY.md`](METHODOLOGY.md). Experiment 003 integrated sources on its branch. It departed from rule 1 (noted under that rule and in the experiment record) and only partly meets rule 8 (observations carry the registry id, not an ID in this document; no licence, processing steps or raw response are stored with each record; FIRMS is kept only as a summary). [`LIVE_EVIDENCE.md`](LIVE_EVIDENCE.md#how-the-projects-integration-rules-were-applied) describes how each rule was applied.
+These rules apply whenever an experiment integrates a source. They extend the eight data and claim safety rules in [`METHODOLOGY.md`](METHODOLOGY.md). Experiment 003 integrated sources. It departed from rule 1 (noted under that rule and in the experiment record) and only partly meets rule 8 (observations carry the registry id, not an ID in this document; no licence, processing steps or raw response are stored with each record; FIRMS is kept only as a summary). [`LIVE_EVIDENCE.md`](LIVE_EVIDENCE.md#how-the-projects-integration-rules-were-applied) describes how each rule was applied.
 
 **Before integrating**
 

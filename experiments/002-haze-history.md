@@ -5,12 +5,13 @@
 > See [docs/AI_TRANSPARENCY.md](../docs/AI_TRANSPARENCY.md) for what these labels mean.
 > **Update, 2026-10-15:** at the founder's request, the agent pushed the branch to GitHub after the work was complete. This record was then updated to say so; nothing else in it was changed.
 > **Update 2, 2026-10-15:** at the founder's request, the agent opened pull request #3 for this branch, then merged Experiment 003 into the branch and resolved the conflicts between the two experiments (see [Integration with Experiment 003](#integration-with-experiment-003)). The haze history, its labels and its review status did not change. This record was updated to say so in the status rows, that section and the last review item.
+> **Update 3, 2026-10-16:** at the founder's instruction, the status rows, the integration section and the last review item were updated again to describe the state once pull request #3 is merged into `main`, before the review below. The haze history's labels and review status did not change.
 
 | Field | Value |
 | --- | --- |
 | **ID** | 002 |
 | **Name** | HAZE HISTORY |
-| **Status** | In progress: AI research, build, AI review and fixes complete; human review pending. Committed on the branch below and pushed to GitHub at the founder's request; pull request #3 is open. Experiment 003 has been merged into the branch. Not merged into `main`. Not deployed. |
+| **Status** | In progress: AI research, build, AI review and fixes complete; human review pending. Committed on the branch below and pushed to GitHub at the founder's request. Merged into `main` with Experiment 003 through pull request #3 at the founder's instruction, before the human review below. Not deployed. |
 | **Dates** | 2026-10-15 (one working session) |
 | **Branch and pull request** | Branch `experiment/002-haze-history`, pushed to the project's GitHub repository (`origin`) on 2026-10-15 at the founder's request. [Pull request #3](https://github.com/Kingway87/jerebu-exe/pull/3), against `main`, opened by the agent at the founder's request on 2026-10-15. |
 
@@ -156,7 +157,7 @@ The research limitations are set out in [HAZE_HISTORY.md](../docs/research/HAZE_
 
 ## Integration with Experiment 003
 
-On 2026-10-15, at the founder's request, the agent merged Experiment 003 (live evidence) into this branch, so that pull request #3 holds both experiments. The founder's sequence was to merge Experiment 003's pull request (#2) into `main` first and then update this branch from `main`. The agent's tool permissions refused the merge of pull request #2, so the agent merged that pull request's head commit, `10a6428`, into this branch directly. Unless something else reaches `main` first, merging pull request #2 will add nothing to `main` that this branch lacks. The Experiment 003 branch and record were not changed.
+On 2026-10-15, at the founder's request, the agent merged Experiment 003 (live evidence) into this branch, so that pull request #3 holds both experiments. The founder's sequence was to merge Experiment 003's pull request (#2) into `main` first and then update this branch from `main`. The agent's tool permissions refused the merge of pull request #2, so the agent merged that pull request's head commit, `10a6428`, into this branch directly. The founder then chose to merge both experiments into `main` through pull request #3, which contains pull request #2's commits. The Experiment 003 branch was not changed; its record was updated on this branch to show the merge.
 
 Both experiments started from `5d12fad`, and 14 files that both had changed conflicted. How they were resolved:
 
@@ -184,7 +185,7 @@ Checks on the merged code: `npm run lint`, `npm run typecheck`, `npm test` (95 o
 - [ ] Decide whether the evidence page's data-panel rule should change, and whether the `/timeline` exception stands.
 - [ ] Record whether Experiment 001 (pull request #1, merged into `main`) was reviewed by a human; the documents now say no review has been recorded.
 - [ ] Decide whether the rule that every new factual statement on the site is added to the claims register (`AGENTS.md`, `CONTRIBUTING.md`, METHODOLOGY section 9) should cover the haze history's claims, which are tracked in the dataset instead.
-- [ ] Review the code and the changes to existing pages and documents in pull request #3, including how the conflicts with Experiment 003 were resolved (see [Integration with Experiment 003](#integration-with-experiment-003)).
+- [ ] Review the code and the changes to existing pages and documents in pull request #3, including how the conflicts with Experiment 003 were resolved (see [Integration with Experiment 003](#integration-with-experiment-003)). The pull request was merged at the founder's instruction before this review.
 
 ## Cost
 

@@ -2,16 +2,17 @@
 
 > **Record status: AI GENERATED / SOURCE ATTACHED · HUMAN REVIEWED (evidence, 15 October 2026) · Open for contribution.**
 > Claude Code wrote this record during the experiment, and it is the AI's own account. Every source fact in it was gathered by AI agents from official pages (or, where those refused automated requests, from Internet Archive copies), with quotes and URLs in [`data/live-sources.json`](../data/live-sources.json) and [`src/content/claims.ts`](../src/content/claims.ts). The project's maintainer (Kingway87) reviewed the evidence presented on `/live` and `/evidence` on 15 October 2026; this record itself was not part of that review. See [`docs/AI_TRANSPARENCY.md`](../docs/AI_TRANSPARENCY.md) for the labels.
+> **Update, 16 October 2026:** at the founder's instruction, Claude Code merged this branch into the Experiment 002 branch (pull request #3, which therefore contains pull request #2's commits) and updated the Status and Branch rows, check 17 and the merge-order item below to describe the state once pull request #3 is merged into `main`. The review status did not change.
 
 | Field | Value |
 | --- | --- |
 | **ID** | 003 |
 | **Name** | LIVE EVIDENCE |
-| **Status** | In progress. AI build complete on the branch; evidence reviewed by the maintainer on 15 October 2026; not merged; not deployed |
+| **Status** | In progress. AI build complete; evidence reviewed by the maintainer on 15 October 2026; merged into `main` with Experiment 002 through pull request #3, at the founder's instruction, with the unticked items under [Human review](#human-review) still open; not deployed |
 | **Dates** | 15 October 2026 (Malaysia and Singapore time), one session |
 | **Environment** | Claude Code Local (the command-line agent, on a local macOS machine), model Claude Opus 5.5 |
 | **Worktree** | `jerebu-exe-003` (`~/Projects/jerebu-exe-003`) |
-| **Branch** | `experiment/003-live-evidence`. No pull request opened by the AI |
+| **Branch** | `experiment/003-live-evidence`. No pull request opened by the AI. Pull request #2 was opened for it on 15 October 2026; its commits reached `main` through pull request #3, with Experiment 002 |
 
 ## Question
 
@@ -163,7 +164,7 @@ Results below are from the final run, after the final review's findings were fix
 | 14. Responsive behaviour | Playwright, Chrome, at 320, 375, 768 and 1280 px, on every route | No horizontal overflow |
 | 15. Internal navigation | Playwright: every internal link and in-page anchor on every route | No broken links or anchors |
 | 16. Accessibility basics | axe-core in Playwright; one heading level 1; no duplicate ids; keyboard-reachable disclosure widgets; text alternatives for the map; status-table labels kept for screen readers on wide screens (a final-review finding) | 0 violations on `/live`. One pre-existing best-practice notice on `/` (from Experiment 001) was left alone |
-| 17. git diff and status | Reviewed before each commit | Working tree clean after the final commit; nothing pushed or merged |
+| 17. git diff and status | Reviewed before each commit | Working tree clean after the final commit; nothing pushed or merged at that point (see Status for what happened later) |
 | 18. No secrets committed | Before the first commits: searched the changed and untracked files for key-like strings and the variable names. After the fixes: searched the branch's history (`git log -p 5d12fad..HEAD`) and the working tree again. The forced-failure build was made with dummy values for both variables, and its output was searched for them | No key-like strings; only `.env.example`, with empty values; neither dummy value anywhere in the build output |
 
 Also checked: the page makes requests only to the site itself in the browser and sets no cookies or storage (Playwright); no hydration or console errors; two consecutive production builds 13 seconds apart retrieved fresh data each time (the cache regression).
@@ -248,7 +249,7 @@ See also [`docs/LIVE_EVIDENCE.md`](../docs/LIVE_EVIDENCE.md#15-limitations).
 
 **Required.** Before the branch is merged or anything is deployed, a human should:
 
-Items ticked were covered by the maintainer's review of 15 October 2026, as the maintainer described it.
+Items ticked were covered by the maintainer's review of 15 October 2026, as the maintainer described it, except the merge order, which the founder decided afterwards.
 
 - [x] Read `/live` as a member of the public would. Does it keep observation, interpretation, attribution and legal responsibility apart? Is anything worded as blame?
 - [x] Check the registry entries for the integrated sources against the official pages, especially licences, attribution notices and update frequencies, and set `humanVerified` only for what was actually checked. (Recorded for every entry, as the review covered everything `/live` presents.)
@@ -260,7 +261,7 @@ Items ticked were covered by the maintainer's review of 15 October 2026, as the 
 - [x] Check the wording of the claims added to [`src/content/claims.ts`](../src/content/claims.ts) against their cited sources. (The 10 cited claims are now Human verified.)
 - [ ] Review the map window, the freshness thresholds and the wind-direction assumption.
 - [ ] Decide how to host: background refresh needs a host that runs Next.js, and on serverless hosts a persistent cache, or every page refresh will contact every source.
-- [ ] Merge order with Experiment 002. Both branches may change `src/content/experiments.ts`, `experiments/README.md`, `docs/ROADMAP.md`, `docs/DATA_SOURCES.md`, `src/content/claims.ts`, `src/content/sources.ts` and `README.md`. Resolve conflicts by keeping both experiments' changes.
+- [x] Merge order with Experiment 002. Both branches may change `src/content/experiments.ts`, `experiments/README.md`, `docs/ROADMAP.md`, `docs/DATA_SOURCES.md`, `src/content/claims.ts`, `src/content/sources.ts` and `README.md`. Resolve conflicts by keeping both experiments' changes. (Decided by the founder on 15–16 October 2026: this branch was merged into the Experiment 002 branch, its conflicts resolved there by keeping both experiments' changes, and both experiments merged into `main` through pull request #3. See the [Experiment 002 record](002-haze-history.md#integration-with-experiment-003).)
 - [ ] Record the cost of the session.
 
 ## Human corrections
